@@ -23,7 +23,7 @@ export function Projects() {
       {others.length > 0 && (
         <div className={featured.length > 0 ? "mt-16 md:mt-20" : undefined}>
           <h3 className="mb-4 font-mono text-xs uppercase tracking-[0.14em] text-subtle">
-            Other projects
+            More projects
           </h3>
           <ProjectList projects={others} startNumber={featured.length + 1} />
         </div>

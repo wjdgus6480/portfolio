@@ -7,11 +7,12 @@ const labels: Record<ProjectStatus, string> = {
 };
 
 const dotColors: Record<ProjectStatus, string> = {
-  live: "bg-accent",
-  "in-progress": "bg-muted",
-  archived: "bg-subtle",
+  live: "bg-success",
+  "in-progress": "bg-accent",
+  archived: "bg-placeholder",
 };
 
+/** 색상만으로 의미를 전달하지 않도록 항상 텍스트 라벨을 함께 표시한다. */
 export function StatusBadge({ status }: { status?: ProjectStatus }) {
   if (!status) return null;
   return (

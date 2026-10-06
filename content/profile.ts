@@ -9,17 +9,17 @@ export const profile: Profile = {
     description:
       "AI와 소프트웨어를 활용해 실제 문제를 해결하고 제품으로 만드는 개발자, 윤정현",
   },
-  about: {
+  approach: {
     title: "문제에서 시작해 제품까지",
     // TODO: 실제 경험을 바탕으로 2~3문단 작성 (개발을 시작한 계기, 처음 해결하려던 문제 등)
     paragraphs: [],
-    // TODO: 각 단계의 description을 실제 경험으로 채우기
+    // 단계 설명은 design-theme SKILL.md §17의 개발 방식 정의를 따른다.
     journey: [
-      { label: "현실의 문제" },
-      { label: "문제 발견" },
-      { label: "개발과 AI 학습" },
-      { label: "직접 서비스 제작" },
-      { label: "AI / Software / Product" },
+      { label: "Problem", description: "문제를 발견한다" },
+      { label: "Discovery", description: "문제를 조사한다" },
+      { label: "Learning", description: "필요한 기술을 배운다" },
+      { label: "Building", description: "직접 만든다" },
+      { label: "Result", description: "결과를 확인한다" },
     ],
   },
   contact: {
@@ -29,6 +29,7 @@ export const profile: Profile = {
     links: {
       github: undefined, // 예: "https://github.com/<username>"
       email: undefined, // 예: "name@example.com"
+      linkedin: undefined, // 선택
     },
   },
 };

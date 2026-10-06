@@ -16,8 +16,9 @@ export function Header() {
   // Home에서 현재 화면 중앙에 있는 섹션을 추적한다.
   useEffect(() => {
     if (!isHome) return;
-    const elements = navItems
-      .map((item) => document.getElementById(item.id))
+    // Hero(#top)도 관찰해, 첫 화면에서는 어떤 메뉴도 강조되지 않게 한다.
+    const elements = ["top", ...navItems.map((item) => item.id)]
+      .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
 
     const observer = new IntersectionObserver(
@@ -62,8 +63,8 @@ export function Header() {
                 <Link
                   href={`/#${item.id}`}
                   aria-current={currentId === item.id ? "location" : undefined}
-                  className={`text-sm transition-colors duration-150 hover:text-foreground ${
-                    currentId === item.id ? "text-foreground" : "text-muted"
+                  className={`text-sm transition-colors duration-150 ease-out hover:text-foreground ${
+                    currentId === item.id ? "text-accent" : "text-muted"
                   }`}
                 >
                   {item.label}
@@ -79,7 +80,7 @@ export function Header() {
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
           aria-label={menuOpen ? "메뉴 닫기" : "메뉴 열기"}
-          className="-mr-2 flex size-10 items-center justify-center rounded-md md:hidden"
+          className="-mr-2.5 flex size-11 items-center justify-center rounded-md md:hidden"
         >
           <span className="relative block h-3 w-5" aria-hidden>
             <span
@@ -107,7 +108,7 @@ export function Header() {
                     onClick={() => setMenuOpen(false)}
                     aria-current={currentId === item.id ? "location" : undefined}
                     className={`flex items-center justify-between py-3 text-lg ${
-                      currentId === item.id ? "text-foreground" : "text-muted"
+                      currentId === item.id ? "text-accent" : "text-muted"
                     }`}
                   >
                     {item.label}

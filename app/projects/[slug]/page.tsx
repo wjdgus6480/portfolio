@@ -22,15 +22,22 @@ export async function generateMetadata(
   return { title: project.title, description: project.summary };
 }
 
-/** 상세 섹션의 표시 순서와 제목. 새 섹션은 ProjectDetail 타입과 이 배열에 추가한다. */
-const detailSections: { key: keyof ProjectDetail; title: string }[] = [
+/**
+ * 상세 섹션의 표시 순서와 제목 (design-theme SKILL.md §14).
+ * 새 섹션은 ProjectDetail 타입과 이 배열에 추가한다.
+ * "highlights"는 Project.highlights(주요 기능) 목록을 가리킨다.
+ */
+const detailSections: { key: keyof ProjectDetail | "highlights"; title: string }[] = [
+  { key: "overview", title: "Overview" },
   { key: "problem", title: "Problem" },
   { key: "background", title: "Background" },
   { key: "solution", title: "Solution" },
   { key: "approach", title: "Approach" },
+  { key: "highlights", title: "Key Features" },
+  { key: "implementation", title: "Implementation" },
   { key: "challenges", title: "Challenges" },
-  { key: "results", title: "Results" },
-  { key: "learnings", title: "Learnings" },
+  { key: "results", title: "Result" },
+  { key: "learnings", title: "What I Learned" },
 ];
 
 export default async function ProjectPage(props: PageProps<"/projects/[slug]">) {
@@ -39,11 +46,13 @@ export default async function ProjectPage(props: PageProps<"/projects/[slug]">) 
   if (!project) notFound();
 
   const { prev, next } = getAdjacentProjects(slug);
-  const filledSections = detailSections.filter(
-    ({ key }) => project.detail?.[key]?.length,
-  );
-  const hasHighlights = Boolean(project.highlights?.length);
-  const hasContent = filledSections.length > 0 || hasHighlights;
+  const filledSections = detailSections
+    .map(({ key, title }) => ({
+      key,
+      title,
+      content: key === "highlights" ? project.highlights : project.detail?.[key],
+    }))
+    .filter((section) => section.content?.length);
 
   return (
     <article className="py-12 md:py-20">
@@ -51,11 +60,14 @@ export default async function ProjectPage(props: PageProps<"/projects/[slug]">) 
         <ProjectHeader project={project} />
 
         <div className="mt-16 md:mt-20">
-          {hasHighlights && <DetailSection title="Key Features" items={project.highlights} />}
-          {filledSections.map(({ key, title }) => (
-            <DetailSection key={key} title={title} paragraphs={project.detail?.[key]} />
-          ))}
-          {!hasContent && (
+          {filledSections.map(({ key, title, content }) =>
+            key === "highlights" ? (
+              <DetailSection key={key} title={title} items={content} />
+            ) : (
+              <DetailSection key={key} title={title} paragraphs={content} />
+            ),
+          )}
+          {filledSections.length === 0 && (
             <p className="border-t border-border py-14 text-subtle">
               상세 내용을 준비하고 있습니다.
             </p>

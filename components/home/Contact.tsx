@@ -8,6 +8,7 @@ export function Contact() {
   const items = [
     links.github && { label: "GitHub", value: links.github.replace(/^https?:\/\//, ""), href: links.github },
     links.email && { label: "Email", value: links.email, href: `mailto:${links.email}` },
+    links.linkedin && { label: "LinkedIn", value: links.linkedin.replace(/^https?:\/\//, ""), href: links.linkedin },
   ].filter((item): item is { label: string; value: string; href: string } => Boolean(item));
 
   return (

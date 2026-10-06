@@ -1,44 +1,47 @@
 @import "tailwindcss";
 
+/* 디자인 토큰: claude/skills/design-theme/SKILL.md §4. 1차 버전은 Light Mode만 지원한다. */
 :root {
-  --background: #ffffff;
+  --background: #fafafa;
+  --surface: #ffffff;
+  --surface-weak: #f4f4f5;
   --foreground: #18181b;
   --muted: #52525b;
-  --subtle: #8a8a93;
+  --subtle: #71717a;
+  --placeholder: #a1a1aa;
   --border: #e4e4e7;
   --border-strong: #a1a1aa;
-  --surface: #f4f4f5;
   --accent: #2563eb;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0b;
-    --foreground: #f4f4f5;
-    --muted: #a1a1aa;
-    --subtle: #71717a;
-    --border: #27272a;
-    --border-strong: #52525b;
-    --surface: #18181b;
-    --accent: #60a5fa;
-  }
+  --accent-hover: #1d4ed8;
+  --accent-soft: #eff6ff;
+  --success: #16a34a;
+  --warning: #d97706;
+  --error: #dc2626;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-weak: var(--surface-weak);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-subtle: var(--subtle);
+  --color-placeholder: var(--placeholder);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
-  --color-surface: var(--surface);
   --color-accent: var(--accent);
-  --font-sans: var(--font-pretendard), ui-sans-serif, system-ui, -apple-system,
-    "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --font-sans: var(--font-pretendard), system-ui, -apple-system, "Apple SD Gothic Neo",
+    "Malgun Gothic", sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 html {
+  color-scheme: light;
   scroll-behavior: smooth;
 }
 
@@ -56,8 +59,14 @@ body {
   scroll-margin-top: 4rem;
 }
 
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 ::selection {
-  background: color-mix(in srgb, var(--accent) 25%, transparent);
+  background: var(--accent-soft);
 }
 
 @media (prefers-reduced-motion: reduce) {

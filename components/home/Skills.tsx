@@ -1,5 +1,6 @@
 import { sections } from "@/content/site";
 import { skills } from "@/content/skills";
+import { getProjectsUsing } from "@/lib/projects";
 import { Section } from "@/components/ui/Section";
 
 export function Skills() {
@@ -15,10 +16,20 @@ export function Skills() {
               {category.name}
             </dt>
             <dd className="mt-4">
-              <ul className="space-y-2 text-lg">
-                {category.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
+              <ul className="space-y-3">
+                {category.items.map((item) => {
+                  const usedIn = getProjectsUsing(item);
+                  return (
+                    <li key={item}>
+                      <span className="text-lg">{item}</span>
+                      {usedIn.length > 0 && (
+                        <p className="text-sm text-subtle">
+                          → {usedIn.map((project) => project.title).join(", ")}
+                        </p>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </dd>
           </div>

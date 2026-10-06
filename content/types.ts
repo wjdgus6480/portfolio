@@ -7,10 +7,12 @@ export type ProjectLinks = {
 
 /** 상세 페이지 섹션. 각 값은 문단 배열이며, 비어 있으면 화면에서 숨겨진다. */
 export type ProjectDetail = {
+  overview?: string[];
   problem?: string[];
   background?: string[];
   solution?: string[];
   approach?: string[];
+  implementation?: string[];
   challenges?: string[];
   results?: string[];
   learnings?: string[];
@@ -23,6 +25,9 @@ export type Project = {
   /** true면 Home의 Featured 카드 영역에 표시된다. */
   featured: boolean;
   summary?: string;
+  /** 카드에 표시되는 한 줄 요약. 긴 설명은 detail.problem / detail.solution에 작성한다. */
+  problem?: string;
+  solution?: string;
   tech?: string[];
   status?: ProjectStatus;
   /** 예: "2025.03 – 2025.06" */
@@ -43,6 +48,7 @@ export type JourneyStep = {
 export type ContactLinks = {
   github?: string;
   email?: string;
+  linkedin?: string;
 };
 
 export type Profile = {
@@ -53,7 +59,7 @@ export type Profile = {
     title: string;
     description: string;
   };
-  about: {
+  approach: {
     title: string;
     paragraphs: string[];
     journey: JourneyStep[];

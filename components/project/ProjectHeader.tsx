@@ -58,13 +58,13 @@ export function ProjectHeader({ project }: { project: Project }) {
       )}
 
       {project.image && (
-        <div className="relative mt-12 aspect-[16/9] overflow-hidden rounded-lg border border-border bg-surface">
+        <div className="relative mt-12 aspect-[16/9] overflow-hidden rounded-xl border border-border bg-surface-weak">
           <Image
             src={project.image.src}
             alt={project.image.alt}
             fill
             priority
-            sizes="(min-width: 1120px) 1056px, 100vw"
+            sizes="(min-width: 1200px) 1120px, 100vw"
             className="object-cover"
           />
         </div>
