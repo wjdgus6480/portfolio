@@ -9,7 +9,7 @@ export function Projects() {
   const others = getOtherProjects();
 
   return (
-    <Section {...sections.projects} title="직접 만든 것들">
+    <Section {...sections.work} title="직접 만든 것들">
       {featured.length > 0 && (
         <ul className="grid gap-4 md:grid-cols-2 md:gap-6">
           {featured.map((project, i) => (

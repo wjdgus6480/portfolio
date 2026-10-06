@@ -4,10 +4,10 @@ export const profile: Profile = {
   name: "윤정현",
   role: "AI / Software / Product Developer",
   hero: {
-    eyebrow: "AI / Software / Product",
-    title: "문제를 발견하면, 직접 만듭니다.",
+    eyebrow: "AI / Software / Product Developer",
+    title: "문제를 발견하면,\n직접 만듭니다.",
     description:
-      "AI와 소프트웨어를 활용해 실제 문제를 해결하고 제품으로 만드는 개발자, 윤정현",
+      "AI와 소프트웨어를 활용해 실제 문제를 해결하고\n제품으로 만드는 개발자, 윤정현",
   },
   approach: {
     title: "문제에서 시작해 제품까지",
@@ -21,6 +21,12 @@ export const profile: Profile = {
       { label: "Building", description: "직접 만든다" },
       { label: "Result", description: "결과를 확인한다" },
     ],
+  },
+  about: {
+    title: "물리치료학에서 소프트웨어로",
+    paragraphs: ["물리치료학에서 시작해 AI와 소프트웨어 개발로 영역을 넓혀 왔습니다."],
+    // TODO: 확인된 경험만 추가 (전환 계기, 현재 관심 분야 등)
+    path: ["물리치료학", "AI / Software Development"],
   },
   contact: {
     title: "Let's build something useful.",

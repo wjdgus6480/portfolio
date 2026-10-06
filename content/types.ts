@@ -56,13 +56,21 @@ export type Profile = {
   role: string;
   hero: {
     eyebrow: string;
+    /** 줄바꿈 문자 위치가 화면에 그대로 반영된다. */
     title: string;
+    /** 줄바꿈 문자는 태블릿 이상에서만 반영된다. */
     description: string;
   };
   approach: {
     title: string;
     paragraphs: string[];
     journey: JourneyStep[];
+  };
+  about: {
+    title: string;
+    paragraphs: string[];
+    /** 경로 표시. 예: ["물리치료학", "AI / Software"] */
+    path?: string[];
   };
   contact: {
     title: string;

@@ -12,7 +12,7 @@ export function ProjectHeader({ project }: { project: Project }) {
   return (
     <header>
       <Link
-        href={`/#${sections.projects.id}`}
+        href={`/#${sections.work.id}`}
         className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors duration-150 hover:text-foreground"
       >
         <span aria-hidden>←</span> All projects

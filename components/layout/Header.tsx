@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { profile } from "@/content/profile";
-import { navItems } from "@/content/site";
+import { navItems, sectionIds } from "@/content/site";
 import { Container } from "@/components/ui/Container";
 
 export function Header() {
@@ -16,8 +16,8 @@ export function Header() {
   // Home에서 현재 화면 중앙에 있는 섹션을 추적한다.
   useEffect(() => {
     if (!isHome) return;
-    // Hero(#top)도 관찰해, 첫 화면에서는 어떤 메뉴도 강조되지 않게 한다.
-    const elements = ["top", ...navItems.map((item) => item.id)]
+    // 메뉴에 없는 섹션과 Hero(#top)도 관찰해, 그 위치에서는 어떤 메뉴도 강조되지 않게 한다.
+    const elements = ["top", ...sectionIds]
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
 
@@ -112,7 +112,6 @@ export function Header() {
                     }`}
                   >
                     {item.label}
-                    <span className="font-mono text-xs text-subtle">{item.index}</span>
                   </Link>
                 </li>
               ))}

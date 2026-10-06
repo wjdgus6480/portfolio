@@ -5,7 +5,7 @@ import type { Project } from "./types";
  * - featured: true → Home의 Featured 카드, false → 아래 목록
  * - 값이 없는 선택 필드는 화면에서 숨겨진다.
  *
- * TODO: featured 값은 레이아웃 확인용 임시 설정. 대표 프로젝트 확정 후 수정.
+ * 현재는 6개 모두 Selected Work 카드로 표시한다.
  * TODO: 각 프로젝트의 summary / tech / status / period / links / detail 입력.
  */
 export const projects: Project[] = [
@@ -32,11 +32,11 @@ export const projects: Project[] = [
   {
     slug: "labor-advisor-ai",
     title: "LaborAdvisorAI",
-    featured: false,
+    featured: true,
   },
   {
     slug: "aeong-daily",
     title: "애옹이의일상",
-    featured: false,
+    featured: true,
   },
 ];
