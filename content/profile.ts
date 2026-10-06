@@ -1,0 +1,34 @@
+import type { Profile } from "./types";
+
+export const profile: Profile = {
+  name: "윤정현",
+  role: "AI / Software / Product Developer",
+  hero: {
+    eyebrow: "AI / Software / Product",
+    title: "문제를 발견하면, 직접 만듭니다.",
+    description:
+      "AI와 소프트웨어를 활용해 실제 문제를 해결하고 제품으로 만드는 개발자, 윤정현",
+  },
+  about: {
+    title: "문제에서 시작해 제품까지",
+    // TODO: 실제 경험을 바탕으로 2~3문단 작성 (개발을 시작한 계기, 처음 해결하려던 문제 등)
+    paragraphs: [],
+    // TODO: 각 단계의 description을 실제 경험으로 채우기
+    journey: [
+      { label: "현실의 문제" },
+      { label: "문제 발견" },
+      { label: "개발과 AI 학습" },
+      { label: "직접 서비스 제작" },
+      { label: "AI / Software / Product" },
+    ],
+  },
+  contact: {
+    title: "Let's build something useful.",
+    description: "프로젝트 협업이나 채용 관련 문의는 아래 채널로 연락해 주세요.",
+    // TODO: 실제 주소 확정 후 입력. 값이 없는 링크는 화면에 표시되지 않는다.
+    links: {
+      github: undefined, // 예: "https://github.com/<username>"
+      email: undefined, // 예: "name@example.com"
+    },
+  },
+};
