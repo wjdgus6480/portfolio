@@ -5,8 +5,31 @@ export type ProjectLinks = {
   demo?: string;
 };
 
-/** 상세 페이지 섹션. 각 값은 문단 배열이며, 비어 있으면 화면에서 숨겨진다. */
+/** 3C 분석. insight는 "그래서 이 빈틈을 노린다"는 차별점 한 줄. */
+export type MarketAnalysis = {
+  customer: string[];
+  competitor: { name: string; limit: string }[];
+  company: string[];
+  insight: string;
+};
+
+/**
+ * 상세 페이지 섹션. 문자열 배열은 짧은 항목 목록으로 표시되며, 비어 있으면 화면에서 숨겨진다.
+ * 한 항목은 한두 줄 이내로 쓴다.
+ */
 export type ProjectDetail = {
+  /** 헤더 아래 숫자 띠. 예: { value: "105", label: "자동 테스트" } */
+  metrics?: { value: string; label: string }[];
+  /** 타깃·목표. 예: { label: "타깃", value: "..." } */
+  target?: { label: string; value: string }[];
+  market?: MarketAnalysis;
+  beforeAfter?: { before: string[]; after: string[] };
+  /** 사용 흐름 단계 */
+  flow?: string[];
+  /** 실제 화면 캡처. src는 public/ 기준 경로, 세로형 모바일 화면 기준 */
+  screens?: { src: string; alt: string; caption: string }[];
+  /** AARRR 퍼널. 운영 실적이 아니라 설계·가설이면 note에 그렇게 밝힌다. */
+  funnel?: { stages: { stage: string; tactic: string; metric: string }[]; note?: string };
   overview?: string[];
   problem?: string[];
   background?: string[];
@@ -24,8 +47,9 @@ export type Project = {
   title: string;
   /** true면 Home의 Featured 카드 영역에 표시된다. */
   featured: boolean;
+  /** 카드와 상세 헤더에 표시되는 한 줄 소개. 카드 한두 줄에 들어가도록 짧게 쓴다. */
   summary?: string;
-  /** 카드에 표시되는 한 줄 요약. 긴 설명은 detail.problem / detail.solution에 작성한다. */
+  /** 한 줄 요약. 긴 설명은 detail.problem / detail.solution에 작성한다. */
   problem?: string;
   solution?: string;
   tech?: string[];

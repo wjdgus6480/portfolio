@@ -13,7 +13,7 @@ export function Projects() {
       {featured.length > 0 && (
         <ul className="grid gap-4 md:grid-cols-2 md:gap-6">
           {featured.map((project, i) => (
-            <li key={project.slug}>
+            <li key={project.slug} className="min-w-0">
               <ProjectCard project={project} number={String(i + 1).padStart(2, "0")} />
             </li>
           ))}

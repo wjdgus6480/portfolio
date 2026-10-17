@@ -7,7 +7,7 @@ export const brandTransitionName = (slug: string) => `project-brand-${slug}`;
 export const titleTransitionName = (slug: string) => `project-title-${slug}`;
 
 const sizes = {
-  card: "size-20 rounded-2xl text-3xl md:size-24 md:text-4xl",
+  card: "size-14 rounded-2xl text-2xl md:size-16 md:text-3xl",
   hero: "size-24 rounded-3xl text-4xl md:size-32 md:text-5xl",
 };
 
@@ -29,7 +29,7 @@ export function BrandMark({ project, size }: BrandMarkProps) {
             alt={project.logo.alt}
             fill
             sizes="128px"
-            className="object-contain p-3"
+            className="object-cover"
           />
         ) : (
           <span aria-hidden>{Array.from(project.title)[0]?.toUpperCase()}</span>
