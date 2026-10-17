@@ -11,10 +11,10 @@ export function Projects() {
   return (
     <Section {...sections.work} title="직접 만든 것들">
       {featured.length > 0 && (
-        <ul className="grid gap-4 md:grid-cols-2 md:gap-6">
-          {featured.map((project, i) => (
+        <ul className="grid max-w-3xl grid-cols-4 gap-2 sm:gap-3">
+          {featured.map((project) => (
             <li key={project.slug} className="min-w-0">
-              <ProjectCard project={project} number={String(i + 1).padStart(2, "0")} />
+              <ProjectCard project={project} />
             </li>
           ))}
         </ul>

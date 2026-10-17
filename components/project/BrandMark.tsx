@@ -7,7 +7,7 @@ export const brandTransitionName = (slug: string) => `project-brand-${slug}`;
 export const titleTransitionName = (slug: string) => `project-title-${slug}`;
 
 const sizes = {
-  card: "size-14 rounded-2xl text-2xl md:size-16 md:text-3xl",
+  card: "size-10 rounded-xl text-lg sm:size-12 sm:rounded-2xl sm:text-xl",
   hero: "size-24 rounded-3xl text-4xl md:size-32 md:text-5xl",
 };
 

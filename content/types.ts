@@ -47,6 +47,8 @@ export type Project = {
   title: string;
   /** true면 Home의 Featured 카드 영역에 표시된다. */
   featured: boolean;
+  /** 홈 타일 이름 아래 작은 글씨로 표시되는 분류. 6~8자 이내. 예: "관광 코스 AI" */
+  category?: string;
   /** 카드와 상세 헤더에 표시되는 한 줄 소개. 카드 한두 줄에 들어가도록 짧게 쓴다. */
   summary?: string;
   /** 한 줄 요약. 긴 설명은 detail.problem / detail.solution에 작성한다. */

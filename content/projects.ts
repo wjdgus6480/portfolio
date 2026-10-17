@@ -12,6 +12,7 @@ export const projects: Project[] = [
   {
     slug: "danubi-ai",
     title: "다누비 AI",
+    category: "관광 코스 AI",
     featured: true,
     summary: "공공데이터로 오늘 태종대에서 실제로 가능한 코스를 판단해 주는 관광 AI",
     logo: { src: "/projects/danubi-ai-logo.svg", alt: "다누비 AI 로고" },
