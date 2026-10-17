@@ -81,3 +81,127 @@ body {
     animation-duration: 0.01ms !important;
   }
 }
+
+/*
+ * 페이지 전환 (React <ViewTransition>, next/dist/docs/01-app/02-guides/view-transitions.md)
+ * - .morph: 카드의 브랜드 마크·제목이 상세 헤더로 이어지는 shared element
+ * - .nav-forward / .nav-back: 페이지 콘텐츠의 방향성 슬라이드
+ * 지원하지 않는 브라우저에서는 애니메이션 없이 페이지만 바뀐다.
+ */
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-group(.morph) {
+  animation-duration: 400ms;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+
+::view-transition-image-pair(.morph) {
+  animation-name: via-blur;
+}
+
+::view-transition-old(.nav-forward) {
+  --slide-offset: -60px;
+  animation:
+    150ms ease-in both fade reverse,
+    400ms ease-in-out both slide reverse;
+}
+
+::view-transition-new(.nav-forward) {
+  --slide-offset: 60px;
+  animation:
+    210ms ease-out 150ms both fade,
+    400ms ease-in-out both slide;
+}
+
+::view-transition-old(.nav-back) {
+  --slide-offset: 60px;
+  animation:
+    150ms ease-in both fade reverse,
+    400ms ease-in-out both slide reverse;
+}
+
+::view-transition-new(.nav-back) {
+  --slide-offset: -60px;
+  animation:
+    210ms ease-out 150ms both fade,
+    400ms ease-in-out both slide;
+}
+
+/* 스크롤 중 슬라이드하는 콘텐츠 위에서 Header는 고정된 기준점으로 남는다. */
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+
+::view-transition-old(site-header) {
+  display: none;
+}
+
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+@keyframes via-blur {
+  30% {
+    filter: blur(3px);
+  }
+}
+
+@keyframes fade {
+  from {
+    filter: blur(3px);
+    opacity: 0;
+  }
+  to {
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide {
+  from {
+    translate: var(--slide-offset);
+  }
+  to {
+    translate: 0;
+  }
+}
+
+/* 상세 페이지 설명이 브랜드 마크 morph 뒤에 순서대로 나타난다. */
+.reveal,
+.reveal-group > * {
+  animation: reveal 300ms ease-out both;
+  animation-delay: 250ms;
+}
+
+.reveal-group > :nth-child(2) { animation-delay: 310ms; }
+.reveal-group > :nth-child(3) { animation-delay: 370ms; }
+.reveal-group > :nth-child(4) { animation-delay: 430ms; }
+.reveal-group > :nth-child(n + 5) { animation-delay: 490ms; }
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+
+  .reveal,
+  .reveal-group > * {
+    animation: none;
+  }
+}

@@ -6,6 +6,7 @@ import { getAdjacentProjects, getAllProjects, getProjectBySlug } from "@/lib/pro
 import { Container } from "@/components/ui/Container";
 import { DetailSection } from "@/components/project/DetailSection";
 import { ProjectHeader } from "@/components/project/ProjectHeader";
+import { PageTransition } from "@/components/ui/PageTransition";
 
 export const dynamicParams = false;
 
@@ -55,34 +56,36 @@ export default async function ProjectPage(props: PageProps<"/projects/[slug]">) 
     .filter((section) => section.content?.length);
 
   return (
-    <article className="py-12 md:py-20">
-      <Container>
-        <ProjectHeader project={project} />
+    <PageTransition>
+      <article className="py-12 md:py-20">
+        <Container>
+          <ProjectHeader project={project} />
 
-        <div className="mt-16 md:mt-20">
-          {filledSections.map(({ key, title, content }) =>
-            key === "highlights" ? (
-              <DetailSection key={key} title={title} items={content} />
-            ) : (
-              <DetailSection key={key} title={title} paragraphs={content} />
-            ),
-          )}
-          {filledSections.length === 0 && (
-            <p className="border-t border-border py-14 text-subtle">
-              상세 내용을 준비하고 있습니다.
-            </p>
-          )}
-        </div>
+          <div className="reveal-group mt-16 md:mt-20">
+            {filledSections.map(({ key, title, content }) =>
+              key === "highlights" ? (
+                <DetailSection key={key} title={title} items={content} />
+              ) : (
+                <DetailSection key={key} title={title} paragraphs={content} />
+              ),
+            )}
+            {filledSections.length === 0 && (
+              <p className="border-t border-border py-14 text-subtle">
+                상세 내용을 준비하고 있습니다.
+              </p>
+            )}
+          </div>
 
-        <nav
-          aria-label="다른 프로젝트"
-          className="mt-8 grid grid-cols-2 gap-4 border-t border-border pt-8"
-        >
-          <AdjacentLink project={prev} direction="prev" />
-          <AdjacentLink project={next} direction="next" />
-        </nav>
-      </Container>
-    </article>
+          <nav
+            aria-label="다른 프로젝트"
+            className="mt-8 grid grid-cols-2 gap-4 border-t border-border pt-8"
+          >
+            <AdjacentLink project={prev} direction="prev" />
+            <AdjacentLink project={next} direction="next" />
+          </nav>
+        </Container>
+      </article>
+    </PageTransition>
   );
 }
 
@@ -99,6 +102,7 @@ function AdjacentLink({
   return (
     <Link
       href={`/projects/${project.slug}`}
+      transitionTypes={[isNext ? "nav-forward" : "nav-back"]}
       className={`group flex flex-col gap-1 ${isNext ? "col-start-2 items-end text-right" : ""}`}
     >
       <span className="font-mono text-xs uppercase tracking-[0.14em] text-subtle">

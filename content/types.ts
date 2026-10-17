@@ -34,6 +34,11 @@ export type Project = {
   period?: string;
   /** src는 public/ 기준 경로. 예: "/projects/link.png" */
   image?: { src: string; alt: string };
+  /**
+   * 카드와 상세 헤더에 표시되는 브랜드 로고. src는 public/ 기준 경로. 예: "/projects/link-logo.svg"
+   * 없으면 제목 첫 글자로 만든 모노그램을 표시한다.
+   */
+  logo?: { src: string; alt: string };
   links?: ProjectLinks;
   /** 주요 기능 */
   highlights?: string[];

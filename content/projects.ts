@@ -10,6 +10,11 @@ import type { Project } from "./types";
  */
 export const projects: Project[] = [
   {
+    slug: "danubi-ai",
+    title: "다누비 AI",
+    featured: true,
+  },
+  {
     slug: "link",
     title: "LINK",
     featured: true,

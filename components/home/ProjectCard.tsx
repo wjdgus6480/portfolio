@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ViewTransition } from "react";
 import type { Project } from "@/content/types";
+import { BrandMark, titleTransitionName } from "@/components/project/BrandMark";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { TechList } from "@/components/ui/TechTag";
 
@@ -18,10 +20,11 @@ export function ProjectCard({ project, number }: ProjectCardProps) {
   return (
     <Link
       href={`/projects/${project.slug}`}
+      transitionTypes={["nav-forward"]}
       className="group flex h-full flex-col rounded-xl border border-border bg-surface p-6 transition-colors duration-150 ease-out hover:border-border-strong md:p-8"
     >
-      {project.image && (
-        <div className="relative -mx-6 -mt-6 mb-6 aspect-[16/9] overflow-hidden rounded-t-xl border-b border-border bg-surface-weak md:-mx-8 md:-mt-8 md:mb-8">
+      <div className="relative -mx-6 -mt-6 mb-6 flex aspect-[16/9] items-center justify-center overflow-hidden rounded-t-xl border-b border-border bg-surface-weak md:-mx-8 md:-mt-8 md:mb-8">
+        {project.image ? (
           <Image
             src={project.image.src}
             alt={project.image.alt}
@@ -29,8 +32,12 @@ export function ProjectCard({ project, number }: ProjectCardProps) {
             sizes="(min-width: 768px) 50vw, 100vw"
             className="object-cover"
           />
-        </div>
-      )}
+        ) : (
+          <div className="transition-transform duration-200 ease-out group-hover:scale-[1.03]">
+            <BrandMark project={project} size="card" />
+          </div>
+        )}
+      </div>
 
       <div className="flex items-center justify-between gap-4">
         <span className="font-mono text-xs text-subtle">
@@ -40,9 +47,11 @@ export function ProjectCard({ project, number }: ProjectCardProps) {
         <StatusBadge status={project.status} />
       </div>
 
-      <h3 className="mt-4 text-xl font-semibold tracking-tight md:text-2xl">
-        {project.title}
-      </h3>
+      <ViewTransition name={titleTransitionName(project.slug)} share="morph" default="none">
+        <h3 className="mt-4 w-fit text-xl font-semibold tracking-tight md:text-2xl">
+          {project.title}
+        </h3>
+      </ViewTransition>
 
       {project.summary ? (
         <p className="mt-3 leading-relaxed text-muted">{project.summary}</p>
