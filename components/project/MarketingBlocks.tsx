@@ -117,6 +117,59 @@ export function ScreenGallery({ screens }: { screens: Detail["screens"] }) {
   );
 }
 
+/** 추후 계획: 번호 매긴 짧은 카드 */
+export function RoadmapList({ steps }: { steps: Detail["roadmap"] }) {
+  return (
+    <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      {steps.map(({ title, desc }, i) => (
+        <li key={title} className="rounded-xl border border-border bg-surface p-4">
+          <span className="font-mono text-xs text-accent">NEXT {i + 1}</span>
+          <p className="mt-1.5 font-semibold">{title}</p>
+          <p className="mt-1 text-sm leading-relaxed text-muted">{desc}</p>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+/** 처리 파이프라인: 단계를 화살표로 잇는다 */
+export function PipelineChain({ stages }: { stages: Detail["architecture"] }) {
+  return (
+    <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-2">
+      {stages.map((stage, i) => (
+        <li key={stage} className="flex items-center gap-1.5">
+          <span className="rounded-lg border border-border bg-surface px-2.5 py-1 font-mono text-xs">{stage}</span>
+          {i < stages.length - 1 && <span aria-hidden className="text-subtle">→</span>}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+/** 기술 결정과 이유 */
+export function DecisionList({ decisions }: { decisions: Detail["decisions"] }) {
+  return (
+    <dl className="divide-y divide-border overflow-hidden rounded-xl border border-border bg-surface">
+      {decisions.map(({ decision, why }) => (
+        <div key={decision} className="grid gap-1 p-4 md:grid-cols-[15rem_1fr] md:gap-6">
+          <dt className="font-semibold">{decision}</dt>
+          <dd className="leading-relaxed text-muted">{why}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+/** 테스트·품질: 숫자 띠 + 설명 목록 */
+export function TestingBlock({ testing }: { testing: Detail["testing"] }) {
+  return (
+    <div className="space-y-5">
+      <MetricStrip metrics={testing.metrics} />
+      <BulletList items={testing.items} />
+    </div>
+  );
+}
+
 /** AARRR 퍼널 표 */
 export function FunnelTable({ funnel }: { funnel: Detail["funnel"] }) {
   return (

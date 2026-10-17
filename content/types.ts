@@ -28,6 +28,16 @@ export type ProjectDetail = {
   flow?: string[];
   /** 실제 화면 캡처. src는 public/ 기준 경로, 세로형 모바일 화면 기준 */
   screens?: { src: string; alt: string; caption: string }[];
+  /** 처리 파이프라인 단계 (화살표로 이어서 표시) */
+  architecture?: string[];
+  /** 기술 결정과 이유 */
+  decisions?: { decision: string; why: string }[];
+  /** 테스트·품질: 숫자 + 짧은 설명 */
+  testing?: { metrics: { value: string; label: string }[]; items: string[] };
+  /** 한계와 다음 단계 */
+  limits?: string[];
+  /** 추후 계획. 한 단계는 짧은 제목 + 한 줄 설명 */
+  roadmap?: { title: string; desc: string }[];
   /** AARRR 퍼널. 운영 실적이 아니라 설계·가설이면 note에 그렇게 밝힌다. */
   funnel?: { stages: { stage: string; tactic: string; metric: string }[]; note?: string };
   overview?: string[];
@@ -66,6 +76,8 @@ export type Project = {
    */
   logo?: { src: string; alt: string };
   links?: ProjectLinks;
+  /** 데모 주소 QR 이미지. src는 public/ 기준 경로. 반드시 links.demo와 같은 주소를 가리켜야 한다. */
+  qr?: { src: string; alt: string };
   /** 주요 기능 */
   highlights?: string[];
   detail?: ProjectDetail;

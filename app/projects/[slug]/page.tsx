@@ -7,12 +7,16 @@ import { Container } from "@/components/ui/Container";
 import { DetailSection } from "@/components/project/DetailSection";
 import {
   BeforeAfterBlock,
+  DecisionList,
   FlowSteps,
   FunnelTable,
   LabeledList,
   MarketAnalysisBlock,
   MetricStrip,
+  PipelineChain,
+  RoadmapList,
   ScreenGallery,
+  TestingBlock,
 } from "@/components/project/MarketingBlocks";
 import { ProjectHeader } from "@/components/project/ProjectHeader";
 import { PageTransition } from "@/components/ui/PageTransition";
@@ -52,8 +56,13 @@ const detailSections: { title: string; render: (project: Project) => React.React
   { title: "Growth Funnel · AARRR", render: (p) => p.detail?.funnel && <FunnelTable funnel={p.detail.funnel} /> },
   { title: "Challenges", render: (p) => list(p.detail?.challenges) },
   { title: "Result", render: (p) => list(p.detail?.results) },
+  { title: "Architecture", render: (p) => p.detail?.architecture?.length && <PipelineChain stages={p.detail.architecture} /> },
+  { title: "Tech Decisions", render: (p) => p.detail?.decisions?.length && <DecisionList decisions={p.detail.decisions} /> },
   { title: "Implementation", render: (p) => list(p.detail?.implementation) },
+  { title: "Testing", render: (p) => p.detail?.testing && <TestingBlock testing={p.detail.testing} /> },
+  { title: "Limits & Next", render: (p) => list(p.detail?.limits) },
   { title: "What I Learned", render: (p) => list(p.detail?.learnings) },
+  { title: "Roadmap", render: (p) => p.detail?.roadmap?.length && <RoadmapList steps={p.detail.roadmap} /> },
 ];
 
 function list(items?: string[]) {
