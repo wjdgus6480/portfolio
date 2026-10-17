@@ -21,8 +21,8 @@ export function ProjectHeader({ project }: { project: Project }) {
         <span aria-hidden>←</span> All projects
       </Link>
 
-      {/* PC에서는 제목 줄 폭을 한 줄 소개 폭에 맞춰, QR이 소개 문장 끝 위에 오게 한다 */}
-      <div className="md:w-fit">
+      {/* 제목 줄 폭을 한 줄 소개 폭에 맞춰, QR이 소개 문장 끝 위에 오게 한다 */}
+      <div className="w-fit max-w-full">
       <div className="mt-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:gap-8">
         <BrandMark project={project} size="hero" />
         <div className="min-w-0 flex-1">
