@@ -38,6 +38,8 @@ export type ProjectDetail = {
   limits?: string[];
   /** 추후 계획. 한 단계는 짧은 제목 + 한 줄 설명 */
   roadmap?: { title: string; desc: string }[];
+  /** 분석·측정 구성: 도구(또는 화면)와 무엇을 재는지 */
+  analytics?: { decision: string; why: string }[];
   /** AARRR 퍼널. 운영 실적이 아니라 설계·가설이면 note에 그렇게 밝힌다. */
   funnel?: { stages: { stage: string; tactic: string; metric: string }[]; note?: string };
   overview?: string[];

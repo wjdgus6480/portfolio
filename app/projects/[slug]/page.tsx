@@ -54,6 +54,7 @@ const detailSections: { title: string; render: (project: Project) => React.React
   { title: "Approach", render: (p) => list(p.detail?.approach) },
   { title: "Key Features", render: (p) => list(p.highlights) },
   { title: "Growth Funnel · AARRR", render: (p) => p.detail?.funnel && <FunnelTable funnel={p.detail.funnel} /> },
+  { title: "Analytics", render: (p) => p.detail?.analytics?.length && <DecisionList decisions={p.detail.analytics} /> },
   { title: "Challenges", render: (p) => list(p.detail?.challenges) },
   { title: "Result", render: (p) => list(p.detail?.results) },
   { title: "Architecture", render: (p) => p.detail?.architecture?.length && <PipelineChain stages={p.detail.architecture} /> },
