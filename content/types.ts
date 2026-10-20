@@ -1,9 +1,16 @@
 export type ProjectStatus = "live" | "in-progress" | "archived";
 
+export type ProjectKind = "web" | "ai";
+
 export type ProjectLinks = {
   github?: string;
   demo?: string;
+  /** 프로그램이 실제로 운영하는 블로그 등 결과물 주소 */
+  blog?: string;
 };
+
+/** 원본 비율을 그대로 보여 줄 결과 이미지. src는 public/ 기준 경로 */
+export type OutputImage = { src: string; alt: string; caption: string; width: number; height: number };
 
 /** 3C 분석. insight는 "그래서 이 빈틈을 노린다"는 차별점 한 줄. */
 export type MarketAnalysis = {
@@ -38,6 +45,13 @@ export type ProjectDetail = {
   limits?: string[];
   /** 추후 계획. 한 단계는 짧은 제목 + 한 줄 설명 */
   roadmap?: { title: string; desc: string }[];
+  /** 생성형 AI 결과물: AI가 쓴 명세(코드)와 그것으로 만든 이미지, 그 밖의 결과 이미지 */
+  aiOutput?: {
+    spec: string;
+    specCaption: string;
+    result: OutputImage;
+    more?: OutputImage[];
+  };
   /** 분석·측정 구성: 도구(또는 화면)와 무엇을 재는지 */
   analytics?: { decision: string; why: string }[];
   /** AARRR 퍼널. 운영 실적이 아니라 설계·가설이면 note에 그렇게 밝힌다. */
@@ -59,6 +73,10 @@ export type Project = {
   title: string;
   /** true면 Home의 Featured 카드 영역에 표시된다. */
   featured: boolean;
+  /** Home 묶음: web = 웹 서비스, ai = AI 활용 프로그램 */
+  kind?: ProjectKind;
+  /** true면 Home·상세 페이지 어디에도 나오지 않는다 (개발 중·폐기 예정 보관용) */
+  hidden?: boolean;
   /** 홈 타일 이름 아래 작은 글씨로 표시되는 분류. 6~8자 이내. 예: "관광 코스 AI" */
   category?: string;
   /** 카드와 상세 헤더에 표시되는 한 줄 소개. 카드 한두 줄에 들어가도록 짧게 쓴다. */

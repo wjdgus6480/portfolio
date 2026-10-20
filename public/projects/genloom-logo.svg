@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#1f1f23"/>
+  <!-- 세로실(데이터) 아래 → 가로실(생성)이 번갈아 위·아래로 엮인다 -->
+  <g stroke-linecap="round" stroke-width="5" fill="none">
+    <path d="M22 14v36M42 14v36" stroke="#ffffff" opacity=".9"/>
+    <path d="M12 22h7m6 0h14m6 0h7" stroke="#facc15"/>
+    <path d="M12 32h30m6 0h4" stroke="#facc15"/>
+    <path d="M12 42h7m6 0h14m6 0h7" stroke="#facc15"/>
+    <path d="M42 29v6" stroke="#ffffff" opacity=".9"/>
+  </g>
+</svg>

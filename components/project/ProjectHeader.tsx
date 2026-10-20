@@ -74,9 +74,10 @@ export function ProjectHeader({ project }: { project: Project }) {
         </div>
       ) : null}
 
-      {(links?.github || links?.demo) && (
+      {(links?.github || links?.demo || links?.blog) && (
         <div className="reveal mt-8 flex flex-col gap-3 sm:flex-row">
           {links.demo && <ButtonLink href={links.demo}>Demo</ButtonLink>}
+          {links.blog && <ButtonLink href={links.blog}>운영 블로그</ButtonLink>}
           {links.github && (
             <ButtonLink href={links.github} variant="secondary">
               GitHub

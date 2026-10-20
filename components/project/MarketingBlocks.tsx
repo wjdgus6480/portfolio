@@ -117,6 +117,52 @@ export function ScreenGallery({ screens }: { screens: Detail["screens"] }) {
   );
 }
 
+/** 생성형 AI 결과물: AI가 쓴 명세 → 완성 이미지, 그 아래 다른 결과 이미지 */
+export function AiOutputBlock({ output }: { output: Detail["aiOutput"] }) {
+  return (
+    <div className="space-y-4">
+      <div className="grid gap-4 lg:grid-cols-2">
+        <figure className="min-w-0">
+          <pre className="max-h-80 overflow-auto rounded-xl border border-border bg-surface p-4 font-mono text-xs leading-relaxed">
+            <code>{output.spec}</code>
+          </pre>
+          <figcaption className="mt-2 text-sm text-muted">
+            <span className="mr-1.5 font-mono text-xs text-accent">AI</span>
+            {output.specCaption}
+          </figcaption>
+        </figure>
+        <OutputFigure image={output.result} label="결과" />
+      </div>
+      {output.more?.length ? (
+        <div className="grid gap-4 sm:grid-cols-2">
+          {output.more.map((image) => (
+            <OutputFigure key={image.src} image={image} />
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function OutputFigure({ image, label }: { image: Detail["aiOutput"]["result"]; label?: string }) {
+  return (
+    <figure className="min-w-0">
+      <Image
+        src={image.src}
+        alt={image.alt}
+        width={image.width}
+        height={image.height}
+        sizes="(min-width: 1024px) 420px, 100vw"
+        className="h-auto w-full rounded-xl border border-border"
+      />
+      <figcaption className="mt-2 text-sm text-muted">
+        {label && <span className="mr-1.5 font-mono text-xs text-accent">{label}</span>}
+        {image.caption}
+      </figcaption>
+    </figure>
+  );
+}
+
 /** 추후 계획: 번호 매긴 짧은 카드 */
 export function RoadmapList({ steps }: { steps: Detail["roadmap"] }) {
   return (

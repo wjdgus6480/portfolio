@@ -5,12 +5,12 @@ import type { Project } from "./types";
  * - featured: true → Home의 Featured 카드, false → 아래 목록
  * - 값이 없는 선택 필드는 화면에서 숨겨진다.
  *
- * 현재는 6개 모두 Selected Work 카드로 표시한다.
- * TODO: 각 프로젝트의 summary / tech / status / period / links / detail 입력.
+ * kind 로 웹 서비스 / AI 활용 프로그램을 나누고, hidden: true 는 개발 중·폐기 예정이라 어디에도 내보내지 않는다.
  */
 export const projects: Project[] = [
   {
     slug: "danubi-ai",
+    kind: "web",
     title: "다누비 AI",
     category: "관광 코스 AI",
     featured: true,
@@ -191,6 +191,7 @@ export const projects: Project[] = [
   },
   {
     slug: "jipplan",
+    kind: "web",
     title: "집플랜",
     category: "주거정책 판정",
     featured: true,
@@ -365,32 +366,206 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: "genloom",
+    kind: "ai",
+    title: "Genloom",
+    category: "그로스 포스팅 에이전트",
+    featured: true,
+    summary: "검색 데이터로 기획하고, AI 에이전트가 글 · 이미지 · 검수까지 맡는 콘텐츠 그로스 시스템",
+    logo: { src: "/projects/genloom-logo.svg", alt: "Genloom 로고" },
+    tech: ["Python", "네이버 검색 · 데이터랩 API", "NVIDIA API (LLM)", "matplotlib", "Playwright", "Vanilla JS 대시보드", "unittest"],
+    status: "in-progress",
+    period: "2026.10 –",
+    links: {
+      blog: "https://blog.naver.com/wjdgus6480",
+    },
+    highlights: [
+      "네이버 API로 키워드 · 제목 · 태그 후보를 측정해 기회지수로 고르기",
+      "브리프(사실 · 출처 · 기준일) 하나로 글 · 이미지 · 검수 에이전트가 이어서 작업",
+      "SEO · AEO · GEO 규칙 검수, 같은 키워드 글끼리의 잠식 감시",
+      "단계마다 GREEN · YELLOW · RED 판정 — RED면 자동으로 멈춤",
+      "로컬 운영 대시보드 — 발행 순서, 생성 · 재검토, 다음 주 키워드 계획",
+      "발행만 사람이 — 자동 발행은 일부러 만들지 않음",
+    ],
+    detail: {
+      metrics: [
+        { value: "14편", label: "실제 블로그 발행" },
+        { value: "3역할", label: "글 · 이미지 · 검토 모델 분리" },
+        { value: "448개", label: "파이썬 테스트" },
+        { value: "0회", label: "자동 발행 (발행은 사람)" },
+      ],
+      overview: [
+        "실제로 운영 중인 블로그 '복리인생'을 키우기 위해 만든 개인용 콘텐츠 그로스 시스템",
+        "키워드 측정 → 기획 → AI 작성 · 이미지 → 검수 → 발행 준비까지 이어 붙이고, 사람은 승인과 발행만 맡는다",
+      ],
+      target: [
+        { label: "1차 사용자", value: "나 — 블로그를 혼자 기획 · 작성 · 검수 · 분석하는 1인 운영자" },
+        { label: "확장 대상", value: "검색 유입으로 성장해야 하는 소규모 브랜드 · 1인 마케터" },
+        { label: "핵심 질문", value: "\"어떤 키워드로, 무엇을 근거로 써야 검색과 AI 답변에 잡힐까?\"" },
+        { label: "목표", value: "글 한 편에 드는 반복 작업을 줄이고, 그 시간을 기획과 성과 분석으로 옮긴다" },
+      ],
+      market: {
+        customer: [
+          "키워드 조사 · 작성 · 이미지 · 검수 · 순위 확인을 매번 혼자 반복",
+          "AI 검색(AEO · GEO)에 맞춰 쓰는 기준이 모호함",
+          "같은 키워드로 글이 쌓이면 내 글끼리 순위를 나눠 먹음",
+        ],
+        competitor: [
+          { name: "AI 글쓰기 도구", limit: "글은 빨리 쓰지만 검색 데이터 · 사실 검증과 끊겨 있음" },
+          { name: "키워드 분석 도구", limit: "데이터는 주지만 기획 · 제작으로 이어지지 않음" },
+          { name: "자동 포스팅 프로그램", limit: "대량 발행 위주 — 품질 · 플랫폼 정책 위험" },
+        ],
+        company: [
+          "실제 계좌 기록 같은 1차 데이터를 가진 운영 블로그",
+          "검수 기준을 규칙과 테스트로 만든 경험",
+          "역할을 나눈 에이전트 설계와 모델 비교 실험",
+        ],
+        insight: "데이터 · 제작 · 검수가 끊기는 지점을 하나의 작업 흐름으로 잇는다 — 단, 발행 결정은 사람에게 남긴다.",
+      },
+      beforeAfter: {
+        before: [
+          "키워드 감으로 고르기, 엑셀 · 공시를 손으로 옮기기",
+          "차트 이미지를 매번 새로 만들기",
+          "발행 뒤에야 수치 오류 · 키워드 중복을 발견",
+        ],
+        after: [
+          "기회지수로 키워드 선택, 브리프에 출처 · 기준일 고정",
+          "같은 디자인의 차트를 명세대로 자동 생성",
+          "발행 전에 수치 대조 · 규칙 검수 · 잠식 경고",
+        ],
+      },
+      flow: [
+        "키워드 측정 (네이버 API)",
+        "브리프 작성 — 사실 · 출처 · 기준일",
+        "글 · 이미지 에이전트 생성 → 검토 에이전트 + 규칙 검수",
+        "사람이 확인 · 발행 → 순위 · 통계 수집",
+      ],
+      aiOutput: {
+        spec: "{\n  \"kind\": \"bars\",\n  \"facts\": [\"f7\", \"f6\"],\n  \"args\": {\n    \"title\": \"JPM 분기 배당 (주당, 달러)\",\n    \"labels\": [\"24.1Q\", \"24.2Q\", \"…\", \"26.3Q\", \"26.4Q\"],\n    \"values\": [1.05, 1.15, \"…\", 1.5, 1.65],\n    \"highlight\": 11,\n    \"src\": \"자료: StockAnalysis(2026-10-13), JPMorgan Chase(2026-09-15) 기준\",\n    \"note\": \"2026년 10월 31일 지급분부터 1.65달러\"\n  }\n}",
+        specCaption: "이미지 담당 모델이 쓴 차트 명세 — facts는 브리프의 사실 번호, 출처·기준일까지 명세에 들어간다 (일부 생략)",
+        result: { src: "/projects/genloom/02-dividend-chart.png", alt: "JPM 분기 배당 막대 차트 — 2024년 1분기 1.05달러에서 2026년 4분기 1.65달러까지", caption: "명세대로 프로그램이 그린 차트 — 실제 발행 글(JPM 주가, 2026-10-14)", width: 1200, height: 700 },
+        more: [
+          { src: "/projects/genloom/01-thumbnail.png", alt: "JPM 주가 3분기 실적 발표 후 대표 이미지", caption: "대표 이미지 — 블로그 브랜드 색 고정", width: 1000, height: 1000 },
+          { src: "/projects/genloom/03-compare-card.png", alt: "JPM과 SCHD 비교 표 카드", caption: "비교 카드 — 모든 수치에 출처·기준일", width: 1200, height: 700 },
+        ],
+      },
+      analytics: [
+        {
+          decision: "키워드 기회지수",
+          why: "네이버 검색 관심도 ÷ 블로그 글 수로 경쟁이 덜한 키워드를 고른다. 제목 · 태그 후보도 같은 방식으로 비교.",
+        },
+        {
+          decision: "순위 · 반응 수집",
+          why: "발행 글의 키워드 순위, 방문 · 공감을 정기 수집. API 순위가 실제 검색 화면과 다를 수 있어 유입 검색어를 더 중요하게 본다.",
+        },
+        {
+          decision: "다음 단계: 성과 분석층 (설계 완료)",
+          why: "흩어진 수집 결과를 한 DB에 모아 '숨은 키워드 · 키워드 적중률 · 7일 조회'로 주간 보고서와 다음 주 후보를 만든다. 코드는 아직 없음.",
+        },
+      ],
+      architecture: [
+        "키워드 측정",
+        "브리프",
+        "글 에이전트",
+        "이미지 에이전트",
+        "검토 에이전트",
+        "규칙 검수",
+        "발행 묶음",
+        "사람 발행",
+        "순위 · 통계",
+      ],
+      decisions: [
+        {
+          decision: "글 · 이미지 · 검토 모델을 나눔",
+          why: "쓴 모델이 스스로 검증하지 않게 했다. 같은 브리프로 모델들을 비교해, 기간을 지어낸 모델은 탈락시키고 글 담당을 골랐다.",
+        },
+        {
+          decision: "이미지는 생성 모델 대신 차트 명세",
+          why: "이미지 생성 모델은 한글 · 숫자가 깨진다. AI는 차트 함수의 인자(JSON)만 만들고 그림은 프로그램이 그려 디자인이 항상 같다.",
+        },
+        {
+          decision: "자동 발행을 만들지 않음",
+          why: "플랫폼 정책과 품질 위험 때문에 발행 버튼은 사람만 누른다. 자동화는 '발행 묶음'까지.",
+        },
+        {
+          decision: "GREEN · YELLOW · RED 게이트",
+          why: "출처 없는 사실, 브리프에 없는 수치, 투자 권유 문구 등은 RED로 멈춘다. YELLOW는 진행하되 사람이 확인.",
+        },
+        {
+          decision: "작성 방식 투트랙",
+          why: "글마다 NVIDIA 모델 자동 작성(api)과 AI 코딩 에이전트 직접 작성(claude)을 고를 수 있다. 같은 검수를 통과해야 한다.",
+        },
+      ],
+      implementation: [
+        "Python 표준 라이브러리 위주 — 추가 패키지는 matplotlib · openpyxl · pypdf · playwright만",
+        "GEO 점수는 LLM 없이 규칙으로 — 정의문 · 수치의 기준일 · 직접 경험 수치 · FAQ를 100점으로 환산",
+        "키워드 잠식 감시 — 새 글 키워드가 기존 글과 겹치면 경고",
+        "로컬 대시보드는 표준 라이브러리 서버 + 바닐라 JS, 허용된 작업만 실행",
+        "브라우저 임시저장은 사용자가 명령할 때만, 로그인 우회 · CAPTCHA 자동 해결은 금지",
+      ],
+      testing: {
+        metrics: [
+          { value: "448", label: "파이썬 테스트" },
+          { value: "35", label: "테스트 파일" },
+          { value: "0", label: "테스트 중 네트워크 호출" },
+          { value: "41", label: "커밋" },
+        ],
+        items: [
+          "테스트는 네트워크 · 실제 키 · 실제 엑셀 없이 실행",
+          "TDD 점검 도구로 '실패 확인 → 통과 → 전체 회귀' 순서를 기록",
+          "발생한 오류는 기록하고 같은 오류를 테스트로 막는다",
+        ],
+      },
+      limits: [
+        "채널이 네이버 블로그 하나",
+        "성과 분석층은 설계만 — 수집 결과가 아직 한곳에 모이지 않음",
+        "개인 PC 로컬 전용, 외부 배포 계획 없음",
+      ],
+      roadmap: [
+        { title: "성과 분석층", desc: "수집 → 적재 → 주간 보고서 → 다음 주 키워드 후보" },
+        { title: "AEO 강화", desc: "질문 추론 · '답 먼저' 구조 검사" },
+        { title: "주간 그로스 리뷰", desc: "잘된 글 · 안된 글 분석을 에이전트가 초안으로" },
+        { title: "채널 확장", desc: "같은 브리프 구조로 다른 콘텐츠 채널" },
+      ],
+      learnings: [
+        "글을 생성하는 것보다 검수 규칙을 만드는 데 더 많은 시간이 들었고, 그게 품질을 정했다",
+        "도구가 늘수록 결과가 흩어진다 — 다음 과제는 측정 결과를 한곳에 모으는 것",
+      ],
+    },
+  },
+  {
     slug: "link",
+    hidden: true,
     title: "LINK",
     featured: true,
   },
   {
     slug: "compound-life",
+    hidden: true,
     title: "복리인생",
     featured: true,
   },
   {
     slug: "desktop-organizer",
+    hidden: true,
     title: "바탕화면 정리 프로그램",
     featured: true,
   },
   {
     slug: "jarvis-mymemory",
+    hidden: true,
     title: "JARVIS / MyMemory",
     featured: true,
   },
   {
     slug: "labor-advisor-ai",
+    hidden: true,
     title: "LaborAdvisorAI",
     featured: true,
   },
   {
     slug: "aeong-daily",
+    hidden: true,
     title: "애옹이의일상",
     featured: true,
   },

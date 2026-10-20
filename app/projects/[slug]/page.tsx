@@ -6,6 +6,7 @@ import { getAdjacentProjects, getAllProjects, getProjectBySlug } from "@/lib/pro
 import { Container } from "@/components/ui/Container";
 import { DetailSection } from "@/components/project/DetailSection";
 import {
+  AiOutputBlock,
   BeforeAfterBlock,
   DecisionList,
   FlowSteps,
@@ -50,6 +51,7 @@ const detailSections: { title: string; render: (project: Project) => React.React
   { title: "Background", render: (p) => list(p.detail?.background) },
   { title: "Solution", render: (p) => list(p.detail?.solution) },
   { title: "How It Works", render: (p) => p.detail?.flow?.length && <FlowSteps steps={p.detail.flow} /> },
+  { title: "AI Output", render: (p) => p.detail?.aiOutput && <AiOutputBlock output={p.detail.aiOutput} /> },
   { title: "Screens", render: (p) => p.detail?.screens?.length && <ScreenGallery screens={p.detail.screens} /> },
   { title: "Approach", render: (p) => list(p.detail?.approach) },
   { title: "Key Features", render: (p) => list(p.highlights) },

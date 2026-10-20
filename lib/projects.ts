@@ -1,12 +1,17 @@
-import { projects } from "@/content/projects";
-import type { Project } from "@/content/types";
+import { projects as allProjects } from "@/content/projects";
+import type { Project, ProjectKind } from "@/content/types";
+
+/** hidden 항목은 어디에도 내보내지 않는다 */
+const projects = allProjects.filter((project) => !project.hidden);
 
 export function getAllProjects(): Project[] {
   return projects;
 }
 
-export function getFeaturedProjects(): Project[] {
-  return projects.filter((project) => project.featured);
+export function getFeaturedProjects(kind?: ProjectKind): Project[] {
+  return projects.filter(
+    (project) => project.featured && (!kind || (project.kind ?? "web") === kind),
+  );
 }
 
 export function getOtherProjects(): Project[] {
