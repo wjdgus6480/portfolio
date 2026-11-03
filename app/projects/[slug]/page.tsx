@@ -47,31 +47,31 @@ export async function generateMetadata(
  * 새 섹션은 ProjectDetail 타입과 이 배열에 추가한다.
  */
 const detailSections: { title: string; render: (project: Project) => React.ReactNode }[] = [
-  { title: "Model Bake-off", render: (p) => p.detail?.modelEval && <ModelEvalTable data={p.detail.modelEval} /> },
-  { title: "Tech Stack", render: (p) => p.tech?.length && <TechList items={p.tech} /> },
-  { title: "Overview", render: (p) => list(p.detail?.overview) },
-  { title: "Target & Goal", render: (p) => p.detail?.target?.length && <LabeledList rows={p.detail.target} /> },
-  { title: "3C Analysis", render: (p) => p.detail?.market && <MarketAnalysisBlock market={p.detail.market} /> },
-  { title: "Problem → Solution", render: (p) => p.detail?.beforeAfter && <BeforeAfterBlock data={p.detail.beforeAfter} name={p.title} /> },
-  { title: "Problem", render: (p) => list(p.detail?.problem) },
-  { title: "Background", render: (p) => list(p.detail?.background) },
-  { title: "Solution", render: (p) => list(p.detail?.solution) },
-  { title: "How It Works", render: (p) => p.detail?.flow?.length && <FlowSteps steps={p.detail.flow} /> },
-  { title: "AI Output", render: (p) => p.detail?.aiOutput && <AiOutputBlock output={p.detail.aiOutput} /> },
-  { title: "Screens", render: (p) => p.detail?.screens?.length && <ScreenGallery screens={p.detail.screens} /> },
-  { title: "Approach", render: (p) => list(p.detail?.approach) },
-  { title: "Key Features", render: (p) => list(p.highlights) },
-  { title: "Growth Funnel · AARRR", render: (p) => p.detail?.funnel && <FunnelTable funnel={p.detail.funnel} /> },
-  { title: "Analytics", render: (p) => p.detail?.analytics?.length && <DecisionList decisions={p.detail.analytics} /> },
-  { title: "Challenges", render: (p) => list(p.detail?.challenges) },
-  { title: "Result", render: (p) => list(p.detail?.results) },
-  { title: "Architecture", render: (p) => p.detail?.architecture?.length && <PipelineChain stages={p.detail.architecture} /> },
-  { title: "Tech Decisions", render: (p) => p.detail?.decisions?.length && <DecisionList decisions={p.detail.decisions} /> },
-  { title: "Implementation", render: (p) => list(p.detail?.implementation) },
-  { title: "Testing", render: (p) => p.detail?.testing && <TestingBlock testing={p.detail.testing} /> },
-  { title: "Limits & Next", render: (p) => list(p.detail?.limits) },
-  { title: "What I Learned", render: (p) => list(p.detail?.learnings) },
-  { title: "Roadmap", render: (p) => p.detail?.roadmap?.length && <RoadmapList steps={p.detail.roadmap} /> },
+  { title: "모델 선정 실험", render: (p) => p.detail?.modelEval && <ModelEvalTable data={p.detail.modelEval} /> },
+  { title: "사용한 기술", render: (p) => p.tech?.length && <TechList items={p.tech} /> },
+  { title: "한눈에 보기", render: (p) => list(p.detail?.overview) },
+  { title: "누구를 위해, 무엇을", render: (p) => p.detail?.target?.length && <LabeledList rows={p.detail.target} /> },
+  { title: "3C 분석", render: (p) => p.detail?.market && <MarketAnalysisBlock market={p.detail.market} /> },
+  { title: "이렇게 바뀌어요", render: (p) => p.detail?.beforeAfter && <BeforeAfterBlock data={p.detail.beforeAfter} name={p.title} /> },
+  { title: "문제", render: (p) => list(p.detail?.problem) },
+  { title: "배경", render: (p) => list(p.detail?.background) },
+  { title: "해결", render: (p) => list(p.detail?.solution) },
+  { title: "이렇게 써요", render: (p) => p.detail?.flow?.length && <FlowSteps steps={p.detail.flow} /> },
+  { title: "AI가 만든 결과물", render: (p) => p.detail?.aiOutput && <AiOutputBlock output={p.detail.aiOutput} /> },
+  { title: "실제 화면", render: (p) => p.detail?.screens?.length && <ScreenGallery screens={p.detail.screens} /> },
+  { title: "접근 방식", render: (p) => list(p.detail?.approach) },
+  { title: "주요 기능", render: (p) => list(p.highlights) },
+  { title: "성장 퍼널 · AARRR", render: (p) => p.detail?.funnel && <FunnelTable funnel={p.detail.funnel} /> },
+  { title: "측정 방법", render: (p) => p.detail?.analytics?.length && <DecisionList decisions={p.detail.analytics} /> },
+  { title: "어려웠던 점", render: (p) => list(p.detail?.challenges) },
+  { title: "결과", render: (p) => list(p.detail?.results) },
+  { title: "처리 구조", render: (p) => p.detail?.architecture?.length && <PipelineChain stages={p.detail.architecture} /> },
+  { title: "기술 결정과 이유", render: (p) => p.detail?.decisions?.length && <DecisionList decisions={p.detail.decisions} /> },
+  { title: "구현", render: (p) => list(p.detail?.implementation) },
+  { title: "테스트와 품질", render: (p) => p.detail?.testing && <TestingBlock testing={p.detail.testing} /> },
+  { title: "한계와 다음 단계", render: (p) => list(p.detail?.limits) },
+  { title: "배운 점", render: (p) => list(p.detail?.learnings) },
+  { title: "앞으로의 계획", render: (p) => p.detail?.roadmap?.length && <RoadmapList steps={p.detail.roadmap} /> },
 ];
 
 function list(items?: string[]) {
@@ -83,7 +83,7 @@ function ListItems({ items }: { items: string[] }) {
     <ul className="space-y-3 text-lg leading-relaxed">
       {items.map((item) => (
         <li key={item} className="flex gap-3">
-          <span aria-hidden className="text-subtle">—</span>
+          <span aria-hidden className="mt-[0.7em] size-1.5 shrink-0 rounded-full bg-accent" />
           <span>{item}</span>
         </li>
       ))}
@@ -116,31 +116,26 @@ export default async function ProjectPage(props: PageProps<"/projects/[slug]">) 
           ) : null}
 
           {aiUsage?.length ? (
-            <section aria-labelledby="ai-usage" className="reveal mt-6">
-              <h2 id="ai-usage" className="mb-3 font-mono text-xs uppercase tracking-[0.14em] text-subtle">
-                AI 활용 방식
+            <section aria-labelledby="ai-usage" className="reveal mt-8">
+              <h2 id="ai-usage" className="mb-3 text-[15px] font-bold text-accent">
+                AI를 이렇게 썼어요
               </h2>
               <AiUsageGrid items={aiUsage} />
             </section>
           ) : null}
 
-          <div className="reveal-group mt-14 md:mt-16">
+          <div className="reveal-group mt-8 border-t-8 border-surface-weak md:mt-10">
             {filledSections.map(({ title, content }) => (
               <DetailSection key={title} title={title}>
                 {content}
               </DetailSection>
             ))}
             {filledSections.length === 0 && (
-              <p className="border-t border-border py-14 text-subtle">
-                상세 내용을 준비하고 있습니다.
-              </p>
+              <p className="py-14 text-subtle">상세 내용을 준비하고 있어요.</p>
             )}
           </div>
 
-          <nav
-            aria-label="다른 프로젝트"
-            className="mt-8 grid grid-cols-2 gap-4 border-t border-border pt-8"
-          >
+          <nav aria-label="다른 프로젝트" className="mt-4 grid grid-cols-2 gap-3">
             <AdjacentLink project={prev} direction="prev" />
             <AdjacentLink project={next} direction="next" />
           </nav>
@@ -164,12 +159,12 @@ function AdjacentLink({
     <Link
       href={`/projects/${project.slug}`}
       transitionTypes={[isNext ? "nav-forward" : "nav-back"]}
-      className={`group flex flex-col gap-1 ${isNext ? "col-start-2 items-end text-right" : ""}`}
+      className={`pressable flex flex-col gap-0.5 rounded-3xl bg-surface-weak p-5 ${isNext ? "col-start-2 items-end text-right" : ""}`}
     >
-      <span className="font-mono text-xs uppercase tracking-[0.14em] text-subtle">
-        {isNext ? "Next →" : "← Previous"}
+      <span className="text-[13px] font-bold text-subtle">
+        {isNext ? "다음 프로젝트 →" : "← 이전 프로젝트"}
       </span>
-      <span className="font-semibold tracking-tight transition-colors duration-150 group-hover:text-accent">
+      <span className="font-bold tracking-tight">
         {project.title}
       </span>
     </Link>

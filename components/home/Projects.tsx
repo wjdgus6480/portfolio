@@ -21,9 +21,7 @@ export function Projects() {
 
       {others.length > 0 && (
         <div className="mt-16 md:mt-20">
-          <h3 className="mb-4 font-mono text-xs uppercase tracking-[0.14em] text-subtle">
-            More projects
-          </h3>
+          <h3 className="mb-4 text-[15px] font-bold text-subtle">다른 프로젝트</h3>
           <ProjectList projects={others} startNumber={1} />
         </div>
       )}
@@ -43,12 +41,12 @@ function CardGroup({ kind, part, title, description, projects }: CardGroupProps)
   const headingId = `work-${kind}`;
   return (
     <div role="group" aria-labelledby={headingId}>
-      <p className="font-mono text-xs text-accent">{part}</p>
-      <h3 id={headingId} className="mt-2 text-xl font-bold tracking-tight md:text-2xl">
+      <p className="text-sm font-bold text-subtle">{part}</p>
+      <h3 id={headingId} className="mt-1.5 text-[22px] font-bold leading-snug tracking-tight md:text-[26px]">
         {title}
       </h3>
       <p className="mt-2 max-w-[40em] text-muted">{description}</p>
-      <ul className="mt-6 grid gap-4 md:grid-cols-2">
+      <ul className="mt-6 grid gap-3 md:grid-cols-2 md:gap-4">
         {projects.map((project) => (
           <li key={project.slug} className="min-w-0">
             <ProjectCard project={project} />

@@ -8,20 +8,32 @@ const metricColumns = {
   4: "grid-cols-2 md:grid-cols-4",
 };
 
-/** 헤더 아래 핵심 숫자 띠. columns=3은 라벨이 긴 Hero 근거 띠용 (모바일 1열) */
+/** 흰 배경 위 기본 카드: 테두리 없는 회색 면 */
+const card = "rounded-3xl bg-surface-weak";
+const cardHead = "text-[13px] font-bold text-accent";
+
+/**
+ * 핵심 숫자 카드. columns=3은 라벨이 긴 Hero 근거 띠용 (모바일 1열)
+ * surface: 카드를 놓는 면의 색. 흰 배경이면 회색 카드, 회색 띠 위면 흰 카드
+ */
 export function MetricStrip({
   metrics,
   columns = 4,
+  surface = "plain",
 }: {
   metrics: Detail["metrics"];
   columns?: keyof typeof metricColumns;
+  surface?: "plain" | "tinted";
 }) {
   return (
-    <dl className={`grid gap-px overflow-hidden rounded-xl border border-border bg-border ${metricColumns[columns]}`}>
+    <dl className={`grid gap-3 ${metricColumns[columns]}`}>
       {metrics.map(({ value, label }) => (
-        <div key={label} className="flex flex-col-reverse bg-surface p-5 md:p-6">
-          <dt className="mt-1 text-sm text-muted">{label}</dt>
-          <dd className="text-2xl font-bold tracking-tight md:text-3xl">{value}</dd>
+        <div
+          key={label}
+          className={`flex flex-col-reverse rounded-3xl p-5 md:p-6 ${surface === "plain" ? "bg-surface-weak" : "bg-surface"}`}
+        >
+          <dt className="mt-1 text-sm leading-snug text-muted">{label}</dt>
+          <dd className="text-2xl font-bold tracking-tight md:text-[28px]">{value}</dd>
         </div>
       ))}
     </dl>
@@ -33,12 +45,12 @@ export function AiUsageGrid({ items }: { items: Detail["aiUsage"] }) {
   return (
     <ol className={`grid gap-3 sm:grid-cols-2 ${items.length === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
       {items.map(({ title, desc }, i) => (
-        <li key={title} className="rounded-xl border border-border bg-surface p-4 md:p-5">
-          <p className="font-semibold tracking-tight">
-            <span className="mr-2 font-mono text-xs font-normal text-accent">{String(i + 1).padStart(2, "0")}</span>
-            {title}
-          </p>
-          <p className="mt-1.5 text-[15px] leading-relaxed text-muted">{desc}</p>
+        <li key={title} className={`${card} p-5`}>
+          <span className="inline-flex size-7 items-center justify-center rounded-full bg-accent-soft text-[13px] font-bold text-accent">
+            {i + 1}
+          </span>
+          <p className="mt-3 font-bold tracking-tight">{title}</p>
+          <p className="mt-1 text-[15px] leading-relaxed text-muted">{desc}</p>
         </li>
       ))}
     </ol>
@@ -48,7 +60,11 @@ export function AiUsageGrid({ items }: { items: Detail["aiUsage"] }) {
 /** 모델 비교 표. 좁은 화면에서는 가로 스크롤 없이 행마다 카드로 바뀐다 */
 export function ModelEvalTable({ data }: { data: Detail["modelEval"] }) {
   const result = (row: Detail["modelEval"]["rows"][number]) => (
-    <span className={`font-semibold ${row.adopted ? "text-accent" : "text-muted"}`}>
+    <span
+      className={`inline-flex shrink-0 items-center rounded-full px-2.5 py-1 text-xs font-bold ${
+        row.adopted ? "bg-accent text-white" : "bg-surface text-subtle"
+      }`}
+    >
       {row.adopted ? "✓ " : "✕ "}
       {row.result}
     </span>
@@ -56,21 +72,21 @@ export function ModelEvalTable({ data }: { data: Detail["modelEval"] }) {
 
   return (
     <div className="space-y-3">
-      <div className="hidden overflow-hidden rounded-xl border border-border bg-surface md:block">
+      <div className={`hidden overflow-hidden md:block ${card}`}>
       <table className="w-full text-left">
-        <thead className="border-b border-border font-mono text-xs uppercase tracking-[0.14em] text-subtle">
+        <thead className="text-[13px] font-bold text-subtle">
           <tr>
-            <th scope="col" className="p-4 font-normal">모델</th>
-            <th scope="col" className="p-4 font-normal">결과</th>
-            <th scope="col" className="p-4 font-normal">이유</th>
+            <th scope="col" className="px-5 pb-2 pt-4">모델</th>
+            <th scope="col" className="px-5 pb-2 pt-4">결과</th>
+            <th scope="col" className="px-5 pb-2 pt-4">이유</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-border">
+        <tbody className="divide-y-2 divide-surface">
           {data.rows.map((row) => (
             <tr key={row.model} className={row.adopted ? "bg-accent-soft" : undefined}>
-              <th scope="row" className="p-4 font-semibold">{row.model}</th>
-              <td className="whitespace-nowrap p-4">{result(row)}</td>
-              <td className="p-4 leading-relaxed text-muted">{row.reason}</td>
+              <th scope="row" className="px-5 py-4 font-bold">{row.model}</th>
+              <td className="whitespace-nowrap px-5 py-4">{result(row)}</td>
+              <td className="px-5 py-4 leading-relaxed text-muted">{row.reason}</td>
             </tr>
           ))}
         </tbody>
@@ -81,10 +97,10 @@ export function ModelEvalTable({ data }: { data: Detail["modelEval"] }) {
         {data.rows.map((row) => (
           <li
             key={row.model}
-            className={`rounded-xl border p-4 ${row.adopted ? "border-accent/40 bg-accent-soft" : "border-border bg-surface"}`}
+            className={`rounded-3xl p-5 ${row.adopted ? "bg-accent-soft" : "bg-surface-weak"}`}
           >
-            <p className="flex items-baseline justify-between gap-3">
-              <span className="font-semibold">{row.model}</span>
+            <p className="flex items-center justify-between gap-3">
+              <span className="font-bold">{row.model}</span>
               {result(row)}
             </p>
             <p className="mt-1 text-[15px] leading-relaxed text-muted">{row.reason}</p>
@@ -103,7 +119,7 @@ export function LabeledList({ rows }: { rows: Detail["target"] }) {
     <dl className="space-y-4">
       {rows.map(({ label, value }) => (
         <div key={label} className="grid gap-1 sm:grid-cols-[6rem_1fr] sm:gap-4">
-          <dt className="font-semibold text-accent">{label}</dt>
+          <dt className="font-bold text-accent">{label}</dt>
           <dd className="text-lg leading-relaxed">{value}</dd>
         </div>
       ))}
@@ -113,8 +129,8 @@ export function LabeledList({ rows }: { rows: Detail["target"] }) {
 
 /** 3C 분석 카드 + 차별점 한 줄 */
 export function MarketAnalysisBlock({ market }: { market: Detail["market"] }) {
-  const cardClass = "rounded-xl border border-border bg-surface p-5";
-  const headClass = "font-mono text-xs uppercase tracking-[0.14em] text-subtle";
+  const cardClass = `${card} p-5`;
+  const headClass = cardHead;
 
   return (
     <div className="space-y-4">
@@ -139,7 +155,7 @@ export function MarketAnalysisBlock({ market }: { market: Detail["market"] }) {
           <BulletList items={market.company} />
         </div>
       </div>
-      <p className="rounded-xl bg-accent-soft px-5 py-4 text-lg font-semibold leading-relaxed">
+      <p className="rounded-3xl bg-accent-soft px-5 py-4 text-lg font-bold leading-relaxed">
         → {market.insight}
       </p>
     </div>
@@ -150,12 +166,12 @@ export function MarketAnalysisBlock({ market }: { market: Detail["market"] }) {
 export function BeforeAfterBlock({ data, name }: { data: Detail["beforeAfter"]; name: string }) {
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      <div className="rounded-xl border border-border bg-surface-weak p-5">
-        <p className="font-mono text-xs uppercase tracking-[0.14em] text-subtle">Before</p>
+      <div className={`${card} p-5`}>
+        <p className="text-[13px] font-bold text-subtle">이전에는</p>
         <BulletList items={data.before} />
       </div>
-      <div className="rounded-xl border border-accent/40 bg-surface p-5">
-        <p className="font-mono text-xs uppercase tracking-[0.14em] text-accent">After · {name}</p>
+      <div className="rounded-3xl bg-accent-soft p-5">
+        <p className={cardHead}>{name}에서는</p>
         <BulletList items={data.after} />
       </div>
     </div>
@@ -167,9 +183,9 @@ export function FlowSteps({ steps }: { steps: Detail["flow"] }) {
   return (
     <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
       {steps.map((step, i) => (
-        <li key={step} className="rounded-xl border border-border bg-surface p-4">
-          <span className="font-mono text-xs text-accent">STEP {i + 1}</span>
-          <p className="mt-1.5 leading-relaxed">{step}</p>
+        <li key={step} className={`${card} p-5`}>
+          <span className={cardHead}>{i + 1}단계</span>
+          <p className="mt-1.5 font-medium leading-relaxed">{step}</p>
         </li>
       ))}
     </ol>
@@ -187,7 +203,7 @@ export function ScreenGallery({ screens }: { screens: Detail["screens"] }) {
               <Image src={src} alt={alt} fill sizes="224px" className="object-cover object-top" />
             </div>
             <figcaption className="mt-2 text-sm leading-relaxed text-muted">
-              <span className="mr-1.5 font-mono text-xs text-accent">{String(i + 1).padStart(2, "0")}</span>
+              <span className="mr-1.5 text-[13px] font-bold text-accent">{String(i + 1).padStart(2, "0")}</span>
               {caption}
             </figcaption>
           </figure>
@@ -203,11 +219,11 @@ export function AiOutputBlock({ output }: { output: Detail["aiOutput"] }) {
     <div className="space-y-4">
       <div className="grid gap-4 lg:grid-cols-2">
         <figure className="min-w-0">
-          <pre className="max-h-80 overflow-auto rounded-xl border border-border bg-surface p-4 font-mono text-xs leading-relaxed">
+          <pre className="max-h-80 overflow-auto rounded-3xl bg-surface-weak p-5 font-mono text-xs leading-relaxed">
             <code>{output.spec}</code>
           </pre>
           <figcaption className="mt-2 text-sm text-muted">
-            <span className="mr-1.5 font-mono text-xs text-accent">AI</span>
+            <span className="mr-1.5 text-[13px] font-bold text-accent">AI</span>
             {output.specCaption}
           </figcaption>
         </figure>
@@ -236,7 +252,7 @@ function OutputFigure({ image, label }: { image: Detail["aiOutput"]["result"]; l
         className="h-auto w-full rounded-xl border border-border"
       />
       <figcaption className="mt-2 text-sm text-muted">
-        {label && <span className="mr-1.5 font-mono text-xs text-accent">{label}</span>}
+        {label && <span className="mr-1.5 text-[13px] font-bold text-accent">{label}</span>}
         {image.caption}
       </figcaption>
     </figure>
@@ -248,9 +264,9 @@ export function RoadmapList({ steps }: { steps: Detail["roadmap"] }) {
   return (
     <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
       {steps.map(({ title, desc }, i) => (
-        <li key={title} className="rounded-xl border border-border bg-surface p-4">
-          <span className="font-mono text-xs text-accent">NEXT {i + 1}</span>
-          <p className="mt-1.5 font-semibold">{title}</p>
+        <li key={title} className={`${card} p-5`}>
+          <span className={cardHead}>다음 {i + 1}</span>
+          <p className="mt-1.5 font-bold">{title}</p>
           <p className="mt-1 text-sm leading-relaxed text-muted">{desc}</p>
         </li>
       ))}
@@ -264,7 +280,7 @@ export function PipelineChain({ stages }: { stages: Detail["architecture"] }) {
     <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-2">
       {stages.map((stage, i) => (
         <li key={stage} className="flex items-center gap-1.5">
-          <span className="rounded-lg border border-border bg-surface px-2.5 py-1 font-mono text-xs">{stage}</span>
+          <span className="rounded-xl bg-surface-weak px-3 py-1.5 text-sm font-medium">{stage}</span>
           {i < stages.length - 1 && <span aria-hidden className="text-subtle">→</span>}
         </li>
       ))}
@@ -275,10 +291,10 @@ export function PipelineChain({ stages }: { stages: Detail["architecture"] }) {
 /** 기술 결정과 이유 */
 export function DecisionList({ decisions }: { decisions: Detail["decisions"] }) {
   return (
-    <dl className="divide-y divide-border overflow-hidden rounded-xl border border-border bg-surface">
+    <dl className="space-y-3">
       {decisions.map(({ decision, why }) => (
-        <div key={decision} className="grid gap-1 p-4 md:grid-cols-[15rem_1fr] md:gap-6">
-          <dt className="font-semibold">{decision}</dt>
+        <div key={decision} className={`grid gap-1 p-5 md:grid-cols-[15rem_1fr] md:gap-6 ${card}`}>
+          <dt className="font-bold">{decision}</dt>
           <dd className="leading-relaxed text-muted">{why}</dd>
         </div>
       ))}
@@ -300,10 +316,10 @@ export function TestingBlock({ testing }: { testing: Detail["testing"] }) {
 export function FunnelTable({ funnel }: { funnel: Detail["funnel"] }) {
   return (
     <div className="space-y-3">
-      <ol className="divide-y divide-border overflow-hidden rounded-xl border border-border bg-surface">
+      <ol className={`divide-y divide-surface overflow-hidden ${card}`}>
         {funnel.stages.map(({ stage, tactic, metric }) => (
-          <li key={stage} className="grid gap-1 p-4 md:grid-cols-[9rem_1fr_13rem] md:gap-4">
-            <span className="font-semibold text-accent">{stage}</span>
+          <li key={stage} className="grid gap-1 p-5 md:grid-cols-[9rem_1fr_13rem] md:gap-4">
+            <span className="font-bold text-accent">{stage}</span>
             <span className="leading-relaxed">{tactic}</span>
             <span className="text-sm leading-relaxed text-muted md:text-right">{metric}</span>
           </li>

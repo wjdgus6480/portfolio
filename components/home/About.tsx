@@ -9,22 +9,22 @@ export function About() {
   return (
     <Section {...sections.about} title={title}>
       {path && path.length > 0 && (
-        <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[15px] font-medium text-muted">
+        <p className="flex flex-wrap items-center gap-2">
           {path.map((step, i) => (
             <Fragment key={step}>
               {i > 0 && (
-                <span aria-hidden className="text-accent">
+                <span aria-hidden className="text-subtle">
                   →
                 </span>
               )}
-              <span>{step}</span>
+              <span className="rounded-full bg-surface-weak px-4 py-2 text-[15px] font-semibold">{step}</span>
             </Fragment>
           ))}
         </p>
       )}
 
       {paragraphs.length > 0 && (
-        <div className="mt-6 max-w-[40em] space-y-5 text-lg leading-relaxed">
+        <div className="mt-6 max-w-[40em] space-y-5 text-lg leading-relaxed text-muted">
           {paragraphs.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}

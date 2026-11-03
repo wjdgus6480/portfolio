@@ -46,7 +46,7 @@ export function Header() {
 
   return (
     <header
-      className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md"
+      className="sticky top-0 z-50 bg-background/90 backdrop-blur-md"
       style={{ viewTransitionName: "site-header" }}
     >
       <Container className="flex h-16 items-center justify-between">
@@ -60,13 +60,13 @@ export function Header() {
         </Link>
 
         <nav aria-label="주요 메뉴" className="hidden md:block">
-          <ul className="flex items-center gap-8">
+          <ul className="flex items-center gap-1">
             {navItems.map((item) => (
               <li key={item.id}>
                 <Link
                   href={`/#${item.id}`}
                   aria-current={currentId === item.id ? "location" : undefined}
-                  className={`text-sm transition-colors duration-150 ease-out hover:text-foreground ${
+                  className={`inline-flex h-10 items-center rounded-xl px-3.5 text-[15px] font-semibold transition-colors duration-150 ease-out hover:bg-surface-weak ${
                     currentId === item.id ? "text-accent" : "text-muted"
                   }`}
                 >
@@ -101,7 +101,7 @@ export function Header() {
       </Container>
 
       {menuOpen && (
-        <nav id="mobile-menu" aria-label="주요 메뉴" className="border-t border-border md:hidden">
+        <nav id="mobile-menu" aria-label="주요 메뉴" className="md:hidden">
           <Container>
             <ul className="py-2">
               {navItems.map((item) => (
@@ -110,7 +110,7 @@ export function Header() {
                     href={`/#${item.id}`}
                     onClick={() => setMenuOpen(false)}
                     aria-current={currentId === item.id ? "location" : undefined}
-                    className={`flex items-center justify-between py-3 text-lg ${
+                    className={`flex items-center justify-between py-3 text-lg font-semibold ${
                       currentId === item.id ? "text-accent" : "text-muted"
                     }`}
                   >
