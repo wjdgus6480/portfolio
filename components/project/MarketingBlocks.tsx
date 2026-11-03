@@ -33,9 +33,11 @@ export function AiUsageGrid({ items }: { items: Detail["aiUsage"] }) {
   return (
     <ol className={`grid gap-3 sm:grid-cols-2 ${items.length === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
       {items.map(({ title, desc }, i) => (
-        <li key={title} className="rounded-xl border border-border bg-surface p-5">
-          <span className="font-mono text-xs text-accent">{String(i + 1).padStart(2, "0")}</span>
-          <p className="mt-1.5 font-semibold tracking-tight">{title}</p>
+        <li key={title} className="rounded-xl border border-border bg-surface p-4 md:p-5">
+          <p className="font-semibold tracking-tight">
+            <span className="mr-2 font-mono text-xs font-normal text-accent">{String(i + 1).padStart(2, "0")}</span>
+            {title}
+          </p>
           <p className="mt-1.5 text-[15px] leading-relaxed text-muted">{desc}</p>
         </li>
       ))}

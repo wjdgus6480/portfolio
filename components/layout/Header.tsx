@@ -53,7 +53,7 @@ export function Header() {
         <Link
           href="/"
           onClick={() => setMenuOpen(false)}
-          className="text-[15px] font-semibold tracking-tight"
+          className="inline-flex min-h-11 items-center whitespace-pre text-[15px] font-semibold tracking-tight"
         >
           {profile.name}
           <span className="font-normal text-subtle"> / Portfolio</span>

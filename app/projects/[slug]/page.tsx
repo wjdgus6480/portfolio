@@ -105,18 +105,18 @@ export default async function ProjectPage(props: PageProps<"/projects/[slug]">) 
 
   return (
     <PageTransition>
-      <article className="py-10 md:py-14">
+      <article className="pb-10 pt-8 md:pb-14 md:pt-10">
         <Container>
           <ProjectHeader project={project} />
 
           {metrics?.length ? (
-            <div className="reveal mt-10">
+            <div className="reveal mt-8">
               <MetricStrip metrics={metrics} />
             </div>
           ) : null}
 
           {aiUsage?.length ? (
-            <section aria-labelledby="ai-usage" className="reveal mt-8">
+            <section aria-labelledby="ai-usage" className="reveal mt-6">
               <h2 id="ai-usage" className="mb-3 font-mono text-xs uppercase tracking-[0.14em] text-subtle">
                 AI 활용 방식
               </h2>
