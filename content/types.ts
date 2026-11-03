@@ -1,4 +1,5 @@
-export type ProjectStatus = "live" | "in-progress" | "archived";
+/** operating = 공개 배포는 아니지만 실제 업무에 매일 쓰는 상태 */
+export type ProjectStatus = "live" | "in-progress" | "operating" | "archived";
 
 export type ProjectKind = "web" | "ai";
 
@@ -27,6 +28,10 @@ export type MarketAnalysis = {
 export type ProjectDetail = {
   /** 헤더 아래 숫자 띠. 예: { value: "105", label: "자동 테스트" } */
   metrics?: { value: string; label: string }[];
+  /** AI 활용 방식 (3~4개). 헤더·metrics 바로 다음, 첫 화면 안에 표시된다. decisions와 겹치면 요약만 쓴다. */
+  aiUsage?: { title: string; desc: string }[];
+  /** 모델 선정 실험 결과 표. 근거 문서가 있는 실험만 쓴다. */
+  modelEval?: { rows: { model: string; result: string; adopted?: boolean; reason: string }[]; note?: string };
   /** 타깃·목표. 예: { label: "타깃", value: "..." } */
   target?: { label: string; value: string }[];
   market?: MarketAnalysis;
@@ -39,8 +44,8 @@ export type ProjectDetail = {
   architecture?: string[];
   /** 기술 결정과 이유 */
   decisions?: { decision: string; why: string }[];
-  /** 테스트·품질: 숫자 + 짧은 설명 */
-  testing?: { metrics: { value: string; label: string }[]; items: string[] };
+  /** 테스트·품질: 숫자 + 짧은 설명. 확인되지 않은 숫자는 metrics에서 뺀다. */
+  testing?: { metrics?: { value: string; label: string }[]; items: string[] };
   /** 한계와 다음 단계 */
   limits?: string[];
   /** 추후 계획. 한 단계는 짧은 제목 + 한 줄 설명 */
@@ -81,6 +86,8 @@ export type Project = {
   category?: string;
   /** 카드와 상세 헤더에 표시되는 한 줄 소개. 카드 한두 줄에 들어가도록 짧게 쓴다. */
   summary?: string;
+  /** 이 프로젝트에서 AI가 맡은 역할 한 줄. 카드와 상세 헤더에 표시된다. */
+  aiRole?: string;
   /** 한 줄 요약. 긴 설명은 detail.problem / detail.solution에 작성한다. */
   problem?: string;
   solution?: string;
@@ -123,10 +130,14 @@ export type Profile = {
     title: string;
     /** 줄바꿈 문자는 태블릿 이상에서만 반영된다. */
     description: string;
+    /** Hero 아래 근거 숫자 띠. 검증된 숫자만 쓴다. */
+    proof?: { value: string; label: string }[];
   };
   approach: {
     title: string;
     paragraphs: string[];
+    /** 번호 목록으로 표시되는 원칙 */
+    principles?: { title: string; desc: string }[];
     journey: JourneyStep[];
   };
   about: {

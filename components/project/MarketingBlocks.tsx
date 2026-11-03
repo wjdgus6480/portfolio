@@ -210,7 +210,7 @@ export function DecisionList({ decisions }: { decisions: Detail["decisions"] }) 
 export function TestingBlock({ testing }: { testing: Detail["testing"] }) {
   return (
     <div className="space-y-5">
-      <MetricStrip metrics={testing.metrics} />
+      {testing.metrics?.length ? <MetricStrip metrics={testing.metrics} /> : null}
       <BulletList items={testing.items} />
     </div>
   );

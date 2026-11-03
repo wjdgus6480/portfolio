@@ -3,12 +3,14 @@ import type { ProjectStatus } from "@/content/types";
 const labels: Record<ProjectStatus, string> = {
   live: "Live",
   "in-progress": "In progress",
+  operating: "운영 중",
   archived: "Archived",
 };
 
 const dotColors: Record<ProjectStatus, string> = {
   live: "bg-success",
   "in-progress": "bg-accent",
+  operating: "bg-success",
   archived: "bg-placeholder",
 };
 
