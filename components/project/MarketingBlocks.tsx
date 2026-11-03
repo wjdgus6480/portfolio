@@ -30,7 +30,7 @@ export function MetricStrip({
       {metrics.map(({ value, label }) => (
         <div
           key={label}
-          className={`flex flex-col-reverse rounded-3xl p-5 md:p-6 ${surface === "plain" ? "bg-surface-weak" : "bg-surface"}`}
+          className={`flex flex-col-reverse rounded-3xl p-5 md:px-6 ${surface === "plain" ? "bg-surface-weak" : "bg-surface"}`}
         >
           <dt className="mt-1 text-sm leading-snug text-muted">{label}</dt>
           <dd className="text-2xl font-bold tracking-tight md:text-[28px]">{value}</dd>
@@ -46,10 +46,12 @@ export function AiUsageGrid({ items }: { items: Detail["aiUsage"] }) {
     <ol className={`grid gap-3 sm:grid-cols-2 ${items.length === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
       {items.map(({ title, desc }, i) => (
         <li key={title} className={`${card} p-5`}>
-          <span className="inline-flex size-7 items-center justify-center rounded-full bg-accent-soft text-[13px] font-bold text-accent">
-            {i + 1}
-          </span>
-          <p className="mt-3 font-bold tracking-tight">{title}</p>
+          <p className="flex items-center gap-2 font-bold tracking-tight">
+            <span className="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-accent-soft text-xs font-bold text-accent">
+              {i + 1}
+            </span>
+            {title}
+          </p>
           <p className="mt-1 text-[15px] leading-relaxed text-muted">{desc}</p>
         </li>
       ))}

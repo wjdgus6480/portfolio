@@ -116,7 +116,7 @@ export default async function ProjectPage(props: PageProps<"/projects/[slug]">) 
           ) : null}
 
           {aiUsage?.length ? (
-            <section aria-labelledby="ai-usage" className="reveal mt-8">
+            <section aria-labelledby="ai-usage" className="reveal mt-6">
               <h2 id="ai-usage" className="mb-3 text-[15px] font-bold text-accent">
                 AI를 이렇게 썼어요
               </h2>

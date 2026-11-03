@@ -67,15 +67,17 @@ export function ProjectHeader({ project }: { project: Project }) {
       )}
       </div>
 
+      {/* AI가 맡은 일과 링크 버튼을 넓은 화면에서 한 줄에 놓아 첫 화면에 AI 활용 방식까지 들어오게 한다 */}
+      <div className="mt-5 flex flex-col gap-4 md:flex-row md:items-center md:gap-6">
       {project.aiRole && (
-        <div className="reveal mt-5 sm:w-fit">
+        <div className="reveal md:w-fit">
           <AiRole role={project.aiRole} />
         </div>
       )}
 
       {/* 기술 목록은 첫 화면에 AI 활용 방식을 올리기 위해 상세 본문 '사용한 기술' 섹션으로 옮겼다 */}
       {(links?.github || links?.demo || links?.blog) && (
-        <div className="reveal mt-6 flex flex-col gap-2.5 sm:flex-row">
+        <div className="reveal flex flex-col gap-2.5 sm:flex-row">
           {links.demo && <ButtonLink href={links.demo}>바로 실행하기 ↗</ButtonLink>}
           {links.blog && <ButtonLink href={links.blog}>운영 블로그</ButtonLink>}
           {links.github && (
@@ -85,6 +87,7 @@ export function ProjectHeader({ project }: { project: Project }) {
           )}
         </div>
       )}
+      </div>
 
       {project.image && (
         <div className="reveal relative mt-12 aspect-[16/9] overflow-hidden rounded-xl border border-border bg-surface-weak">
