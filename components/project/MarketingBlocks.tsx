@@ -3,10 +3,21 @@ import type { ProjectDetail } from "@/content/types";
 
 type Detail = Required<ProjectDetail>;
 
-/** 헤더 아래 핵심 숫자 띠 */
-export function MetricStrip({ metrics }: { metrics: Detail["metrics"] }) {
+const metricColumns = {
+  3: "grid-cols-1 sm:grid-cols-3",
+  4: "grid-cols-2 md:grid-cols-4",
+};
+
+/** 헤더 아래 핵심 숫자 띠. columns=3은 라벨이 긴 Hero 근거 띠용 (모바일 1열) */
+export function MetricStrip({
+  metrics,
+  columns = 4,
+}: {
+  metrics: Detail["metrics"];
+  columns?: keyof typeof metricColumns;
+}) {
   return (
-    <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border md:grid-cols-4">
+    <dl className={`grid gap-px overflow-hidden rounded-xl border border-border bg-border ${metricColumns[columns]}`}>
       {metrics.map(({ value, label }) => (
         <div key={label} className="flex flex-col-reverse bg-surface p-5 md:p-6">
           <dt className="mt-1 text-sm text-muted">{label}</dt>
@@ -14,6 +25,73 @@ export function MetricStrip({ metrics }: { metrics: Detail["metrics"] }) {
         </div>
       ))}
     </dl>
+  );
+}
+
+/** AI 활용 방식: 번호 매긴 카드. 상세 첫 화면에 들어가도록 넓은 화면에서 한 줄로 놓는다 */
+export function AiUsageGrid({ items }: { items: Detail["aiUsage"] }) {
+  return (
+    <ol className={`grid gap-3 sm:grid-cols-2 ${items.length === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
+      {items.map(({ title, desc }, i) => (
+        <li key={title} className="rounded-xl border border-border bg-surface p-5">
+          <span className="font-mono text-xs text-accent">{String(i + 1).padStart(2, "0")}</span>
+          <p className="mt-1.5 font-semibold tracking-tight">{title}</p>
+          <p className="mt-1.5 text-[15px] leading-relaxed text-muted">{desc}</p>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+/** 모델 비교 표. 좁은 화면에서는 가로 스크롤 없이 행마다 카드로 바뀐다 */
+export function ModelEvalTable({ data }: { data: Detail["modelEval"] }) {
+  const result = (row: Detail["modelEval"]["rows"][number]) => (
+    <span className={`font-semibold ${row.adopted ? "text-accent" : "text-muted"}`}>
+      {row.adopted ? "✓ " : "✕ "}
+      {row.result}
+    </span>
+  );
+
+  return (
+    <div className="space-y-3">
+      <div className="hidden overflow-hidden rounded-xl border border-border bg-surface md:block">
+      <table className="w-full text-left">
+        <thead className="border-b border-border font-mono text-xs uppercase tracking-[0.14em] text-subtle">
+          <tr>
+            <th scope="col" className="p-4 font-normal">모델</th>
+            <th scope="col" className="p-4 font-normal">결과</th>
+            <th scope="col" className="p-4 font-normal">이유</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-border">
+          {data.rows.map((row) => (
+            <tr key={row.model} className={row.adopted ? "bg-accent-soft" : undefined}>
+              <th scope="row" className="p-4 font-semibold">{row.model}</th>
+              <td className="whitespace-nowrap p-4">{result(row)}</td>
+              <td className="p-4 leading-relaxed text-muted">{row.reason}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      </div>
+
+      <ul className="space-y-3 md:hidden">
+        {data.rows.map((row) => (
+          <li
+            key={row.model}
+            className={`rounded-xl border p-4 ${row.adopted ? "border-accent/40 bg-accent-soft" : "border-border bg-surface"}`}
+          >
+            <p className="flex items-baseline justify-between gap-3">
+              <span className="font-semibold">{row.model}</span>
+              {result(row)}
+            </p>
+            <p className="mt-1 text-[15px] leading-relaxed text-muted">{row.reason}</p>
+          </li>
+        ))}
+      </ul>
+
+      {data.note && <p className="text-sm leading-relaxed text-subtle">{data.note}</p>}
+    </div>
   );
 }
 
@@ -67,7 +145,7 @@ export function MarketAnalysisBlock({ market }: { market: Detail["market"] }) {
 }
 
 /** 문제(Before)와 해결(After) 나란히 비교 */
-export function BeforeAfterBlock({ data }: { data: Detail["beforeAfter"] }) {
+export function BeforeAfterBlock({ data, name }: { data: Detail["beforeAfter"]; name: string }) {
   return (
     <div className="grid gap-4 md:grid-cols-2">
       <div className="rounded-xl border border-border bg-surface-weak p-5">
@@ -75,7 +153,7 @@ export function BeforeAfterBlock({ data }: { data: Detail["beforeAfter"] }) {
         <BulletList items={data.before} />
       </div>
       <div className="rounded-xl border border-accent/40 bg-surface p-5">
-        <p className="font-mono text-xs uppercase tracking-[0.14em] text-accent">After · 다누비 AI</p>
+        <p className="font-mono text-xs uppercase tracking-[0.14em] text-accent">After · {name}</p>
         <BulletList items={data.after} />
       </div>
     </div>

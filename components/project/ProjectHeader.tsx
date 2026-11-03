@@ -4,8 +4,8 @@ import { ViewTransition } from "react";
 import type { Project } from "@/content/types";
 import { sections } from "@/content/site";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { AiRole } from "@/components/ui/AiRole";
 import { StatusBadge } from "@/components/ui/StatusBadge";
-import { TechList } from "@/components/ui/TechTag";
 import { BrandMark, titleTransitionName } from "./BrandMark";
 
 export function ProjectHeader({ project }: { project: Project }) {
@@ -23,7 +23,7 @@ export function ProjectHeader({ project }: { project: Project }) {
 
       {/* 제목 줄 폭을 한 줄 소개 폭에 맞춰, QR이 소개 문장 끝 위에 오게 한다 */}
       <div className="w-fit max-w-full">
-      <div className="mt-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:gap-8">
+      <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-end sm:gap-8">
         <BrandMark project={project} size="hero" />
         <div className="min-w-0 flex-1">
           {(project.status || project.period) && (
@@ -60,22 +60,23 @@ export function ProjectHeader({ project }: { project: Project }) {
       </div>
 
       {project.summary ? (
-        <p className="reveal mt-8 max-w-[36em] text-lg leading-relaxed text-muted md:text-xl">
+        <p className="reveal mt-6 max-w-[36em] text-lg leading-relaxed text-muted md:text-xl">
           {project.summary}
         </p>
       ) : (
-        <p className="reveal mt-8 text-lg text-subtle">설명 준비 중</p>
+        <p className="reveal mt-6 text-lg text-subtle">설명 준비 중</p>
       )}
       </div>
 
-      {project.tech?.length ? (
-        <div className="reveal mt-8">
-          <TechList items={project.tech} />
+      {project.aiRole && (
+        <div className="reveal mt-4">
+          <AiRole role={project.aiRole} />
         </div>
-      ) : null}
+      )}
 
+      {/* 기술 목록은 첫 화면에 AI 활용 방식을 올리기 위해 상세 본문 Tech Stack 섹션으로 옮겼다 */}
       {(links?.github || links?.demo || links?.blog) && (
-        <div className="reveal mt-8 flex flex-col gap-3 sm:flex-row">
+        <div className="reveal mt-6 flex flex-col gap-3 sm:flex-row">
           {links.demo && <ButtonLink href={links.demo}>Demo</ButtonLink>}
           {links.blog && <ButtonLink href={links.blog}>운영 블로그</ButtonLink>}
           {links.github && (

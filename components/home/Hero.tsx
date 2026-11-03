@@ -1,5 +1,6 @@
 import { profile } from "@/content/profile";
 import { sections } from "@/content/site";
+import { MetricStrip } from "@/components/project/MarketingBlocks";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
 
@@ -7,7 +8,7 @@ export function Hero() {
   const { hero } = profile;
 
   return (
-    <section id="top" className="pb-20 pt-20 md:pb-32 md:pt-36">
+    <section id="top" className="pb-20 pt-16 md:pb-28 md:pt-28">
       <Container>
         <p className="font-mono text-xs uppercase tracking-[0.14em] text-subtle">
           {hero.eyebrow}
@@ -24,6 +25,13 @@ export function Hero() {
             Contact
           </ButtonLink>
         </div>
+
+        {hero.proof?.length ? (
+          <div className="mt-12 md:mt-16">
+            <h2 className="sr-only">근거</h2>
+            <MetricStrip metrics={hero.proof} columns={3} />
+          </div>
+        ) : null}
       </Container>
     </section>
   );

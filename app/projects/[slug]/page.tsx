@@ -7,6 +7,7 @@ import { Container } from "@/components/ui/Container";
 import { DetailSection } from "@/components/project/DetailSection";
 import {
   AiOutputBlock,
+  AiUsageGrid,
   BeforeAfterBlock,
   DecisionList,
   FlowSteps,
@@ -14,6 +15,7 @@ import {
   LabeledList,
   MarketAnalysisBlock,
   MetricStrip,
+  ModelEvalTable,
   PipelineChain,
   RoadmapList,
   ScreenGallery,
@@ -21,6 +23,7 @@ import {
 } from "@/components/project/MarketingBlocks";
 import { ProjectHeader } from "@/components/project/ProjectHeader";
 import { PageTransition } from "@/components/ui/PageTransition";
+import { TechList } from "@/components/ui/TechTag";
 
 export const dynamicParams = false;
 
@@ -39,14 +42,17 @@ export async function generateMetadata(
 
 /**
  * 상세 섹션의 표시 순서와 제목 (design-theme SKILL.md §14).
- * 순서는 마케팅 사례 흐름: 개요 → 타깃 → 3C → 문제/해결 → 작동 방식 → 기능 → 퍼널 → 결과 → 회고.
+ * 헤더 · metrics · AI 활용 방식(첫 화면) 다음, 모델 실험과 기술을 먼저 보이고
+ * 마케팅 사례 흐름: 개요 → 타깃 → 3C → 문제/해결 → 작동 방식 → 기능 → 퍼널 → 결과 → 회고.
  * 새 섹션은 ProjectDetail 타입과 이 배열에 추가한다.
  */
 const detailSections: { title: string; render: (project: Project) => React.ReactNode }[] = [
+  { title: "Model Bake-off", render: (p) => p.detail?.modelEval && <ModelEvalTable data={p.detail.modelEval} /> },
+  { title: "Tech Stack", render: (p) => p.tech?.length && <TechList items={p.tech} /> },
   { title: "Overview", render: (p) => list(p.detail?.overview) },
   { title: "Target & Goal", render: (p) => p.detail?.target?.length && <LabeledList rows={p.detail.target} /> },
   { title: "3C Analysis", render: (p) => p.detail?.market && <MarketAnalysisBlock market={p.detail.market} /> },
-  { title: "Problem → Solution", render: (p) => p.detail?.beforeAfter && <BeforeAfterBlock data={p.detail.beforeAfter} /> },
+  { title: "Problem → Solution", render: (p) => p.detail?.beforeAfter && <BeforeAfterBlock data={p.detail.beforeAfter} name={p.title} /> },
   { title: "Problem", render: (p) => list(p.detail?.problem) },
   { title: "Background", render: (p) => list(p.detail?.background) },
   { title: "Solution", render: (p) => list(p.detail?.solution) },
@@ -95,20 +101,30 @@ export default async function ProjectPage(props: PageProps<"/projects/[slug]">) 
     .map(({ title, render }) => ({ title, content: render(project) }))
     .filter((section) => section.content);
   const metrics = project.detail?.metrics;
+  const aiUsage = project.detail?.aiUsage;
 
   return (
     <PageTransition>
-      <article className="py-12 md:py-20">
+      <article className="py-10 md:py-14">
         <Container>
           <ProjectHeader project={project} />
 
           {metrics?.length ? (
-            <div className="reveal mt-12">
+            <div className="reveal mt-10">
               <MetricStrip metrics={metrics} />
             </div>
           ) : null}
 
-          <div className="reveal-group mt-16 md:mt-20">
+          {aiUsage?.length ? (
+            <section aria-labelledby="ai-usage" className="reveal mt-8">
+              <h2 id="ai-usage" className="mb-3 font-mono text-xs uppercase tracking-[0.14em] text-subtle">
+                AI 활용 방식
+              </h2>
+              <AiUsageGrid items={aiUsage} />
+            </section>
+          ) : null}
+
+          <div className="reveal-group mt-14 md:mt-16">
             {filledSections.map(({ title, content }) => (
               <DetailSection key={title} title={title}>
                 {content}
