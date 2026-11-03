@@ -1,21 +1,26 @@
 @import "tailwindcss";
 
-/* 디자인 토큰: claude/skills/design-theme/SKILL.md §4. 1차 버전은 Light Mode만 지원한다. */
+/*
+ * 디자인 토큰: claude/skills/design-theme/SKILL.md §4. 1차 버전은 Light Mode만 지원한다.
+ * 흰 페이지 + 회색 띠(surface-weak) 섹션, 테두리 대신 면으로 구분하는 부드러운 톤.
+ * 텍스트 색은 흰 배경과 surface-weak 위에서 모두 4.5:1 이상이 되게 골랐다.
+ */
 :root {
-  --background: #fafafa;
+  --background: #ffffff;
   --surface: #ffffff;
-  --surface-weak: #f4f4f5;
-  --foreground: #18181b;
-  --muted: #52525b;
-  --subtle: #71717a;
-  --placeholder: #a1a1aa;
-  --border: #e4e4e7;
-  --border-strong: #a1a1aa;
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
-  --accent-soft: #eff6ff;
-  --success: #16a34a;
-  --warning: #d97706;
+  --surface-weak: #f2f4f6;
+  --foreground: #191f28;
+  --muted: #4e5968;
+  --subtle: #5f6b7a;
+  --placeholder: #b0b8c1;
+  --border: #e5e8eb;
+  --border-strong: #c9cfd6;
+  --accent: #1b64da;
+  --accent-hover: #1957c2;
+  --accent-soft: #e8f3ff;
+  --success: #0b7a3e;
+  --success-soft: #e5f6ec;
+  --warning: #b45309;
   --error: #dc2626;
 }
 
@@ -33,6 +38,7 @@
   --color-accent-hover: var(--accent-hover);
   --color-accent-soft: var(--accent-soft);
   --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
   --color-warning: var(--warning);
   --color-error: var(--error);
   --font-sans: var(--font-pretendard), system-ui, -apple-system, "Apple SD Gothic Neo",
@@ -67,6 +73,21 @@ body {
 
 ::selection {
   background: var(--accent-soft);
+}
+
+/* 누를 때 살짝 들어가는 피드백. 버튼 · 카드에만 쓴다 */
+.pressable {
+  transition: scale 150ms ease-out, background-color 150ms ease-out;
+}
+
+.pressable:active {
+  scale: 0.98;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pressable:active {
+    scale: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

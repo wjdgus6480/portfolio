@@ -8,7 +8,7 @@ export const titleTransitionName = (slug: string) => `project-title-${slug}`;
 
 const sizes = {
   card: "size-10 rounded-xl text-lg sm:size-12 sm:rounded-2xl sm:text-xl",
-  hero: "size-20 rounded-3xl text-4xl md:size-24 md:text-5xl",
+  hero: "size-24 rounded-3xl text-4xl md:size-32 md:text-5xl",
 };
 
 type BrandMarkProps = {
