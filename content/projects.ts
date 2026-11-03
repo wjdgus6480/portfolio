@@ -594,7 +594,7 @@ export const projects: Project[] = [
       ],
       aiUsage: [
         { title: "AI는 숫자를 만들 수 없다", desc: "대본 속 숫자는 {{v.…}} 자리표시로만 쓰고, 동결된 데이터의 value_id로 채운다. 대본 · 장면 · 차트 · 제목을 Numeric Guard가 검사한다." },
-        { title: "AI가 만든 결과를 AI가 아닌 방법으로 검증", desc: "녹음을 로컬 음성 인식으로 받아써 숫자를 대조 — '78센트'를 '78%'로 읽은 곳을 REVIEW_REQUIRED로 잡아냈다." },
+        { title: "녹음까지 숫자를 다시 대조", desc: "녹음을 로컬 음성 인식으로 받아써 동결된 숫자와 대조한다 — '78센트'가 '78%'로 들리는 곳을 REVIEW_REQUIRED로 잡아냈다." },
         { title: "모델은 실측해서 고른다", desc: "후보 모델을 직접 호출해 404 · 빈 응답 · 시간 초과 · JSON 오류를 확인하고, 통과한 모델만 남겼다." },
       ],
       overview: [
