@@ -566,17 +566,150 @@ export const projects: Project[] = [
     title: "LINK",
     featured: true,
   },
+  // 근거: Desktop/AI프로그램 README.md · docs/implementation-status.md (2026-09-22), tests/ def test_ 184개
   {
     slug: "compound-life",
-    hidden: true,
+    kind: "ai",
     title: "복리인생",
+    category: "배당 영상 자동화",
     featured: true,
+    summary: "실제 배당 입금 데이터를 검증하고, 그 숫자로 YouTube 영상(Long · Shorts)을 만드는 제작 프로그램",
+    aiRole: "AI는 아이디어 · 대본만 — 숫자는 검증된 데이터에서만",
+    tech: ["Python", "PySide6", "SQLite", "NVIDIA API (LLM)", "faster-whisper (로컬 ASR)", "FFmpeg", "키움 · KB증권 API"],
+    status: "in-progress",
+    period: "2026.09 –",
+    highlights: [
+      "증권사 API로 배당 입금 수집 → 검증 → 대조 → 월 마감",
+      "마감된 달만 숫자를 동결(Content Package)해 영상으로 제작",
+      "AI 아이디어 생성 · 대본 다듬기, 장면 · 차트 자동 렌더",
+      "녹음 속 숫자를 로컬 음성 인식으로 다시 검사",
+      "체크리스트가 모두 통과해야 Final Lock — 업로드는 사람이",
+    ],
+    detail: {
+      metrics: [
+        { value: "281건", label: "실계좌 12개월 배당 입금 검증" },
+        { value: "0개", label: "AI가 만들 수 있는 숫자" },
+        { value: "2종", label: "Long 16:9 · Shorts 9:16" },
+        { value: "184개", label: "테스트 함수" },
+      ],
+      aiUsage: [
+        { title: "AI는 숫자를 만들 수 없다", desc: "대본 속 숫자는 {{v.…}} 자리표시로만 쓰고, 동결된 데이터의 value_id로 채운다. 대본 · 장면 · 차트 · 제목을 Numeric Guard가 검사한다." },
+        { title: "AI가 만든 결과를 AI가 아닌 방법으로 검증", desc: "녹음을 로컬 음성 인식으로 받아써 숫자를 대조 — '78센트'를 '78%'로 읽은 곳을 REVIEW_REQUIRED로 잡아냈다." },
+        { title: "모델은 실측해서 고른다", desc: "후보 모델을 직접 호출해 404 · 빈 응답 · 시간 초과 · JSON 오류를 확인하고, 통과한 모델만 남겼다." },
+      ],
+      overview: [
+        "\"금융 데이터가 틀리면 영상도 틀린다\" — 데이터 검증과 영상 제작을 한 프로그램으로 이었다",
+        "키움 · KB증권 API로 실제 계좌의 미국주식 배당을 받아와 기존 기록과 센트 단위까지 대조했다",
+      ],
+      decisions: [
+        {
+          decision: "Data Lock — 마감된 달만 제작",
+          why: "검증 · 확정 · 월 마감을 거친 숫자만 Content Package로 동결한다. 제작 단계는 숫자를 바꿀 수 없다.",
+        },
+        {
+          decision: "기존 기록을 자동으로 덮어쓰지 않음",
+          why: "수집값과 기존 기록이 다르면 차이를 보여주고, 사람이 결정하면 수정본과 결정 기록을 남긴다.",
+        },
+        {
+          decision: "업로드 자동화 없음",
+          why: "Final Lock으로 MP4 · 자막을 해시와 함께 고정하는 데까지가 프로그램, YouTube 업로드는 사람이 한다.",
+        },
+      ],
+      limits: [
+        "AI 이미지 · 영상 생성, TTS 연결, 자동 업로드는 설계상 제외 또는 나중 단계",
+        "쓸 수 있는 LLM이 실측 기준 한 종류뿐이라 대체 모델이 없음",
+      ],
+    },
   },
+  // 근거: Claude_Portable/Projects/P08 README.md · desktop_organizer/ai/provider.py, tests/ def test_ 88개,
+  // Data/P08_DesktopOrganizer/journal/operations.jsonl 107줄 (2026-10-03 사본 기준)
   {
     slug: "desktop-organizer",
-    hidden: true,
+    kind: "ai",
     title: "바탕화면 정리 프로그램",
+    category: "AI 파일 정리",
     featured: true,
+    summary: "바탕화면 파일을 분석해 프로젝트별 정리안을 제안하고, 승인한 것만 옮기는 Windows 도구",
+    aiRole: "AI는 분류 · 근거만 제안 — 파일을 옮기는 권한은 없음",
+    tech: ["Python", "표준 라이브러리만", "SQLite", "OpenAI 호환 LLM API", "unittest"],
+    status: "in-progress",
+    highlights: [
+      "스캔 → 분류 → 프로젝트 후보 → 중복 후보 → 정리안 (이 단계에선 파일 이동 없음)",
+      "미리보기 후 승인해야 실행, 언제든 실행 취소",
+      "\"지난달 영상 어디 있어?\" 같은 자연어 질문에 근거와 함께 답변",
+      "비정상 종료 후 실제 파일 위치를 확인해 자동 복구",
+    ],
+    detail: {
+      metrics: [
+        { value: "5단계", label: "Dry Run → 승인 → 실행 → 검증 → 기록" },
+        { value: "0개", label: "삭제 기능 (설계상 없음)" },
+        { value: "107줄", label: "실제 작업 저널 기록" },
+        { value: "88개", label: "테스트 함수" },
+      ],
+      aiUsage: [
+        { title: "AI에게 최소 정보만", desc: "파일 이름 · 확장자 · 크기 · 날짜 같은 메타데이터만 보내고, 결과는 정해진 JSON 형식으로만 받는다." },
+        { title: "지어내지 못하게", desc: "주어진 프로젝트 목록 밖의 값과 파일 경로는 출력할 수 없다. 근거가 부족하면 신뢰도를 낮게 매기게 했다." },
+        { title: "실행은 사람이", desc: "AI는 파일 API에 접근할 수 없고(아키텍처 테스트로 강제), 이동은 사용자가 미리보기 후 승인해야만 일어난다." },
+      ],
+      overview: [
+        "흩어진 작업 파일을 이해하고 정리안을 제안하는 1인용 파일 작업 공간",
+        "AI가 없어도 로컬 규칙만으로 동작하고, AI는 분류 정확도를 높이는 선택 기능",
+      ],
+      decisions: [
+        {
+          decision: "덮어쓰기 · 삭제 없음",
+          why: "os.rename만 쓰고 대상이 있으면 건너뛴다. 실행 직전 존재 · 크기 · 수정 시각 · 파일 ID · 잠김을 다시 확인한다.",
+        },
+        {
+          decision: "건드리지 않는 파일",
+          why: "폴더 · 바로가기 · 최근 3일 내 수정 파일 · 개발 프로젝트 폴더는 이동 제안을 하지 않는다.",
+        },
+      ],
+      limits: ["Windows 전용, 이 PC에서만 접근 가능한 로컬 프로그램"],
+    },
+  },
+  // 근거: Desktop/ThreadsGrowthSignal-main docs/OVERVIEW.md (2026-10-28) · AGENTS.md,
+  // git: 커밋 120개 중 Co-Authored-By: Claude 114개, 2026-10-21 ~ 10-30, *.test.ts 40개
+  {
+    slug: "threads-growth-signal",
+    kind: "ai",
+    title: "ThreadsGrowthSignal",
+    category: "SNS 운영 에이전트",
+    featured: true,
+    summary: "AI가 Threads 글 초안을 쓰고 검수하면, 사람이 글마다 승인해 게시하고 성과를 다음 글에 반영하는 운영 도구",
+    aiRole: "작성 AI · 검수 AI 분리 — AI 검수는 RED를 해제할 수 없음",
+    tech: ["TypeScript", "React", "Node.js", "SQLite", "NVIDIA API (LLM)", "Claude Code", "Threads API", "Vitest"],
+    status: "in-progress",
+    period: "2026.10 –",
+    highlights: [
+      "계획 → 전략 → 작성 → 플랫폼 검증 → 검수 → 수정 회차까지 에이전트 흐름",
+      "고지 문구 · 링크 · 길이 검증을 신호등(GREEN · YELLOW · RED)으로",
+      "사람이 승인한 글만 지금 게시 또는 예약, 계정별 하루 3건",
+      "Threads 지표 수집으로 첫 줄 패턴별 반응 비교",
+    ],
+    detail: {
+      metrics: [
+        { value: "95%", label: "커밋 중 Claude Code 공동 작성" },
+        { value: "120개", label: "커밋 (10/21 ~ 10/30)" },
+        { value: "40개", label: "테스트 파일" },
+        { value: "3건", label: "계정별 하루 게시 상한" },
+      ],
+      aiUsage: [
+        { title: "작성과 검수를 다른 AI로", desc: "작성 역할과 검수 역할을 나누고, 공급자가 실패하면 다음 공급자로 넘긴다." },
+        { title: "규칙이 AI보다 우선", desc: "규칙 검수가 RED를 내면 AI 검수는 지적을 더할 수만 있고 RED를 바꿀 수 없다." },
+        { title: "AI는 스스로 게시하지 않는다", desc: "사람이 글마다 승인해야 게시되고, 게시 직전 다시 검증한다. 자동 대량 게시는 영구 제외." },
+        { title: "AI 코딩 에이전트로 개발", desc: "AGENTS.md를 단일 규칙 원본으로 두고 요구사항 추적표 → 실패 테스트 → 구현 순서로 Claude Code와 개발했다." },
+      ],
+      overview: [
+        "Threads 계정 여러 개를 쿠팡 파트너스로 운영하는 1인 운영자를 위한 도구",
+        "정책 값(고지 문구 · 금지 표현 · 허용 도메인 · 한도)은 한 파일에만 두고, 바꾸면 버전을 올려 사람이 승인한다",
+      ],
+      limits: [
+        "작업 설계 · 전략 단계는 아직 고정 문장",
+        "이미지 게시는 공개 URL이 없어 미완성",
+        "성과를 전략에 반영하는 학습은 일부만 구현",
+      ],
+    },
   },
   {
     slug: "jarvis-mymemory",
