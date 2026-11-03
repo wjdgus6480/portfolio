@@ -15,6 +15,7 @@ export const projects: Project[] = [
     category: "관광 코스 AI",
     featured: true,
     summary: "공공데이터로 오늘 태종대에서 실제로 가능한 코스를 판단해 주는 관광 AI",
+    aiRole: "LLM 없이 설명 가능한 판단 엔진 — 할루시네이션 차단",
     logo: { src: "/projects/danubi-ai-logo.svg", alt: "다누비 AI 로고" },
     tech: ["Vanilla JS (ES Modules)", "외부 패키지 0개", "Node.js", "node:test", "SVG", "Web App Manifest", "공공데이터포털 CSV", "Netlify"],
     status: "live",
@@ -37,6 +38,12 @@ export const projects: Project[] = [
         { value: "3개", label: "플랜 동시 비교" },
         { value: "4개", label: "지원 언어" },
         { value: "105개", label: "자동 테스트" },
+      ],
+      aiUsage: [
+        { title: "왜 LLM을 쓰지 않았나", desc: "시간표 · 휴무처럼 틀리면 현장 피해가 나는 사실은 생성형 AI 대신 12단계 판단 엔진으로 처리했다." },
+        { title: "할루시네이션 차단", desc: "화면의 모든 문장을 엔진 결과와 공공데이터 레코드에서만 만든다. 지어낼 경로가 없다." },
+        { title: "설명 가능성", desc: "판단 과정과 탈락한 플랜의 이유를 '왜 이 결과인가'로 화면에 공개한다." },
+        { title: "정직한 불확실성", desc: "자료에 없는 값은 '확정 · 조건부 · 불가 · 자료 부족' 4단계로 표시한다." },
       ],
       overview: [
         "부산관광공사 AI데이터활용 공모전 수상작",
@@ -196,8 +203,9 @@ export const projects: Project[] = [
     category: "주거정책 판정",
     featured: true,
     summary: "부산 전월세 매물마다 내 조건으로 받을 수 있는 주거정책을 판정해 주는 서비스",
+    aiRole: "Claude Code와 1인 개발 — 설계 · 검증은 사람, 구현은 AI",
     logo: { src: "/projects/jipplan-logo.png", alt: "집플랜 로고" },
-    tech: ["Next.js 16", "React 19", "TypeScript", "MySQL · TiDB Cloud", "Tailwind CSS", "카카오맵 · 카카오 로그인", "Vitest", "Vercel"],
+    tech: ["Claude Code", "Next.js 16", "React 19", "TypeScript", "MySQL · TiDB Cloud", "Tailwind CSS", "카카오맵 · 카카오 로그인", "Vitest", "Vercel"],
     status: "in-progress",
     period: "2026.10 –",
     links: {
@@ -217,6 +225,12 @@ export const projects: Project[] = [
         { value: "19만+", label: "부산 주거용 건물 데이터" },
         { value: "104만+", label: "공동주택 공시가격(호)" },
         { value: "94개", label: "테스트 파일" },
+      ],
+      // 커밋 근거: 집플랜 저장소 origin/main, 191개 중 Co-Authored-By: Claude 151개, 2026-10-15 ~ 10-29
+      aiUsage: [
+        { title: "AI 코딩 에이전트와 개발", desc: "커밋 191개 중 151개(79%)를 Claude Code와 공동 작성 — 첫 커밋부터 15일(10/15 ~ 10/29)." },
+        { title: "사람이 정한 것", desc: "설계도 · 기능 점검표 · 오류 장부를 문서로 관리하고, 판정 엔진은 테스트를 먼저 쓴 뒤 구현을 맡겼다." },
+        { title: "판정 설계", desc: "확인할 수 없는 조건은 '추가 확인'으로 분리 — 틀린 '충족'이 가장 위험하다고 봤다." },
       ],
       overview: [
         "집을 고르는 순간 '이 집으로 내가 받을 수 있는 지원'을 바로 알려주는 서비스",
@@ -339,7 +353,7 @@ export const projects: Project[] = [
         metrics: [
           { value: "94", label: "테스트 파일" },
           { value: "35", label: "DB 마이그레이션" },
-          { value: "120", label: "커밋 (main)" },
+          { value: "191", label: "커밋 (origin/main)" },
           { value: "5", label: "데이터 영역 분리" },
         ],
         items: [
@@ -372,9 +386,10 @@ export const projects: Project[] = [
     category: "그로스 포스팅 에이전트",
     featured: true,
     summary: "검색 데이터로 기획하고, AI 에이전트가 글 · 이미지 · 검수까지 맡는 콘텐츠 그로스 시스템",
+    aiRole: "LLM 멀티 에이전트 — 글 · 이미지 · 검토 모델 분리",
     logo: { src: "/projects/genloom-logo.svg", alt: "Genloom 로고" },
-    tech: ["Python", "네이버 검색 · 데이터랩 API", "NVIDIA API (LLM)", "matplotlib", "Playwright", "Vanilla JS 대시보드", "unittest"],
-    status: "in-progress",
+    tech: ["Python", "네이버 검색 · 데이터랩 API", "NVIDIA API (LLM)", "Claude Code", "matplotlib", "Playwright", "Vanilla JS 대시보드", "unittest"],
+    status: "operating",
     period: "2026.10 –",
     links: {
       blog: "https://blog.naver.com/wjdgus6480",
@@ -388,14 +403,31 @@ export const projects: Project[] = [
       "발행만 사람이 — 자동 발행은 일부러 만들지 않음",
     ],
     detail: {
+      // 발행 편수 · 테스트 수는 저장소마다 값이 달라(사이트 14편·448개, GitHub 10편·96개) 확인 전까지 뺀다.
       metrics: [
-        { value: "14편", label: "실제 블로그 발행" },
+        { value: "4종", label: "LLM 비교 후 1종 채택" },
         { value: "3역할", label: "글 · 이미지 · 검토 모델 분리" },
-        { value: "448개", label: "파이썬 테스트" },
+        { value: "9단계", label: "키워드 → 발행 파이프라인" },
         { value: "0회", label: "자동 발행 (발행은 사람)" },
       ],
+      aiUsage: [
+        { title: "역할 분리", desc: "글 · 이미지 · 검토 모델을 나눠, 쓴 AI가 스스로 검증하지 않게 했다." },
+        { title: "모델 선정 실험", desc: "같은 브리프를 LLM 4종에 맡겨 같은 기준으로 채점 — 기간을 지어낸 모델은 탈락." },
+        { title: "오류 차단", desc: "AI는 차트 명세(JSON)만 쓰고 그림은 프로그램이 그린다. 브리프 밖 수치가 나오면 RED로 중단." },
+        { title: "사람의 결정", desc: "자동 발행은 없다. AI는 발행 묶음까지, 발행은 사람만 한다." },
+      ],
+      // 근거: NAVER_APP docs/MODEL_BAKEOFF.md (2026-10-10, 글 담당 비교)
+      modelEval: {
+        rows: [
+          { model: "DeepSeek V4.1 Flash", result: "채택", adopted: true, reason: "검수 오류 0, 계산값 4개 모두 '(계산)' 표시 · 검산 일치" },
+          { model: "Nemotron 3 Ultra", result: "탈락", reason: "브리프에 없는 기간(\"2024년 하반기~\")을 지어냄 → RED" },
+          { model: "GLM 5.3", result: "탈락", reason: "추론에 토큰을 다 써서 출력이 잘림" },
+          { model: "Kimi K3", result: "탈락", reason: "짧은 요청에도 90초 무응답" },
+        ],
+        note: "같은 검증된 사실 18개로 글 · 이미지 명세를 맡기고 같은 기준으로 채점. 검토 담당 시험에서는 AI가 지어낸 문장을 놓쳐, 사실 대조는 기계 검사(수치 대조)가 맡도록 바꿨다.",
+      },
       overview: [
-        "실제로 운영 중인 블로그 '복리인생'을 키우기 위해 만든 개인용 콘텐츠 그로스 시스템",
+        "실제로 운영 중인 블로그 '복리인생'을 키우기 위해 직접 만들어 운영하는 콘텐츠 그로스 시스템",
         "키워드 측정 → 기획 → AI 작성 · 이미지 → 검수 → 발행 준비까지 이어 붙이고, 사람은 승인과 발행만 맡는다",
       ],
       target: [
@@ -504,12 +536,7 @@ export const projects: Project[] = [
         "브라우저 임시저장은 사용자가 명령할 때만, 로그인 우회 · CAPTCHA 자동 해결은 금지",
       ],
       testing: {
-        metrics: [
-          { value: "448", label: "파이썬 테스트" },
-          { value: "35", label: "테스트 파일" },
-          { value: "0", label: "테스트 중 네트워크 호출" },
-          { value: "41", label: "커밋" },
-        ],
+        // 테스트 · 커밋 수는 저장소 기준이 달라 확인 전까지 뺀다 (기존 값: 테스트 448 · 파일 35 · 네트워크 호출 0 · 커밋 41)
         items: [
           "테스트는 네트워크 · 실제 키 · 실제 엑셀 없이 실행",
           "TDD 점검 도구로 '실패 확인 → 통과 → 전체 회귀' 순서를 기록",
@@ -519,7 +546,7 @@ export const projects: Project[] = [
       limits: [
         "채널이 네이버 블로그 하나",
         "성과 분석층은 설계만 — 수집 결과가 아직 한곳에 모이지 않음",
-        "개인 PC 로컬 전용, 외부 배포 계획 없음",
+        "로컬 PC에서 운영, 외부 배포 계획 없음",
       ],
       roadmap: [
         { title: "성과 분석층", desc: "수집 → 적재 → 주간 보고서 → 다음 주 키워드 후보" },
