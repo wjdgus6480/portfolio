@@ -16,6 +16,9 @@ export function Contact() {
       <h2 className="max-w-[16em] text-[clamp(2rem,4.5vw,3.25rem)] font-bold leading-[1.15] tracking-[-0.03em]">
         {title}
       </h2>
+      <p className="mt-4 text-lg font-semibold">
+        {profile.name} <span className="font-normal text-muted">· {profile.role}</span>
+      </p>
       {description && items.length > 0 && (
         <p className="mt-5 max-w-[34em] text-lg leading-relaxed text-muted">{description}</p>
       )}

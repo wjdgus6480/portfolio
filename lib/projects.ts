@@ -1,5 +1,5 @@
 import { projects as allProjects } from "@/content/projects";
-import type { Project, ProjectKind } from "@/content/types";
+import type { BackendEvidence, Project, ProjectKind } from "@/content/types";
 
 /** hidden 항목은 어디에도 내보내지 않는다 */
 const projects = allProjects.filter((project) => !project.hidden);
@@ -28,6 +28,23 @@ export function getProjectsUsing(tech: string): Project[] {
   return projects.filter((project) =>
     project.tech?.some((item) => item.toLowerCase() === target),
   );
+}
+
+/** 백엔드 증거(detail.backend)가 있는 첫 프로젝트 = Home의 Backend Proof · Architecture 출처 */
+export function getBackendProject(): { project: Project; backend: BackendEvidence } | undefined {
+  const project = projects.find((item) => item.detail?.backend);
+  return project?.detail?.backend ? { project, backend: project.detail.backend } : undefined;
+}
+
+/**
+ * 코드 근거 경로 → 링크. 공개 저장소(codeBase)가 있을 때만 주소를 만들고,
+ * 비공개 저장소이거나 와일드카드 경로면 undefined (화면에는 경로만 표시).
+ */
+export function codeHref(project: Pick<Project, "codeBase">, path: string): string | undefined {
+  if (!project.codeBase || path.includes("*")) return undefined;
+  const base = project.codeBase.replace(/\/$/, "");
+  const target = path.endsWith("/") ? base.replace("/blob/", "/tree/") + "/" + path.slice(0, -1) : `${base}/${path}`;
+  return encodeURI(target);
 }
 
 export function getAdjacentProjects(slug: string): {

@@ -18,12 +18,23 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const description = `${profile.name} · 백엔드 개발자 포트폴리오. ${profile.hero.description.replace(/\n/g, " ")}`;
+
+// metadataBase 를 따로 두지 않는다: Vercel 배포에서는 Next.js가 VERCEL_PROJECT_PRODUCTION_URL 로 OG 주소를 만든다.
 export const metadata: Metadata = {
   title: {
-    default: `${profile.name} — Portfolio`,
+    default: `${profile.name} — Backend Developer`,
     template: `%s — ${profile.name}`,
   },
-  description: profile.hero.description,
+  description,
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    siteName: `${profile.name} Portfolio`,
+    title: `${profile.name} — Backend Developer`,
+    description,
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

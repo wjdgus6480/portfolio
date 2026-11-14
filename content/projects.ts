@@ -9,12 +9,317 @@ import type { Project } from "./types";
  */
 export const projects: Project[] = [
   {
+    slug: "jipplan",
+    kind: "web",
+    title: "집플랜",
+    category: "주거정책 판정",
+    featured: true,
+    track: "Backend · Database",
+    focus:
+      "국토부 실거래 · 건축물대장 · 학교 등 공공데이터를 수집 · 검증해 MySQL 44개 테이블에 적재하고, 매물 × 내 조건 정책 판정을 서버 전용 모듈에서 계산해 API · Server Action으로 내보냅니다.",
+    cover: { src: "/projects/jipplan/02-map.png", alt: "집플랜 지도 — 부산 전월세 단지 마커와 학교 마커", caption: "지도 — 거래 단지 마커 · 학교 · 역", width: 349, height: 755 },
+    summary: "부산 전월세 매물마다 내 조건으로 받을 수 있는 주거정책을 판정해 주는 서비스",
+    brief: {
+      built: "부산 전월세 실거래 지도와, 매물마다 내 조건으로 받을 수 있는 주거정책을 판정하는 서버",
+      problem: "매물과 주거지원 정책이 따로 있어, 내 조건으로 이 집에서 받을 수 있는 정책을 판단하기 어렵다",
+      solution: "공공데이터를 수집 · 검증해 MySQL에 적재하고, 정책 판정을 서버 전용 모듈에서 계산해 Route Handler · Server Action으로 응답",
+      result: "실거래를 건물 필지에 직접 연결해 아파트 거래 지도 노출을 54%에서 99.97%로 올림",
+    },
+    evidence: [
+      { value: "54% → 99.97%", label: "아파트 거래 지도 노출 (PNU 연결)" },
+      { value: "987개", label: "단위 테스트 통과 (로컬 실행)" },
+      { value: "13개+", label: "실제 MySQL로 도는 저장소 통합 테스트" },
+      { value: "44 · 41", label: "테이블 · 마이그레이션" },
+    ],
+    logo: { src: "/projects/jipplan-logo.png", alt: "집플랜 로고" },
+    tech: ["Next.js 16", "React 19", "TypeScript", "MySQL · TiDB Cloud", "Tailwind CSS", "카카오맵 · 카카오 로그인", "Vitest", "Vercel"],
+    status: "in-progress",
+    period: "2026.10 –",
+    links: {
+      demo: "https://jipplan-two.vercel.app/",
+    },
+    highlights: [
+      "보증금·월세 조건으로 부산 전월세 실거래 단지를 지도에서 찾기",
+      "매물 마커마다 정책 판정 색 — 충족 · 추가 확인 · 미충족",
+      "단지 상세 — 전세·월세·매매 시세 추이, 역·학원 거리",
+      "학교 상세 — 학생 수·급식·방과후 + 반경 1km 전세 평균",
+      "정책마다 통과한 조건 · 빈 조건 · 접수 기간을 근거와 함께 표시",
+      "카카오·이메일 가입, 회원 조건 저장, 커뮤니티",
+    ],
+    detail: {
+      metrics: [
+        { value: "11개", label: "판정하는 주거지원 정책" },
+        { value: "19만+", label: "부산 주거용 건물 데이터" },
+        { value: "104만+", label: "공동주택 공시가격(호)" },
+        { value: "987개", label: "단위 테스트 통과 (로컬 실행)" },
+      ],
+      story: {
+        problem: [
+          "매물 앱과 정책 포털이 따로라, 계약한 뒤에야 지원 대상이 아니라는 걸 안다",
+          "같은 사람도 집(보증금 · 면적 · 유형)에 따라 받을 수 있는 정책이 바뀐다",
+        ],
+        cause: [
+          "정책 조건(소득 · 자산 · 나이 · 혼인 · 주택)이 정책마다 다르고 공고가 개정된다",
+          "실거래 데이터에 필지번호가 없어 건물 · 지도와 바로 연결되지 않는다 (아파트 거래 54%만 지도 노출)",
+        ],
+        solution: [
+          "공공데이터 수집 스크립트 → 검사 → 한 트랜잭션 적재 → 실거래를 필지(PNU)에 연결",
+          "판정은 src/server/judgment 의 순수 함수, DB 접근은 저장소 모듈 — 둘 다 서버 전용",
+          "조회는 Route Handler(GET), 저장 · 회원 작업은 Server Actions",
+        ],
+        verification: [
+          "단위 테스트 987개 통과 · 155개는 DB 필요로 건너뜀 (origin/main, 로컬 실행)",
+          "CI: 빈 MySQL 8.4에 마이그레이션부터 다시 만들고 저장소 통합 테스트 → build",
+        ],
+        result: [
+          "아파트 거래 지도 노출 54% → 99.97%",
+          "부산 지역 운영 중 — 사용자 · 트래픽 수치는 아직 공개하지 않음",
+        ],
+      },
+      backend: {
+        asOf: "origin/main 12d517f · 2026-10-29",
+        proof: [
+          { value: "44", label: "DB 테이블", basis: "마이그레이션의 CREATE TABLE 45 − DROP 1, 정적 확인", path: "db/migrations/" },
+          { value: "41", label: "마이그레이션", basis: "V1__ ~ V41__ SQL 파일 수", path: "db/migrations/" },
+          { value: "13", label: "Route Handler", basis: "route.ts 파일 수 (GET 12 · POST 1)", path: "src/app/api/" },
+          { value: "8", label: "Server Actions 파일", basis: "\"use server\" actions 파일 수", path: "src/app/" },
+          { value: "987", label: "단위 테스트 통과", basis: "vitest run 로컬 실행 · DB 테스트 155개 건너뜀" },
+          { value: "50 · 57", label: "FK · Index/Key", basis: "마이그레이션 SQL에서 정적 확인" },
+        ],
+        capabilities: [
+          { label: "MySQL 통합 테스트", detail: "저장소 13개 이상을 실제 MySQL에 붙여 검사", paths: ["src/server/members/mysql-repository.test.ts"] },
+          { label: "GitHub Actions CI", detail: "lint → 단위 → DB 통합 → build, main 병합 관문", paths: [".github/workflows/ci.yml"] },
+          { label: "인증 · 권한 · 감사 로그", detail: "카카오 OAuth, scrypt, 로그인 제한, 권한 매트릭스, 관리자 감사 로그", paths: ["src/server/auth/", "src/server/audit/"] },
+          { label: "공공데이터 수집 · 적재", detail: "수집 스크립트 18개 → 검사 → 트랜잭션 적재 → --dry-run", paths: ["scripts/fetch/", "scripts/load/"] },
+        ],
+        dataFlow: ["Public Data", "Validation", "Database", "Server Logic", "API · Server Action", "User Response"],
+        layers: [
+          {
+            name: "Route Handler · Server Actions",
+            role: "요청 입구. 쿼리 · 폼을 파싱해 틀리면 400, 세션 · 회원 확인, 응답 모양 결정",
+            paths: ["src/app/api/**/route.ts", "src/app/**/actions.ts"],
+          },
+          {
+            name: "Server Logic (src/server/*)",
+            role: "판정 · 권한 · 지도 · 회원 도메인 로직. 판정은 DB와 분리된 순수 함수라 단위 테스트",
+            paths: ["src/server/judgment/", "src/server/auth/", "src/server/map/"],
+          },
+          {
+            name: "Repository",
+            role: "도메인별 저장소 모듈. mysql2로 직접 작성한 SQL, 일부는 인터페이스 + MySQL 구현",
+            paths: ["src/server/*/repository.ts", "src/server/audit/index.ts"],
+          },
+          {
+            name: "MySQL",
+            role: "마이그레이션으로 관리하는 스키마. 접속 풀은 server-only 모듈 하나",
+            paths: ["db/migrations/", "src/server/db/pool.ts"],
+          },
+        ],
+        api: [
+          { method: "GET", path: "/api/map/markers", purpose: "지도 범위 안 단지 마커 + 정책 판정 색" },
+          { method: "GET", path: "/api/map/parcels/[pnu]", purpose: "단지(필지) 상세 — 공개 실거래" },
+          { method: "GET", path: "/api/map/parcels/[pnu]/policies", purpose: "이 집에서 받을 수 있는 정책 판정 · 지원액" },
+          { method: "GET", path: "/api/map/schools", purpose: "범위 안 초 · 중 · 고" },
+          { method: "GET", path: "/api/map/schools/[code]", purpose: "학교 상세" },
+          { method: "GET", path: "/api/map/stations", purpose: "도시철도역 전체" },
+          { method: "GET", path: "/api/map/academies", purpose: "범위 안 학원가" },
+          { method: "GET", path: "/api/map/academies/building", purpose: "건물 하나의 학원 목록" },
+          { method: "GET", path: "/api/community/images/[id]", purpose: "커뮤니티 본문 사진" },
+          { method: "GET", path: "/auth/kakao", purpose: "카카오 로그인 시작" },
+          { method: "GET", path: "/auth/kakao/callback", purpose: "카카오 로그인 콜백" },
+          { method: "POST", path: "/auth/logout", purpose: "로그아웃" },
+          { method: "GET", path: "/auth/session-end", purpose: "막힌 회원 세션 정리" },
+        ],
+        actions: [
+          { path: "src/app/signup/actions.ts", purpose: "가입" },
+          { path: "src/app/signup/email-actions.ts", purpose: "이메일 인증" },
+          { path: "src/app/login/actions.ts", purpose: "이메일 로그인" },
+          { path: "src/app/profile/actions.ts", purpose: "내 조건 저장" },
+          { path: "src/app/diagnosis/[code]/actions.ts", purpose: "정책 확인 · 진단 기록" },
+          { path: "src/app/community/actions.ts", purpose: "글 · 댓글" },
+          { path: "src/app/mypage/account-actions.ts", purpose: "계정 관리" },
+          { path: "src/app/admin/actions.ts", purpose: "관리자 작업 · 감사 로그" },
+        ],
+        tables: [
+          { domain: "공공데이터", prefix: "pub_", count: 16, examples: ["pub_rent_trades", "pub_buildings", "pub_map_parcels"] },
+          { domain: "사용자", prefix: "user_", count: 9, examples: ["user_accounts", "user_profiles", "user_login_failures"] },
+          { domain: "정책 규칙", prefix: "policy_", count: 8, examples: ["policy_versions", "policy_rules", "policy_tracks"] },
+          { domain: "커뮤니티", prefix: "community_", count: 5, examples: ["community_posts", "community_comments"] },
+          { domain: "판정 결과", prefix: "judgment_", count: 2, examples: ["judgment_runs", "judgment_items"] },
+          { domain: "매물 · 검증 자료 · 운영", prefix: "기타", count: 4, examples: ["listing_items", "evidence_sources", "admin_audit_logs", "guest_lookups"] },
+        ],
+      },
+      overview: [
+        "집을 고르는 순간 '이 집으로 내가 받을 수 있는 지원'을 바로 알려주는 서비스",
+        "공공데이터 수집 → DB 적재 → 지도 · 판정 엔진 · 회원까지 1인 개발, 현재 부산 지역 운영 중",
+      ],
+      target: [
+        { label: "핵심 타깃", value: "부산에서 전월세 집을 구하는 청년 · 신혼부부 · 아이 있는 가구" },
+        { label: "핵심 질문", value: "\"이 집 계약하면 나는 어떤 대출·지원을 받을 수 있지?\"" },
+        { label: "목표", value: "매물을 보는 그 자리에서 받을 수 있는 정책과 이유를 확인하게 한다" },
+      ],
+      market: {
+        customer: [
+          "정책은 많은데 소득·자산·나이·혼인·주택 조건이 정책마다 다름",
+          "같은 사람도 집(보증금·면적)에 따라 자격이 바뀜",
+          "매물 찾기와 정책 찾기를 따로 하다 계약 뒤에 못 받는 걸 앎",
+        ],
+        competitor: [
+          { name: "부동산 시세·매물 앱", limit: "시세·매물은 강하지만 내 정책 자격은 알려주지 않음" },
+          { name: "정부 정책 포털", limit: "정책 목록은 있지만 특정 매물과 연결해 판정하지 않음" },
+          { name: "블로그·커뮤니티", limit: "정보가 흩어져 있고 기준이 바뀌면 낡은 정보가 남음" },
+        ],
+        company: [
+          "공공데이터 10종 이상을 수집 · 정제 · 연결한 경험",
+          "규칙 기반 판정 엔진 — 근거와 접수 기간까지 계산",
+          "GA4 + 자체 운영 통계로 퍼널 단계별 측정 구조",
+        ],
+        insight: "매물 앱과 정책 포털 사이의 빈칸 — '이 집 + 나' 조합으로 판정해 주는 자리를 노렸다.",
+      },
+      beforeAfter: {
+        before: [
+          "정책 공고문을 하나씩 읽고 내 조건과 대조",
+          "매물 앱에서 집을 고른 뒤 따로 자격 확인",
+          "접수 기간을 놓치거나 계약 뒤에 조건 미달을 앎",
+        ],
+        after: [
+          "내 조건 한 번 저장 → 매물마다 판정 색 표시",
+          "정책별로 통과 · 미충족 · 추가 확인 조건을 근거와 함께",
+          "접수 상태(예정 · 진행중 · 마감 · 상시)를 함께 표시",
+        ],
+      },
+      flow: [
+        "보증금·월세 조건으로 매물 찾기",
+        "지도에서 단지 · 학교 · 역 확인",
+        "내 조건 입력 (가입 3단계, 건너뛰기 가능)",
+        "정책별 판정 + 근거 + 접수 기간",
+      ],
+      screens: [
+        { src: "/projects/jipplan/01-home.png", alt: "집플랜 홈 — 전세·월세 보증금 조건으로 매물 찾기", caption: "홈 — 조건부터 넣고 바로 지도로" },
+        { src: "/projects/jipplan/02-map.png", alt: "부산 지도 위 전월세 단지 마커와 학교 마커", caption: "지도 — 거래 단지 마커 · 학교 · 역" },
+        { src: "/projects/jipplan/03-complex.png", alt: "단지 상세 패널 — 세대수, 역·학원 거리, 전세 3개월 평균과 변동률", caption: "단지 상세 — 시세 · 변동 · 주변 정보" },
+        { src: "/projects/jipplan/04-policies.png", alt: "지원 가능한 정책 목록 — 정책별 접수 상태 표시", caption: "정책 목록 — 접수 상태까지 한눈에" },
+      ],
+      funnel: {
+        stages: [
+          { stage: "Acquisition", tactic: "'청년 전세대출 조건' 같은 정책 키워드 검색 유입, 커뮤니티 정보 글", metric: "GA4 · 유입 경로 · 신규 방문" },
+          { stage: "Activation", tactic: "가입 없이 지도 탐색 → 내 조건 입력 → 첫 판정 결과", metric: "운영 통계 · 가입 → 판정 전환" },
+          { stage: "Retention", tactic: "접수 기간이 열릴 때 다시 확인, 이사 시즌 재방문", metric: "GA4 재방문 · 활동 회원 수" },
+          { stage: "Revenue", tactic: "금융·중개 제휴, 지자체 정책 홍보 채널(B2G)", metric: "제휴 전환" },
+          { stage: "Referral", tactic: "커뮤니티 후기 · 판정 결과 공유", metric: "GA4 · 추천 유입 · 글·댓글 수" },
+        ],
+        note: "※ 측정 도구(GA4 · 운영 통계)는 연결돼 있고, 운영 초기라 공개할 수치는 아직 없습니다. 전략 칸은 가설입니다.",
+      },
+      analytics: [
+        {
+          decision: "구글 애널리틱스 4 (GA4)",
+          why: "방문 · 유입 경로 · 페이지 이동을 측정. 측정 ID가 설정된 환경에서만 켜지도록 만들었다.",
+        },
+        {
+          decision: "자체 운영 통계 (관리자 화면)",
+          why: "가입 · 활동 회원 · 로그인 방식 · 글 · 댓글 · 회원/비회원 판정 수를 일 · 주 · 월 단위로 DB에서 직접 집계.",
+        },
+        {
+          decision: "방문은 GA4, 전환은 DB",
+          why: "핵심 전환인 '판정'은 서버에서 정확히 센다. 광고 차단이나 쿠키 거부에 숫자가 흔들리지 않는다.",
+        },
+        {
+          decision: "개인정보를 남기지 않는 활동 기록",
+          why: "회원별 가입 · 로그인 · 글 · 판정 이력은 보되, 소득 · 자산 같은 판정 입력값은 내보내지 않는다. 오류로 보이는 판정은 통계에서 빼 숫자가 부풀지 않게 했다.",
+        },
+      ],
+      architecture: [
+        "공공 API 수집",
+        "원본 보관",
+        "검사 · 적재",
+        "필지(PNU) 연결",
+        "지도 · 시세",
+        "판정 엔진",
+        "근거 · 접수 상태",
+      ],
+      decisions: [
+        {
+          decision: "판정은 3색 — 충족 · 추가 확인 · 미충족",
+          why: "확인할 수 없는 값이나 검증 안 된 규칙은 통과해도 '추가 확인'. 틀린 '충족'이 가장 위험하다고 봤다.",
+        },
+        {
+          decision: "기준일(asOf)을 받는 판정",
+          why: "같은 입력이면 언제 실행해도 같은 결과. 시행 기간별 규칙 버전을 골라 정책 개정에도 과거 판정을 재현할 수 있다.",
+        },
+        {
+          decision: "데이터 영역 5개 분리",
+          why: "사용자 · 매물 · 정책 규칙 · 검증 자료 · 공공데이터가 서로 직접 고치지 않고 '판정 결과'에서만 만난다. 정책 원본 수치는 관리자 전용으로 서버 밖에 나가지 않는다.",
+        },
+        {
+          decision: "판정 시 공공 API를 다시 부르지 않음",
+          why: "수집은 스크립트가 미리, 판정은 DB만 읽는다. 외부 API 장애·호출 한도가 사용자 화면에 영향을 주지 않는다.",
+        },
+        {
+          decision: "보안을 처음부터",
+          why: "비밀번호 scrypt 해시, 인증번호 HMAC 저장, 로그인 실패 횟수 제한, Turnstile, 역할 권한 한 곳 관리, 관리자 감사 로그.",
+        },
+      ],
+      implementation: [
+        "Next.js 16 App Router + 서버 전용 모듈로 판정 · DB 접근을 서버에만 둠",
+        "국토부 실거래 · 건축물대장 · 공동주택가격 · 학교알리미 · 도시철도역 등 수집 스크립트 → MySQL 적재, 매일 자동 갱신",
+        "실거래를 건물 필지(PNU)에 연결 — 아파트 거래 지도 노출 54% → 99.97%",
+        "지도는 화면 범위별로 마커를 불러오고(최대 500곳) 겹치면 묶음 표시",
+        "DB 스키마는 마이그레이션 41개로 관리, 배포 DB는 TiDB Cloud",
+      ],
+      testing: {
+        metrics: [
+          { value: "114", label: "테스트 파일" },
+          { value: "41", label: "DB 마이그레이션" },
+          { value: "191", label: "커밋 (main)" },
+          { value: "5", label: "데이터 영역 분리" },
+        ],
+        items: [
+          "단위 테스트 987개 통과 · DB 통합 테스트 155개는 MySQL이 필요해 로컬 실행에서 건너뜀 (CI에서 실행)",
+          "판정 엔진을 TDD로 — 연산자 · 트랙 · 접수 기간 · 규칙 버전 선택을 테스트로 고정",
+          "회원 · 지도 · 커뮤니티 저장소는 실제 MySQL에 붙여 따로 검사",
+          "적재 스크립트는 '검사 → 한 트랜잭션 적재 → 미리보기(--dry-run)' 순서",
+        ],
+      },
+      limits: [
+        "부산 지역만 운영",
+        "정책 수치는 사람이 공고문을 확인해 넣음 — 자동 반영은 아직 없음",
+        "운영 초기 — 측정은 시작했지만 퍼널 수치는 아직 쌓는 중",
+      ],
+      roadmap: [
+        { title: "통합 진단", desc: "정책을 하나씩이 아니라 한 번에 진단, 비회원도 가능하게" },
+        { title: "전세가율 판정", desc: "매매가 대비 보증금으로 깡통전세 위험 표시" },
+        { title: "지도 필터 확장", desc: "건폐율 · 용적률 · 주차 · 갭가격" },
+        { title: "다른 지역 확장", desc: "부산에서 검증한 구조로 지역 데이터만 추가" },
+      ],
+      learnings: [
+        "데이터를 모으는 것보다 서로 연결하는 일(필지 매칭)이 서비스 품질을 결정했다",
+        "확인할 수 없는 조건을 '추가 확인'으로 분리해야 판정 결과를 믿고 쓸 수 있다",
+      ],
+    },
+  },
+  {
     slug: "danubi-ai",
     kind: "web",
     title: "다누비 AI",
     category: "관광 코스 AI",
     featured: true,
+    track: "Data · Business Logic",
+    focus:
+      "공공데이터를 검증해 쓸 수 있는 것만 남기고, 휴관 · 막차 같은 제약을 규칙 엔진으로 판정해 통과 · 조건부 · 불가 · 자료 부족을 명시적으로 구분합니다. 서버 없이 브라우저에서 실행됩니다.",
+    cover: { src: "/projects/danubi-ai/03-reasoning.png", alt: "다누비 AI 판단 근거 화면 — 운영 조건 확인부터 추천까지 5단계", caption: "판단 근거 — 운영 조건 → 명소 거르기 → 비교 → 재검증", width: 750, height: 1624 },
     summary: "공공데이터로 오늘 태종대에서 실제로 가능한 코스를 판단해 주는 관광 AI",
+    brief: {
+      built: "도착 시각과 날짜를 넣으면 오늘 태종대에서 실제로 가능한 코스를 판단하는 서비스",
+      problem: "시간표 · 휴무가 날마다 다르고, 공공데이터 '운행정보'를 검증해 보니 실측값이 아니었다",
+      solution: "검증에 실패한 데이터는 제외하고, 휴관 · 막차 같은 제약을 명시적인 규칙으로 판정 — 통과 · 조건부 · 불가 · 자료 부족",
+      result: "판단 과정을 12단계 로그로 화면에 공개, 부산관광공사 AI데이터활용 공모전 수상",
+    },
+    evidence: [
+      { value: "수상", label: "부산관광공사 AI데이터활용 공모전" },
+      { value: "4단계", label: "통과 · 조건부 · 불가 · 자료 부족" },
+      { value: "105개", label: "자동 테스트 통과 (로컬 실행)" },
+      { value: "480 × 3", label: "입력 조합 × 시나리오 불변식 테스트" },
+    ],
     logo: { src: "/projects/danubi-ai-logo.svg", alt: "다누비 AI 로고" },
     tech: ["Vanilla JS (ES Modules)", "외부 패키지 0개", "Node.js", "node:test", "SVG", "Web App Manifest", "공공데이터포털 CSV", "Netlify"],
     status: "live",
@@ -38,6 +343,28 @@ export const projects: Project[] = [
         { value: "4개", label: "지원 언어" },
         { value: "105개", label: "자동 테스트" },
       ],
+      story: {
+        problem: [
+          "오후에 도착한 관광객이 \"지금 들어가면 다 보고 나올 수 있나\"를 현장에서 판단하기 어렵다",
+        ],
+        cause: [
+          "다누비 시간표가 평일 · 휴일 · 성수기마다 다르고 월요일 휴무, 정류장별 도착시각은 공식 자료에 없다",
+          "공공데이터 \"운행정보 및 도착시간\"을 검증해 보니 실측값이 아니었다",
+        ],
+        solution: [
+          "검증한 공공데이터 3종만 사용, 원본 CSV는 sha256으로 고정하고 스크립트로 런타임 데이터 생성",
+          "게이트(통과/불통과)로 먼저 거른 뒤 점수 — 판정은 통과 · 조건부 · 불가 · 자료 부족",
+          "LLM 없이 규칙 엔진 + 템플릿 문장, 엔진은 브라우저와 Node(테스트)가 같은 모듈을 사용",
+        ],
+        verification: [
+          "테스트 105개 전부 통과 (로컬 실행)",
+          "480개 입력 조합 × 3개 시나리오 불변식 — 휴관 명소가 추천에 섞이지 않고 항상 채택안이 있다",
+        ],
+        result: [
+          "부산관광공사 AI데이터활용 공모전 수상 — 2차 발표에서 현장 시연",
+          "같은 조건도 날짜에 따라 판정이 바뀜을 시연 (9/19 가능 · 10/17 불가)",
+        ],
+      },
       overview: [
         "부산관광공사 AI데이터활용 공모전 수상작",
         "QR 한 번이면 '오늘, 지금 도착한 나'에게 가능한 태종대 코스를 알려주는 모바일 웹",
@@ -190,188 +517,28 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: "jipplan",
-    kind: "web",
-    title: "집플랜",
-    category: "주거정책 판정",
-    featured: true,
-    summary: "부산 전월세 매물마다 내 조건으로 받을 수 있는 주거정책을 판정해 주는 서비스",
-    logo: { src: "/projects/jipplan-logo.png", alt: "집플랜 로고" },
-    tech: ["Next.js 16", "React 19", "TypeScript", "MySQL · TiDB Cloud", "Tailwind CSS", "카카오맵 · 카카오 로그인", "Vitest", "Vercel"],
-    status: "in-progress",
-    period: "2026.10 –",
-    links: {
-      demo: "https://jipplan-two.vercel.app/",
-    },
-    highlights: [
-      "보증금·월세 조건으로 부산 전월세 실거래 단지를 지도에서 찾기",
-      "매물 마커마다 정책 판정 색 — 충족 · 추가 확인 · 미충족",
-      "단지 상세 — 전세·월세·매매 시세 추이, 역·학원 거리",
-      "학교 상세 — 학생 수·급식·방과후 + 반경 1km 전세 평균",
-      "정책마다 통과한 조건 · 빈 조건 · 접수 기간을 근거와 함께 표시",
-      "카카오·이메일 가입, 회원 조건 저장, 커뮤니티",
-    ],
-    detail: {
-      metrics: [
-        { value: "11개", label: "판정하는 주거지원 정책" },
-        { value: "19만+", label: "부산 주거용 건물 데이터" },
-        { value: "104만+", label: "공동주택 공시가격(호)" },
-        { value: "94개", label: "테스트 파일" },
-      ],
-      overview: [
-        "집을 고르는 순간 '이 집으로 내가 받을 수 있는 지원'을 바로 알려주는 서비스",
-        "공공데이터 수집 → DB 적재 → 지도 · 판정 엔진 · 회원까지 1인 개발, 현재 부산 지역 운영 중",
-      ],
-      target: [
-        { label: "핵심 타깃", value: "부산에서 전월세 집을 구하는 청년 · 신혼부부 · 아이 있는 가구" },
-        { label: "핵심 질문", value: "\"이 집 계약하면 나는 어떤 대출·지원을 받을 수 있지?\"" },
-        { label: "목표", value: "매물을 보는 그 자리에서 받을 수 있는 정책과 이유를 확인하게 한다" },
-      ],
-      market: {
-        customer: [
-          "정책은 많은데 소득·자산·나이·혼인·주택 조건이 정책마다 다름",
-          "같은 사람도 집(보증금·면적)에 따라 자격이 바뀜",
-          "매물 찾기와 정책 찾기를 따로 하다 계약 뒤에 못 받는 걸 앎",
-        ],
-        competitor: [
-          { name: "부동산 시세·매물 앱", limit: "시세·매물은 강하지만 내 정책 자격은 알려주지 않음" },
-          { name: "정부 정책 포털", limit: "정책 목록은 있지만 특정 매물과 연결해 판정하지 않음" },
-          { name: "블로그·커뮤니티", limit: "정보가 흩어져 있고 기준이 바뀌면 낡은 정보가 남음" },
-        ],
-        company: [
-          "공공데이터 10종 이상을 수집 · 정제 · 연결한 경험",
-          "규칙 기반 판정 엔진 — 근거와 접수 기간까지 계산",
-          "GA4 + 자체 운영 통계로 퍼널 단계별 측정 구조",
-        ],
-        insight: "매물 앱과 정책 포털 사이의 빈칸 — '이 집 + 나' 조합으로 판정해 주는 자리를 노렸다.",
-      },
-      beforeAfter: {
-        before: [
-          "정책 공고문을 하나씩 읽고 내 조건과 대조",
-          "매물 앱에서 집을 고른 뒤 따로 자격 확인",
-          "접수 기간을 놓치거나 계약 뒤에 조건 미달을 앎",
-        ],
-        after: [
-          "내 조건 한 번 저장 → 매물마다 판정 색 표시",
-          "정책별로 통과 · 미충족 · 추가 확인 조건을 근거와 함께",
-          "접수 상태(예정 · 진행중 · 마감 · 상시)를 함께 표시",
-        ],
-      },
-      flow: [
-        "보증금·월세 조건으로 매물 찾기",
-        "지도에서 단지 · 학교 · 역 확인",
-        "내 조건 입력 (가입 3단계, 건너뛰기 가능)",
-        "정책별 판정 + 근거 + 접수 기간",
-      ],
-      screens: [
-        { src: "/projects/jipplan/01-home.png", alt: "집플랜 홈 — 전세·월세 보증금 조건으로 매물 찾기", caption: "홈 — 조건부터 넣고 바로 지도로" },
-        { src: "/projects/jipplan/02-map.png", alt: "부산 지도 위 전월세 단지 마커와 학교 마커", caption: "지도 — 거래 단지 마커 · 학교 · 역" },
-        { src: "/projects/jipplan/03-complex.png", alt: "단지 상세 패널 — 세대수, 역·학원 거리, 전세 3개월 평균과 변동률", caption: "단지 상세 — 시세 · 변동 · 주변 정보" },
-        { src: "/projects/jipplan/04-policies.png", alt: "지원 가능한 정책 목록 — 정책별 접수 상태 표시", caption: "정책 목록 — 접수 상태까지 한눈에" },
-      ],
-      funnel: {
-        stages: [
-          { stage: "Acquisition", tactic: "'청년 전세대출 조건' 같은 정책 키워드 검색 유입, 커뮤니티 정보 글", metric: "GA4 · 유입 경로 · 신규 방문" },
-          { stage: "Activation", tactic: "가입 없이 지도 탐색 → 내 조건 입력 → 첫 판정 결과", metric: "운영 통계 · 가입 → 판정 전환" },
-          { stage: "Retention", tactic: "접수 기간이 열릴 때 다시 확인, 이사 시즌 재방문", metric: "GA4 재방문 · 활동 회원 수" },
-          { stage: "Revenue", tactic: "금융·중개 제휴, 지자체 정책 홍보 채널(B2G)", metric: "제휴 전환" },
-          { stage: "Referral", tactic: "커뮤니티 후기 · 판정 결과 공유", metric: "GA4 · 추천 유입 · 글·댓글 수" },
-        ],
-        note: "※ 측정 도구(GA4 · 운영 통계)는 연결돼 있고, 운영 초기라 공개할 수치는 아직 없습니다. 전략 칸은 가설입니다.",
-      },
-      analytics: [
-        {
-          decision: "구글 애널리틱스 4 (GA4)",
-          why: "방문 · 유입 경로 · 페이지 이동을 측정. 측정 ID가 설정된 환경에서만 켜지도록 만들었다.",
-        },
-        {
-          decision: "자체 운영 통계 (관리자 화면)",
-          why: "가입 · 활동 회원 · 로그인 방식 · 글 · 댓글 · 회원/비회원 판정 수를 일 · 주 · 월 단위로 DB에서 직접 집계.",
-        },
-        {
-          decision: "방문은 GA4, 전환은 DB",
-          why: "핵심 전환인 '판정'은 서버에서 정확히 센다. 광고 차단이나 쿠키 거부에 숫자가 흔들리지 않는다.",
-        },
-        {
-          decision: "개인정보를 남기지 않는 활동 기록",
-          why: "회원별 가입 · 로그인 · 글 · 판정 이력은 보되, 소득 · 자산 같은 판정 입력값은 내보내지 않는다. 오류로 보이는 판정은 통계에서 빼 숫자가 부풀지 않게 했다.",
-        },
-      ],
-      architecture: [
-        "공공 API 수집",
-        "원본 보관",
-        "검사 · 적재",
-        "필지(PNU) 연결",
-        "지도 · 시세",
-        "판정 엔진",
-        "근거 · 접수 상태",
-      ],
-      decisions: [
-        {
-          decision: "판정은 3색 — 충족 · 추가 확인 · 미충족",
-          why: "확인할 수 없는 값이나 검증 안 된 규칙은 통과해도 '추가 확인'. 틀린 '충족'이 가장 위험하다고 봤다.",
-        },
-        {
-          decision: "기준일(asOf)을 받는 판정",
-          why: "같은 입력이면 언제 실행해도 같은 결과. 시행 기간별 규칙 버전을 골라 정책 개정에도 과거 판정을 재현할 수 있다.",
-        },
-        {
-          decision: "데이터 영역 5개 분리",
-          why: "사용자 · 매물 · 정책 규칙 · 검증 자료 · 공공데이터가 서로 직접 고치지 않고 '판정 결과'에서만 만난다. 정책 원본 수치는 관리자 전용으로 서버 밖에 나가지 않는다.",
-        },
-        {
-          decision: "판정 시 공공 API를 다시 부르지 않음",
-          why: "수집은 스크립트가 미리, 판정은 DB만 읽는다. 외부 API 장애·호출 한도가 사용자 화면에 영향을 주지 않는다.",
-        },
-        {
-          decision: "보안을 처음부터",
-          why: "비밀번호 scrypt 해시, 인증번호 HMAC 저장, 로그인 실패 횟수 제한, Turnstile, 역할 권한 한 곳 관리, 관리자 감사 로그.",
-        },
-      ],
-      implementation: [
-        "Next.js 16 App Router + 서버 전용 모듈로 판정 · DB 접근을 서버에만 둠",
-        "국토부 실거래 · 건축물대장 · 공동주택가격 · 학교알리미 · 도시철도역 등 수집 스크립트 → MySQL 적재, 매일 자동 갱신",
-        "실거래를 건물 필지(PNU)에 연결 — 아파트 거래 지도 노출 54% → 99.97%",
-        "지도는 화면 범위별로 마커를 불러오고(최대 500곳) 겹치면 묶음 표시",
-        "DB 스키마는 마이그레이션 35개로 관리, 배포 DB는 TiDB Cloud",
-      ],
-      testing: {
-        metrics: [
-          { value: "94", label: "테스트 파일" },
-          { value: "35", label: "DB 마이그레이션" },
-          { value: "120", label: "커밋 (main)" },
-          { value: "5", label: "데이터 영역 분리" },
-        ],
-        items: [
-          "판정 엔진을 TDD로 — 연산자 · 트랙 · 접수 기간 · 규칙 버전 선택을 테스트로 고정",
-          "회원 · 지도 · 커뮤니티 저장소는 실제 MySQL에 붙여 따로 검사",
-          "적재 스크립트는 '검사 → 한 트랜잭션 적재 → 미리보기(--dry-run)' 순서",
-        ],
-      },
-      limits: [
-        "부산 지역만 운영",
-        "정책 수치는 사람이 공고문을 확인해 넣음 — 자동 반영은 아직 없음",
-        "운영 초기 — 측정은 시작했지만 퍼널 수치는 아직 쌓는 중",
-      ],
-      roadmap: [
-        { title: "통합 진단", desc: "정책을 하나씩이 아니라 한 번에 진단, 비회원도 가능하게" },
-        { title: "전세가율 판정", desc: "매매가 대비 보증금으로 깡통전세 위험 표시" },
-        { title: "지도 필터 확장", desc: "건폐율 · 용적률 · 주차 · 갭가격" },
-        { title: "다른 지역 확장", desc: "부산에서 검증한 구조로 지역 데이터만 추가" },
-      ],
-      learnings: [
-        "데이터를 모으는 것보다 서로 연결하는 일(필지 매칭)이 서비스 품질을 결정했다",
-        "확인할 수 없는 조건을 '추가 확인'으로 분리해야 판정 결과를 믿고 쓸 수 있다",
-      ],
-    },
-  },
-  {
     slug: "genloom",
     kind: "ai",
     title: "Genloom",
     category: "그로스 포스팅 에이전트",
     featured: true,
+    track: "AI · Automation",
+    focus:
+      "검색 데이터로 기획한 브리프 하나를 글 · 이미지 · 검토 모델이 이어받고, 규칙 검수가 RED면 멈춥니다. 발행은 사람만 합니다.",
+    cover: { src: "/projects/genloom/02-dividend-chart.png", alt: "JPM 분기 배당 막대 차트 — AI가 쓴 명세로 프로그램이 그린 이미지", caption: "AI가 쓴 명세로 프로그램이 그린 차트", width: 1200, height: 700 },
     summary: "검색 데이터로 기획하고, AI 에이전트가 글 · 이미지 · 검수까지 맡는 콘텐츠 그로스 시스템",
+    brief: {
+      built: "검색 데이터로 기획한 브리프를 글 · 이미지 · 검토 모델이 이어받는 블로그 콘텐츠 시스템",
+      problem: "AI 글쓰기 도구는 검색 데이터 · 사실 검증과 끊겨 있고, 그대로 올리면 틀린 내용이 발행된다",
+      solution: "역할별 모델 분리, 규칙 검수가 RED면 멈추고, 발행은 사람만 — AI가 생성하되 기준은 시스템과 사람이 정함",
+      result: "실제 블로그 14편 발행, 자동 발행 0회",
+    },
+    evidence: [
+      { value: "14편", label: "실제 블로그 발행" },
+      { value: "0회", label: "자동 발행 (발행은 사람)" },
+      { value: "448개", label: "파이썬 테스트" },
+      { value: "3역할", label: "글 · 이미지 · 검토 모델 분리" },
+    ],
     logo: { src: "/projects/genloom-logo.svg", alt: "Genloom 로고" },
     tech: ["Python", "네이버 검색 · 데이터랩 API", "NVIDIA API (LLM)", "matplotlib", "Playwright", "Vanilla JS 대시보드", "unittest"],
     status: "in-progress",
@@ -394,6 +561,25 @@ export const projects: Project[] = [
         { value: "448개", label: "파이썬 테스트" },
         { value: "0회", label: "자동 발행 (발행은 사람)" },
       ],
+      story: {
+        problem: [
+          "블로그 한 편마다 키워드 조사 · 작성 · 이미지 · 검수를 혼자 반복한다",
+        ],
+        cause: [
+          "AI 글쓰기 도구는 검색 데이터 · 사실 검증과 끊겨 있고, 이미지 생성 모델은 한글 · 숫자가 깨진다",
+        ],
+        solution: [
+          "네이버 API로 키워드 기회지수 측정 → 브리프(사실 · 출처 · 기준일)를 글 · 이미지 · 검토 모델이 이어받음",
+          "이미지는 AI가 차트 명세(JSON)만 쓰고 프로그램이 그림",
+          "GREEN · YELLOW · RED 규칙 게이트, RED면 자동으로 멈춤 · 발행은 사람",
+        ],
+        verification: [
+          "파이썬 테스트 448개 · 테스트 중 네트워크 호출 0회",
+        ],
+        result: [
+          "실제 블로그 14편 발행 — 자동 발행 0회",
+        ],
+      },
       overview: [
         "실제로 운영 중인 블로그 '복리인생'을 키우기 위해 만든 개인용 콘텐츠 그로스 시스템",
         "키워드 측정 → 기획 → AI 작성 · 이미지 → 검수 → 발행 준비까지 이어 붙이고, 사람은 승인과 발행만 맡는다",

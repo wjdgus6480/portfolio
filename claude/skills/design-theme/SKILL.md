@@ -4,7 +4,7 @@
 
 - **Name:** design-theme
 - **Purpose:** 개인 개발자 포트폴리오의 전체 UI/UX 및 시각 디자인 기준을 정의한다.
-- **Target:** AI / Software / Product Developer 포트폴리오
+- **Target:** Backend Developer 포트폴리오 (보조: Data / AI · Frontend · Growth / Analytics)
 - **Primary Goal:** 기술을 나열하는 포트폴리오가 아니라, 실제 문제를 발견하고 AI와 소프트웨어를 활용해 제품을 만드는 개발자라는 인상을 전달한다.
 
 ---

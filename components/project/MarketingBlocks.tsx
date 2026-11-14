@@ -67,7 +67,7 @@ export function MarketAnalysisBlock({ market }: { market: Detail["market"] }) {
 }
 
 /** 문제(Before)와 해결(After) 나란히 비교 */
-export function BeforeAfterBlock({ data }: { data: Detail["beforeAfter"] }) {
+export function BeforeAfterBlock({ data, name }: { data: Detail["beforeAfter"]; name: string }) {
   return (
     <div className="grid gap-4 md:grid-cols-2">
       <div className="rounded-xl border border-border bg-surface-weak p-5">
@@ -75,10 +75,41 @@ export function BeforeAfterBlock({ data }: { data: Detail["beforeAfter"] }) {
         <BulletList items={data.before} />
       </div>
       <div className="rounded-xl border border-accent/40 bg-surface p-5">
-        <p className="font-mono text-xs uppercase tracking-[0.14em] text-accent">After · 다누비 AI</p>
+        <p className="font-mono text-xs uppercase tracking-[0.14em] text-accent">After · {name}</p>
         <BulletList items={data.after} />
       </div>
     </div>
+  );
+}
+
+/** 엔지니어링 요약: 문제 → 원인 → 해결 → 검증 → 결과 */
+export function StoryBlock({ story }: { story: Detail["story"] }) {
+  const steps = [
+    { label: "Problem", items: story.problem },
+    { label: "Cause", items: story.cause },
+    { label: "Solution", items: story.solution },
+    { label: "Verification", items: story.verification },
+    { label: "Result", items: story.result },
+  ].filter((step) => step.items.length > 0);
+
+  return (
+    <ol className="divide-y divide-border overflow-hidden rounded-xl border border-border bg-surface">
+      {steps.map(({ label, items }, i) => (
+        <li key={label} className="grid gap-1.5 p-4 md:grid-cols-[9rem_1fr] md:gap-6 md:p-5">
+          <p className="font-mono text-xs uppercase tracking-[0.14em] text-accent md:pt-1">
+            {String(i + 1).padStart(2, "0")} {label}
+          </p>
+          <ul className="space-y-1.5 leading-relaxed">
+            {items.map((item) => (
+              <li key={item} className="flex gap-2">
+                <span aria-hidden className="text-subtle">·</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ol>
   );
 }
 
