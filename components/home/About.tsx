@@ -36,8 +36,8 @@ export function About() {
           <table className="w-full text-[15px]">
             <thead>
               <tr className="border-b border-border-strong text-left font-mono text-xs uppercase tracking-[0.12em] text-subtle">
-                <th className="pb-2 font-normal">물리치료</th>
-                <th className="pb-2 font-normal">개발</th>
+                <th className="pb-2 font-normal">Physical Therapy</th>
+                <th className="pb-2 font-normal">Backend</th>
               </tr>
             </thead>
             <tbody>
