@@ -201,6 +201,53 @@ export const profile: Profile = {
     paragraphs: ["물리치료학에서 시작해 AI와 소프트웨어 개발로 영역을 넓혀 왔습니다."],
     // TODO: 확인된 경험만 추가 (전환 계기, 현재 관심 분야 등)
     path: ["물리치료학", "AI / Software Development"],
+    lead: "문제를 이해하고, 원인을 찾고, 직접 해결하는 개발자로 성장해 왔습니다.",
+    timeline: [
+      {
+        id: "healthcare",
+        label: "Healthcare",
+        caption: "물리치료학",
+        icon: "healthcare",
+        points: ["물리치료학 전공", "재활 현장 근무", "사람의 움직임과 기능, 개인별 요구를 이해한 경험"],
+      },
+      {
+        id: "problem-solving",
+        label: "Problem Solving",
+        caption: "원인을 찾는 접근",
+        icon: "problem",
+        points: [
+          "현상만 보는 것이 아니라 문제의 원인을 파악하는 접근",
+          "문제 정의와 요구사항 분석",
+          "해결 방법을 구조화하는 사고방식",
+        ],
+      },
+      {
+        id: "development",
+        label: "Development",
+        caption: "직접 구현",
+        icon: "development",
+        points: [
+          "서비스 기획 및 구조 설계",
+          "프론트엔드와 백엔드 개발",
+          "데이터베이스와 API 설계 및 구현",
+          "AI 도구를 활용한 1인 개발 경험",
+        ],
+        projects: ["jipplan", "danubi-ai"],
+      },
+      {
+        id: "growth-delivery",
+        label: "Growth & Delivery",
+        caption: "배포와 데이터",
+        icon: "growth",
+        points: [
+          "테스트 및 검증",
+          "실제 서비스 배포",
+          "Google Analytics를 활용한 접속 데이터 추적",
+          "네이버 API를 활용한 검색량 및 키워드 데이터 분석",
+        ],
+        projects: ["jipplan", "danubi-ai", "genloom"],
+      },
+    ],
   },
   contact: {
     title: "Let's build something useful.",

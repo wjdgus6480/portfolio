@@ -137,6 +137,18 @@ export type HeroRole = {
   projects: { slug: string; contributions: string[] }[];
 };
 
+/** About 타임라인 한 단계. icon은 AboutTimeline의 아이콘 이름 */
+export type AboutStep = {
+  id: string;
+  label: string;
+  /** 노드 아래 짧은 한국어 설명 */
+  caption: string;
+  icon: "healthcare" | "problem" | "development" | "growth";
+  points: string[];
+  /** content/projects.ts의 slug. 없는 slug는 화면에 나오지 않는다. */
+  projects?: string[];
+};
+
 export type Profile = {
   name: string;
   role: string;
@@ -169,6 +181,10 @@ export type Profile = {
     paragraphs: string[];
     /** 경로 표시. 예: ["물리치료학", "AI / Software"] */
     path?: string[];
+    /** 제목 아래 핵심 메시지 한 문장 */
+    lead?: string;
+    /** 가로 타임라인 단계. 배열 순서가 화면 순서다. */
+    timeline?: AboutStep[];
   };
   contact: {
     title: string;
