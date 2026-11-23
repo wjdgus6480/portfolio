@@ -34,6 +34,10 @@ export const profile: Profile = {
           tech: ["TypeScript", "Node.js", "Next.js", "MySQL", "TiDB Cloud", "REST API", "Vitest"],
           projects: [
             { slug: "jipplan", contributions: ["Backend 개발", "데이터베이스 설계", "API 및 서버 로직 구현"] },
+            {
+              slug: "gas-automation",
+              contributions: ["YouTube · NVIDIA REST API 연동", "응답 데이터 파싱 · 검증 후 시트 저장", "동시 실행 잠금 · 실행 결과 기록"],
+            },
           ],
         },
         {
@@ -78,14 +82,22 @@ export const profile: Profile = {
             { slug: "jipplan", contributions: ["요구사항 분석", "서비스 설계", "구현 및 배포"] },
             { slug: "danubi-ai", contributions: ["문제 정의", "AI 활용 기반 개발", "서비스 구현 및 배포"] },
             { slug: "genloom", contributions: ["네이버 API 연동", "검색량 데이터 추적"] },
+            {
+              slug: "gas-automation",
+              contributions: ["외부 API · AI · Google Workspace 연결", "수집부터 리포트 메일 전달까지 흐름 설계", "실패 원인 확인 후 수정 · 재배포"],
+            },
           ],
         },
         {
-          // TODO: 사용자가 나머지 자동화 프로젝트(GAS 등)와 핵심 역량 · 기술을 직접 추가할 예정
+          // TODO: 사용자가 나머지 자동화 프로젝트와 핵심 역량 · 기술을 직접 추가할 예정
           id: "ax",
           label: "AX",
           intro: "반복 업무와 비효율적인 프로세스를 분석하고 기술을 활용해 개선하는 업무 자동화를 지향합니다.",
           projects: [
+            {
+              slug: "gas-automation",
+              contributions: ["AI 분석 결과로 슬라이드 · PDF · PPTX 리포트 자동 생성", "리포트를 첨부해 메일로 자동 전달", "AI 답을 형식 검사한 뒤에만 문서화"],
+            },
             {
               // 근거: projects.ts Genloom highlights · decisions (자동화는 발행 묶음까지, 발행은 사람)
               slug: "genloom",
@@ -140,6 +152,10 @@ export const profile: Profile = {
             {
               slug: "jipplan",
               contributions: ["Google Analytics 연동", "서비스 접속 관련 데이터 추적", "사용자 유입 및 이용 현황 분석 기반"],
+            },
+            {
+              slug: "gas-automation",
+              contributions: ["유튜브 인기 급상승 데이터 수집 · 분석 자동화", "네이버 데이터랩 12주 검색 추이 판정", "분석 결과를 리포트로 받아 바로 확인"],
             },
           ],
         },
