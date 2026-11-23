@@ -4,16 +4,163 @@ export const profile: Profile = {
   name: "윤정현",
   role: "AI / Software / Product Developer",
   hero: {
-    eyebrow: "AI / Software / Product Developer",
-    title: "AI로 제품을 만들고,\nAI로 일합니다.",
-    description:
-      "공개 서비스는 AI 코딩 에이전트와 1인으로 완성하고,\n제 업무는 직접 설계한 AI 에이전트로 운영합니다.",
+    eyebrow: "SOFTWARE DEVELOPER",
+    title: "문제를 발견하고,\n직접 구현합니다.",
+    description: "데이터로 원인을 분석하고 기술로 해결하는 개발자, 윤정현입니다.",
+    // proof(근거 숫자 띠)는 Hero에서 AI를 과하게 강조하지 않도록 빼 두었다. 필요하면 다시 넣는다.
     // 근거: 수상 = projects.ts 다누비 AI / 15일·79% = 집플랜 저장소 origin/main
     // (커밋 191개 중 Co-Authored-By: Claude 151개, 2026-10-15 ~ 10-29) / 4종 = Genloom docs/MODEL_BAKEOFF.md
-    proof: [
-      { value: "공모전 수상", label: "다누비 AI · 부산관광공사 AI데이터활용 공모전" },
-      { value: "15일", label: "집플랜 1인 개발 · 커밋 79%가 Claude Code 공동 작성" },
-      { value: "LLM 4종", label: "Genloom · 같은 과제로 비교 채점해 1종 채택" },
+    // proof: [
+    //   { value: "공모전 수상", label: "다누비 AI · 부산관광공사 AI데이터활용 공모전" },
+    //   { value: "15일", label: "집플랜 1인 개발 · 커밋 79%가 Claude Code 공동 작성" },
+    //   { value: "LLM 4종", label: "Genloom · 같은 과제로 비교 채점해 1종 채택" },
+    // ],
+    roles: {
+      title: "어떤 역량을 찾고 계신가요?",
+      description: "관심 있는 직무를 선택하면 해당 직무에 맞는 역량과 프로젝트를 보여드립니다.",
+      // 프로젝트 기여 내용은 실제 구현 범위만 쓴다. 검증되지 않은 성과 수치는 넣지 않는다.
+      items: [
+        {
+          id: "backend",
+          label: "Backend",
+          intro: "서버와 데이터베이스를 설계하고 안정적인 API와 비즈니스 로직을 구현합니다.",
+          // 근거(집플랜): 마이그레이션 35개 · 공공 API 수집 → MySQL 매일 갱신 · scrypt/HMAC/Turnstile/권한 · 판정 엔진 TDD
+          competencies: [
+            { name: "Database Design" },
+            { name: "Data Pipeline" },
+            { name: "Authentication & Security" },
+            { name: "Test-Driven Development" },
+          ],
+          tech: ["TypeScript", "Node.js", "Next.js", "MySQL", "TiDB Cloud", "REST API", "Vitest"],
+          projects: [
+            { slug: "jipplan", contributions: ["Backend 개발", "데이터베이스 설계", "API 및 서버 로직 구현"] },
+          ],
+        },
+        {
+          id: "frontend",
+          label: "Frontend",
+          intro: "사용자가 바로 이해하고 쓸 수 있는 화면과 인터랙션을 설계하고 구현합니다.",
+          // 근거: React·Next.js·TypeScript·Tailwind CSS·카카오맵 = 집플랜 / Vanilla JS·SVG·4개 언어·해시 라우팅 = 다누비 AI
+          competencies: [
+            { name: "Mobile Web UI" },
+            { name: "Map UI" },
+            { name: "Internationalization" },
+            { name: "Client-side Routing" },
+          ],
+          tech: ["TypeScript", "JavaScript", "React", "Next.js", "Tailwind CSS", "SVG", "Kakao Maps API"],
+          projects: [
+            {
+              slug: "jipplan",
+              contributions: ["Next.js · React로 화면 구현", "카카오맵 기반 지도 · 매물 마커 UI", "정책 판정 결과와 근거 표시 화면"],
+            },
+            {
+              slug: "danubi-ai",
+              contributions: ["Vanilla JS로 모바일 웹 화면 구현", "질문 4개로 코스를 추천받는 선택 흐름", "SVG 관광지도 · 한·영·일·중 4개 언어 화면"],
+            },
+          ],
+        },
+        {
+          id: "fde",
+          label: "FDE",
+          intro: "현장의 문제를 파악하고 다양한 기술을 조합해 실제 작동하는 솔루션으로 구현합니다.",
+          competencies: [
+            { name: "Problem Discovery" },
+            { name: "Requirements Analysis" },
+            { name: "Technical Implementation" },
+            { name: "API Integration" },
+            { name: "Rapid Prototyping" },
+            { name: "Service Deployment" },
+            { name: "Public Data Integration" },
+          ],
+          // 근거: 공공데이터 10종 이상 수집(집플랜) · 공공데이터포털 CSV(다누비 AI) · 네이버 API(Genloom) · 배포(Vercel · Netlify)
+          tech: ["공공데이터 API", "Naver Search API", "Kakao API", "Vercel", "Netlify"],
+          projects: [
+            { slug: "jipplan", contributions: ["요구사항 분석", "서비스 설계", "구현 및 배포"] },
+            { slug: "danubi-ai", contributions: ["문제 정의", "AI 활용 기반 개발", "서비스 구현 및 배포"] },
+            { slug: "genloom", contributions: ["네이버 API 연동", "검색량 데이터 추적"] },
+          ],
+        },
+        {
+          // TODO: 사용자가 나머지 자동화 프로젝트(GAS 등)와 핵심 역량 · 기술을 직접 추가할 예정
+          id: "ax",
+          label: "AX",
+          intro: "반복 업무와 비효율적인 프로세스를 분석하고 기술을 활용해 개선하는 업무 자동화를 지향합니다.",
+          projects: [
+            {
+              // 근거: projects.ts Genloom highlights · decisions (자동화는 발행 묶음까지, 발행은 사람)
+              slug: "genloom",
+              contributions: [
+                "키워드 측정부터 글 · 이미지 · 검수까지 블로그 작업 흐름 자동화",
+                "단계별 GREEN · YELLOW · RED 판정, RED면 자동으로 멈춤",
+                "자동화는 발행 직전까지, 발행은 사람이 결정",
+              ],
+            },
+          ],
+        },
+        {
+          id: "product",
+          label: "Product / PM",
+          intro: "사용자 문제를 정의하고 요구사항과 서비스 흐름을 구체화해 실제 제품으로 구현합니다.",
+          competencies: [
+            { name: "Problem Definition" },
+            { name: "Requirements Analysis" },
+            { name: "User Flow" },
+            { name: "Service Planning" },
+            { name: "Product Development" },
+            { name: "Market Analysis (3C)" },
+            { name: "Metric Design" },
+          ],
+          projects: [
+            { slug: "danubi-ai", contributions: ["서비스 기획", "구조 설계", "AI 활용 기반 1인 개발", "구현 및 배포"] },
+            { slug: "jipplan", contributions: ["서비스 기획", "구조 설계", "AI 활용 기반 1인 개발", "구현 및 배포"] },
+          ],
+        },
+        {
+          id: "growth",
+          label: "Growth",
+          intro: "사용자 행동과 검색 데이터를 분석해 개선 기회를 발견하고 서비스 성장으로 연결합니다.",
+          // AARRR은 다누비 AI · 집플랜에 퍼널 가설로만 설계, NSM은 적용 기록 없음 → 학습한 개념으로 구분
+          competencies: [
+            { name: "Data Analysis" },
+            { name: "Search Trend Tracking" },
+            { name: "User Behavior Tracking" },
+            { name: "Google Analytics" },
+            { name: "API Integration" },
+            { name: "SEO / AEO" },
+            { name: "AARRR", learned: true },
+            { name: "North Star Metric", learned: true },
+          ],
+          // 근거: GA4(집플랜) · 네이버 검색·데이터랩 API · matplotlib · SEO/AEO 규칙 검수(Genloom)
+          tech: ["Google Analytics 4", "Naver Search API", "Python", "matplotlib"],
+          projects: [
+            {
+              slug: "genloom",
+              contributions: ["네이버 API를 활용한 검색량 추적", "검색량 및 키워드 데이터 분석"],
+            },
+            {
+              slug: "jipplan",
+              contributions: ["Google Analytics 연동", "서비스 접속 관련 데이터 추적", "사용자 유입 및 이용 현황 분석 기반"],
+            },
+          ],
+        },
+      ],
+    },
+    // 근거: TypeScript·MySQL·Next.js·React = 집플랜 / JavaScript·Node.js = 다누비 AI /
+    // Python = Genloom 외 / Supabase = 이 포트폴리오 관리자 페이지 / Git = skills.ts /
+    // Tailwind CSS = 집플랜 · 이 포트폴리오 / SQLite = 복리인생 · 바탕화면 정리 · ThreadsGrowthSignal / Vercel = 집플랜
+    commonStack: [
+      "TypeScript",
+      "JavaScript",
+      "Node.js",
+      "Next.js",
+      "React",
+      "Tailwind CSS",
+      "MySQL",
+      "SQLite",
+      "Supabase",
+      "Python",
+      "Vercel",
+      "Git / GitHub",
     ],
   },
   approach: {
@@ -58,11 +205,9 @@ export const profile: Profile = {
   contact: {
     title: "Let's build something useful.",
     description: "프로젝트 협업이나 채용 관련 문의는 아래 채널로 연락해 주세요.",
-    // TODO: 실제 주소 확정 후 입력. 값이 없는 링크는 화면에 표시되지 않는다.
+    // 연락 채널은 이메일만 표시한다. 값이 없는 링크는 화면에 표시되지 않는다.
     links: {
-      github: "https://github.com/wjdgus6480",
-      email: undefined, // 사용자 확인 후 입력
-      linkedin: undefined, // 선택
+      email: "wjdgus6480@naver.com",
     },
   },
 };

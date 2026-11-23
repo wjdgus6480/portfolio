@@ -121,6 +121,22 @@ export type ContactLinks = {
   linkedin?: string;
 };
 
+/**
+ * Hero 직무 선택의 한 직무. 데이터만 담고, 화면은 RoleExplorer가 그린다.
+ * 비어 있는 배열은 화면에서 숨겨진다. projects가 비면 "준비 중" 안내가 나온다.
+ */
+export type HeroRole = {
+  id: string;
+  label: string;
+  intro: string;
+  /** 핵심 역량. learned = 학습한 개념(실제 적용 경험과 구분해 표시) */
+  competencies?: { name: string; learned?: boolean }[];
+  /** 이 직무와 관련된 기술 */
+  tech?: string[];
+  /** 배열 순서가 화면 순서. slug는 content/projects.ts의 slug와 같아야 상세 페이지로 연결된다. */
+  projects: { slug: string; contributions: string[] }[];
+};
+
 export type Profile = {
   name: string;
   role: string;
@@ -132,6 +148,14 @@ export type Profile = {
     description: string;
     /** Hero 아래 근거 숫자 띠. 검증된 숫자만 쓴다. */
     proof?: { value: string; label: string }[];
+    /** 직무 선택 영역. 첫 번째 직무가 기본 선택값이다. */
+    roles?: {
+      title: string;
+      description: string;
+      items: HeroRole[];
+    };
+    /** 직무 선택과 무관하게 항상 보이는 공통 기술. 실제 사용이 확인된 것만 쓴다. */
+    commonStack?: string[];
   };
   approach: {
     title: string;
