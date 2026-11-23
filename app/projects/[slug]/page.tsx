@@ -24,6 +24,7 @@ import {
 import { ProjectHeader } from "@/components/project/ProjectHeader";
 import { PageTransition } from "@/components/ui/PageTransition";
 import { TechList } from "@/components/ui/TechTag";
+import { DecisionAccordion } from "@/components/project/DecisionAccordion";
 
 export const dynamicParams = false;
 
@@ -66,7 +67,7 @@ const detailSections: { title: string; render: (project: Project) => React.React
   { title: "어려웠던 점", render: (p) => list(p.detail?.challenges) },
   { title: "결과", render: (p) => list(p.detail?.results) },
   { title: "처리 구조", render: (p) => p.detail?.architecture?.length && <PipelineChain stages={p.detail.architecture} /> },
-  { title: "기술 결정과 이유", render: (p) => p.detail?.decisions?.length && <DecisionList decisions={p.detail.decisions} /> },
+  { title: "기술 결정과 이유", render: (p) => p.detail?.decisions?.length && <DecisionAccordion items={p.detail.decisions} /> },
   { title: "구현", render: (p) => list(p.detail?.implementation) },
   { title: "테스트와 품질", render: (p) => p.detail?.testing && <TestingBlock testing={p.detail.testing} /> },
   { title: "한계와 다음 단계", render: (p) => list(p.detail?.limits) },

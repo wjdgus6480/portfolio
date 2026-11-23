@@ -1,6 +1,7 @@
 import type { Project } from "@/content/types";
 import { sections, workGroups } from "@/content/site";
 import { getFeaturedProjects, getOtherProjects } from "@/lib/projects";
+import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectList } from "./ProjectList";
@@ -47,9 +48,11 @@ function CardGroup({ kind, part, title, description, projects }: CardGroupProps)
       </h3>
       <p className="mt-2 max-w-[40em] text-muted">{description}</p>
       <ul className="mt-6 grid gap-3 md:grid-cols-2 md:gap-4">
-        {projects.map((project) => (
+        {projects.map((project, index) => (
           <li key={project.slug} className="min-w-0">
-            <ProjectCard project={project} />
+            <Reveal index={index} className="h-full">
+              <ProjectCard project={project} />
+            </Reveal>
           </li>
         ))}
       </ul>

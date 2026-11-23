@@ -31,7 +31,7 @@ export function Contact() {
                   target: "_blank",
                   rel: "noopener noreferrer",
                 })}
-                className={`pressable flex min-h-11 items-center justify-between gap-4 rounded-3xl p-6 ${card}`}
+                className={`pressable card-interactive flex min-h-11 items-center justify-between gap-4 rounded-card p-6 ${card}`}
               >
                 <span>
                   <span className="block text-[13px] font-bold text-accent">{item.label}</span>

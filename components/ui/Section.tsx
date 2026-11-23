@@ -15,7 +15,7 @@ export function Section({ id, label, tone = "plain", title, children }: SectionP
       <Container>
         <p className="text-[15px] font-bold text-accent">{label}</p>
         {title && (
-          <h2 className="mt-2 text-[28px] font-bold leading-snug tracking-tight md:text-4xl">
+          <h2 className="mt-2 text-[clamp(1.75rem,1.35rem+1.5vw,2.25rem)] font-bold leading-snug tracking-tight">
             {title}
           </h2>
         )}

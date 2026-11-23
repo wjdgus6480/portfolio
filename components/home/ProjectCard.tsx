@@ -18,7 +18,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const demo = project.links?.demo;
 
   return (
-    <div className="pressable relative flex h-full flex-col rounded-3xl bg-surface p-6 md:p-7">
+    <div className="pressable card-interactive relative flex h-full flex-col rounded-card bg-surface p-6 md:p-7">
       <div className="flex items-center gap-4">
         <BrandMark project={project} size="card" />
         <div className="min-w-0 flex-1">

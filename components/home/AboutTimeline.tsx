@@ -166,7 +166,7 @@ export function AboutTimeline({ id, label, title, lead, paragraphs, steps }: Abo
                 <div className="relative h-36 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_14%,black_86%,transparent)]">
                   <motion.ol style={{ x: railX }} className="absolute inset-y-0 left-1/2">
                     <li aria-hidden className="absolute top-[26px] h-1 rounded-full bg-border" style={{ width: last * NODE_GAP }} />
-                    <motion.li aria-hidden className="absolute top-[26px] h-1 rounded-full bg-accent" style={{ width: railFill }} />
+                    <motion.li aria-hidden className="absolute top-[26px] h-1 rounded-full bg-accent-vivid" style={{ width: railFill }} />
                     {nodes.map((node, index) => (
                       <li key={steps[index].id} className="absolute top-0 -translate-x-1/2" style={{ left: index * NODE_GAP }}>
                         {node}
@@ -183,11 +183,11 @@ export function AboutTimeline({ id, label, title, lead, paragraphs, steps }: Abo
                   />
                   <motion.div
                     aria-hidden
-                    className="absolute top-[26px] h-1 rounded-full bg-accent"
+                    className="absolute top-[26px] h-1 rounded-full bg-accent-vivid"
                     style={{ left: `${50 / steps.length}%` }}
                     initial={false}
                     animate={{ width: `${last > 0 ? (active / last) * (100 - 100 / steps.length) : 0}%` }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    transition={{ duration: 0.25, ease: [0.2, 0, 0, 1] }}
                   />
                   <ol className="relative grid" style={{ gridTemplateColumns: `repeat(${steps.length}, minmax(0, 1fr))` }}>
                     {nodes.map((node, index) => (
@@ -225,7 +225,7 @@ export function AboutTimeline({ id, label, title, lead, paragraphs, steps }: Abo
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  transition={{ duration: 0.22, ease: "easeOut" }}
+                  transition={{ duration: 0.25, ease: [0.2, 0, 0, 1] }}
                   className="md:min-h-[188px]"
                 >
                   <p className="text-[13px] font-bold text-accent">
@@ -234,7 +234,7 @@ export function AboutTimeline({ id, label, title, lead, paragraphs, steps }: Abo
                   <ul className="mt-3 grid gap-x-8 gap-y-2 md:grid-cols-2">
                     {step.points.map((point) => (
                       <li key={point} className="flex gap-2.5 leading-snug">
-                        <span aria-hidden className="mt-[0.5em] size-1.5 shrink-0 rounded-full bg-accent" />
+                        <span aria-hidden className="mt-[0.5em] size-1.5 shrink-0 rounded-full bg-accent-vivid" />
                         <span>{point}</span>
                       </li>
                     ))}
@@ -248,7 +248,7 @@ export function AboutTimeline({ id, label, title, lead, paragraphs, steps }: Abo
                           href={`/projects/${project.slug}`}
                           transitionTypes={["nav-forward"]}
                           draggable={false}
-                          className="pressable inline-flex min-h-9 items-center gap-1 rounded-xl bg-surface px-3 text-sm font-semibold hover:text-accent"
+                          className="pressable card-interactive inline-flex min-h-9 items-center gap-1 rounded-xl bg-surface px-3 text-sm font-semibold hover:text-accent"
                         >
                           {project.title}
                           <span aria-hidden className="text-subtle">
@@ -318,7 +318,7 @@ function TimelineNode({ step, index, isActive, isDone, onSelect, buttonRef }: Ti
         <span
           className={`flex items-center justify-center rounded-full transition-[width,height,background-color,color,box-shadow] duration-200 ease-out ${
             isActive
-              ? "size-14 bg-accent text-white ring-[6px] ring-accent-soft"
+              ? "size-14 bg-accent-vivid text-white ring-[6px] ring-accent-soft"
               : isDone
                 ? "size-11 bg-accent-soft text-accent"
                 : "size-11 border-2 border-border bg-surface text-subtle group-hover:border-border-strong"

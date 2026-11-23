@@ -569,6 +569,8 @@ export const projects: Project[] = [
   // 근거: Desktop/AI프로그램 README.md · docs/implementation-status.md (2026-09-22), tests/ def test_ 184개
   {
     slug: "compound-life",
+    // 2026-11-23 사용자 요청으로 포트폴리오에서 숨김 (데이터는 보관)
+    hidden: true,
     kind: "ai",
     title: "복리인생",
     category: "배당 영상 자동화",
@@ -625,6 +627,8 @@ export const projects: Project[] = [
   // Data/P08_DesktopOrganizer/journal/operations.jsonl 107줄 (2026-10-03 사본 기준)
   {
     slug: "desktop-organizer",
+    // 2026-11-23 사용자 요청으로 포트폴리오에서 숨김 (데이터는 보관)
+    hidden: true,
     kind: "ai",
     title: "바탕화면 정리 프로그램",
     category: "AI 파일 정리",
@@ -672,6 +676,8 @@ export const projects: Project[] = [
   // git: 커밋 120개 중 Co-Authored-By: Claude 114개, 2026-10-21 ~ 10-30, *.test.ts 40개
   {
     slug: "threads-growth-signal",
+    // 2026-11-23 사용자 요청으로 포트폴리오에서 숨김 (데이터는 보관)
+    hidden: true,
     kind: "ai",
     title: "ThreadsGrowthSignal",
     category: "SNS 운영 에이전트",

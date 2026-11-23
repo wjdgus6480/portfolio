@@ -1,6 +1,7 @@
 import { sections } from "@/content/site";
 import { skills } from "@/content/skills";
 import { getProjectsUsing } from "@/lib/projects";
+import { Reveal } from "@/components/ui/Reveal";
 import { cardTone, Section } from "@/components/ui/Section";
 
 export function Skills() {
@@ -11,8 +12,8 @@ export function Skills() {
   return (
     <Section {...sections.skills} title="프로젝트에서 쓴 기술이에요">
       <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {categories.map((category) => (
-          <div key={category.name} className={`rounded-3xl p-6 ${card}`}>
+        {categories.map((category, index) => (
+          <Reveal key={category.name} index={index} className={`rounded-card p-6 ${card}`}>
             <dt className="text-[13px] font-bold text-accent">{category.name}</dt>
             <dd className="mt-4">
               <ul className="space-y-3.5">
@@ -31,7 +32,7 @@ export function Skills() {
                 })}
               </ul>
             </dd>
-          </div>
+          </Reveal>
         ))}
       </dl>
     </Section>

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { CountUp } from "@/components/ui/CountUp";
 import type { ProjectDetail } from "@/content/types";
 
 type Detail = Required<ProjectDetail>;
@@ -33,7 +34,9 @@ export function MetricStrip({
           className={`flex flex-col-reverse rounded-3xl p-5 md:px-6 ${surface === "plain" ? "bg-surface-weak" : "bg-surface"}`}
         >
           <dt className="mt-1 text-sm leading-snug text-muted">{label}</dt>
-          <dd className="text-2xl font-bold tracking-tight md:text-[28px]">{value}</dd>
+          <dd className="numeric text-2xl tracking-tight md:text-[28px]">
+            <CountUp value={value} />
+          </dd>
         </div>
       ))}
     </dl>

@@ -89,17 +89,17 @@ export function RoleExplorer({ title, description, roles }: RoleExplorerProps) {
               onClick={() => setSelectedId(item.id)}
               className={`pressable flex min-h-14 items-center gap-3 rounded-2xl border px-4 text-left text-[15px] font-semibold transition-colors duration-150 md:text-base ${
                 checked
-                  ? "border-accent bg-accent-soft text-accent"
+                  ? "border-accent-vivid bg-accent-soft text-accent"
                   : "border-border bg-surface text-muted hover:bg-surface-weak"
               }`}
             >
               <span
                 aria-hidden
                 className={`flex size-5 shrink-0 items-center justify-center rounded-full border-2 ${
-                  checked ? "border-accent" : "border-border-strong"
+                  checked ? "border-accent-vivid" : "border-border-strong"
                 }`}
               >
-                {checked && <span className="size-2.5 rounded-full bg-accent" />}
+                {checked && <span className="size-2.5 rounded-full bg-accent-vivid" />}
               </span>
               <span className="min-w-0">{item.label}</span>
             </button>
@@ -169,7 +169,7 @@ export function RoleExplorer({ title, description, roles }: RoleExplorerProps) {
                   <Link
                     href={`/projects/${project.slug}`}
                     transitionTypes={["nav-forward"]}
-                    className="pressable group flex h-full items-start gap-3 rounded-2xl bg-surface p-5 hover:bg-background"
+                    className="pressable card-interactive group flex h-full items-start gap-3 rounded-2xl bg-surface p-5"
                   >
                     <div className="min-w-0 flex-1">
                       <p className="text-[17px] font-bold tracking-tight">{project.title}</p>
@@ -186,7 +186,7 @@ export function RoleExplorer({ title, description, roles }: RoleExplorerProps) {
                     <svg
                       aria-hidden
                       viewBox="0 0 20 20"
-                      className="mt-1 size-5 shrink-0 text-placeholder transition-[color,translate] duration-150 group-hover:translate-x-0.5 group-hover:text-accent"
+                      className="mt-1 size-5 shrink-0 text-placeholder transition-[color,translate] duration-150 group-hover:translate-x-0.5 group-hover:text-accent-vivid"
                     >
                       <path d="M7.5 4.5 13 10l-5.5 5.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
