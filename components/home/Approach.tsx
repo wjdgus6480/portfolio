@@ -1,29 +1,49 @@
 import { profile } from "@/content/profile";
 import { sections } from "@/content/site";
-import { Section } from "@/components/ui/Section";
+import { Reveal } from "@/components/ui/Reveal";
+import { cardTone, Section } from "@/components/ui/Section";
 
-/** 07 Development Process. 다섯 단계마다 집플랜 · 다누비 AI의 실제 사례를 붙인다. */
 export function Approach() {
-  const { journey } = profile.approach;
+  const { title, paragraphs, principles, journey } = profile.approach;
+  const card = cardTone[sections.approach.tone];
 
   return (
-    <Section
-      {...sections.process}
-      title="실제로는 이렇게 진행했습니다"
-      description="Problem → Cause → Solution → Verification → Result. 단계마다 프로젝트에서 있었던 일입니다."
-    >
-      <ol className="border-t border-border">
+    <Section {...sections.approach} title={title}>
+      {paragraphs.length > 0 && (
+        <div className="max-w-[40em] space-y-5 text-lg leading-relaxed text-muted">
+          {paragraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
+      )}
+
+      {principles?.length ? (
+        <ol className="mt-10 grid gap-3 md:mt-12 md:grid-cols-2">
+          {principles.map((principle, i) => (
+            <li key={principle.title}>
+              <Reveal index={i} className={`h-full rounded-card p-6 md:p-7 ${card}`}>
+              <span className="inline-flex size-8 items-center justify-center rounded-full bg-accent text-sm font-bold text-white">
+                {i + 1}
+              </span>
+              <p className="mt-4 text-lg font-bold tracking-tight md:text-xl">{principle.title}</p>
+              <p className="mt-1.5 text-[15px] leading-relaxed text-muted">{principle.desc}</p>
+              </Reveal>
+            </li>
+          ))}
+        </ol>
+      ) : null}
+
+      <h3 className="mb-4 mt-14 text-[15px] font-bold text-subtle md:mt-20">개발 흐름</h3>
+      <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
         {journey.map((step, i) => (
-          <li
-            key={step.label}
-            className="grid gap-1 border-b border-border py-5 md:grid-cols-[48px_200px_1fr] md:items-baseline md:gap-6"
-          >
-            <span className="font-mono text-xs text-accent">{String(i + 1).padStart(2, "0")}</span>
-            <p>
-              <span className="text-lg font-bold tracking-tight">{step.label}</span>
-              {step.description && <span className="block text-sm text-muted">{step.description}</span>}
-            </p>
-            {step.example && <p className="text-[15px] leading-relaxed md:text-base">{step.example}</p>}
+          <li key={step.label}>
+            <Reveal index={i} className={`h-full rounded-card p-5 ${card}`}>
+            <span className="text-[13px] font-bold text-accent">{i + 1}단계</span>
+            <p className="mt-1.5 text-lg font-bold tracking-tight">{step.label}</p>
+            {step.description && (
+              <p className="mt-0.5 text-[15px] leading-relaxed text-muted">{step.description}</p>
+            )}
+            </Reveal>
           </li>
         ))}
       </ol>

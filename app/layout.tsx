@@ -1,47 +1,25 @@
 import type { Metadata } from "next";
-import { Geist_Mono } from "next/font/google";
-import localFont from "next/font/local";
 import { profile } from "@/content/profile";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+// Pretendard Variable 1.3.9 공식 동적 서브셋(수정 없이 사용, OFL 1.1 — app/fonts/pretendard/LICENSE.txt).
+// 글자 묶음별 unicode-range로 나뉘어 있어 화면에 쓰인 글자의 파일만 내려받는다.
+import "./fonts/pretendard/pretendardvariable-dynamic-subset.css";
 import "./globals.css";
 
-const pretendard = localFont({
-  src: "./fonts/PretendardVariable.woff2",
-  variable: "--font-pretendard",
-  weight: "45 920",
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const description = `${profile.name} · 백엔드 개발자 포트폴리오. ${profile.hero.description.replace(/\n/g, " ")}`;
-
-// metadataBase 를 따로 두지 않는다: Vercel 배포에서는 Next.js가 VERCEL_PROJECT_PRODUCTION_URL 로 OG 주소를 만든다.
 export const metadata: Metadata = {
   title: {
-    default: `${profile.name} — Backend Developer`,
+    default: `${profile.name} — Portfolio`,
     template: `%s — ${profile.name}`,
   },
-  description,
-  openGraph: {
-    type: "website",
-    locale: "ko_KR",
-    siteName: `${profile.name} Portfolio`,
-    title: `${profile.name} — Backend Developer`,
-    description,
-  },
-  twitter: { card: "summary_large_image" },
+  description: profile.hero.description,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="ko"
-      className={`${pretendard.variable} ${geistMono.variable} h-full antialiased`}
+      className="h-full antialiased"
     >
       <body className="flex min-h-full flex-col">
         <Header />

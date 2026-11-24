@@ -10,15 +10,15 @@ type ProjectListProps = {
 
 export function ProjectList({ projects, startNumber }: ProjectListProps) {
   return (
-    <ul className="divide-y divide-border border-y border-border">
+    <ul className="divide-y divide-surface-weak overflow-hidden rounded-3xl bg-surface">
       {projects.map((project, i) => (
         <li key={project.slug}>
           <Link
             href={`/projects/${project.slug}`}
             transitionTypes={["nav-forward"]}
-            className="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-x-4 py-5 md:grid-cols-[3rem_14rem_1fr_auto] md:gap-x-6"
+            className="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-x-4 px-5 py-5 md:grid-cols-[3rem_14rem_1fr_auto] md:gap-x-6 md:px-6"
           >
-            <span className="font-mono text-xs text-subtle">
+            <span className="text-sm font-bold text-subtle">
               {String(startNumber + i).padStart(2, "0")}
             </span>
             <span className="font-semibold tracking-tight transition-colors duration-150 group-hover:text-accent">

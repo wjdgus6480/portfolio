@@ -1,72 +1,66 @@
-import { Fragment } from "react";
 import { profile } from "@/content/profile";
 import { sections } from "@/content/site";
+import { getProjectBySlug } from "@/lib/projects";
+import { MetricStrip } from "@/components/project/MarketingBlocks";
+import { RoleExplorer, type RoleView } from "@/components/home/RoleExplorer";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
+import { TechList } from "@/components/ui/TechTag";
 
-/**
- * 01 Hero. 위계: 이름 · 직무 → 일하는 순서 → 한 줄 설명 → 주력 기술 → 버튼.
- * 숫자(테이블 수 · 테스트 수)는 여기에 두지 않는다 — 프로젝트 카드 하단 증거 영역에서 문제와 함께 보여 준다.
- */
+/** profile의 프로젝트 slug를 실제 프로젝트로 바꾼다. 없는 slug는 화면에 내지 않는다. */
+function resolveRoles(): RoleView[] {
+  return (profile.hero.roles?.items ?? []).map((role) => ({
+    ...role,
+    projects: role.projects.flatMap(({ slug, contributions }) => {
+      const project = getProjectBySlug(slug);
+      return project ? [{ slug, title: project.title, category: project.category, contributions }] : [];
+    }),
+  }));
+}
+
 export function Hero() {
-  const { hero, name, role } = profile;
+  const { hero } = profile;
+  const roles = resolveRoles();
 
   return (
-    <section id="top" className="pb-16 pt-14 md:pb-24 md:pt-20 lg:pb-28 lg:pt-24">
+    <section id="top" className="pb-16 pt-14 md:pb-24 md:pt-20">
       <Container>
-        <p className="font-mono text-xs uppercase tracking-[0.14em] text-subtle">
-          <span className="text-accent">01</span> — {hero.eyebrow}
-        </p>
-
-        <h1 className="mt-6 font-extrabold leading-[0.98] tracking-[-0.04em]">
-          <span className="block text-[clamp(3.25rem,10vw,7.5rem)]">{name}</span>
-          <span className="mt-2 block text-[clamp(2.25rem,7vw,5.25rem)] text-accent">{role}</span>
+        <p className="text-[13px] font-bold tracking-[0.08em] text-accent md:text-sm">{hero.eyebrow}</p>
+        <h1 className="mt-4 max-w-[14em] text-[clamp(2.25rem,6vw,4rem)] font-extrabold leading-[1.15] tracking-[-0.035em] whitespace-pre-line">
+          {hero.title}
         </h1>
-
-        {hero.flow?.length ? (
-          <ol
-            aria-label="일하는 순서"
-            className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 text-xl font-semibold tracking-tight md:text-2xl"
-          >
-            {hero.flow.map((step, i) => (
-              <Fragment key={step}>
-                {i > 0 && (
-                  <li aria-hidden className="text-placeholder">
-                    →
-                  </li>
-                )}
-                <li>{step}</li>
-              </Fragment>
-            ))}
-          </ol>
-        ) : null}
-
-        <p className="mt-4 max-w-[34em] text-lg leading-relaxed text-muted md:whitespace-pre-line md:text-xl">
+        <p className="mt-5 max-w-[34em] text-lg leading-relaxed text-muted md:whitespace-pre-line md:text-xl">
           {hero.description}
         </p>
-
-        {hero.stack?.length ? (
-          <ul aria-label="주력 기술" className="mt-8 flex flex-wrap gap-2">
-            {hero.stack.map((item) => (
-              <li
-                key={item}
-                className="rounded-md border border-border bg-surface px-3 py-1.5 font-mono text-sm font-medium"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        ) : null}
-
-        <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <ButtonLink href={`#${sections.work.id}`}>대표 프로젝트</ButtonLink>
-          <ButtonLink href={`#${sections.cases.id}`} variant="secondary">
-            Engineering Case Study
-          </ButtonLink>
+        <div className="mt-8 flex flex-col gap-2.5 sm:flex-row">
+          <ButtonLink href={`#${sections.work.id}`}>프로젝트 보기</ButtonLink>
           <ButtonLink href={`#${sections.contact.id}`} variant="secondary">
-            Contact
+            연락하기
           </ButtonLink>
         </div>
+
+        {hero.proof?.length ? (
+          <div className="mt-12 md:mt-16">
+            <h2 className="sr-only">근거</h2>
+            <MetricStrip metrics={hero.proof} columns={3} />
+          </div>
+        ) : null}
+
+        {hero.roles && roles.length > 0 && (
+          <div className="mt-14 md:mt-20">
+            <RoleExplorer title={hero.roles.title} description={hero.roles.description} roles={roles} />
+          </div>
+        )}
+
+        {hero.commonStack?.length ? (
+          <div className="mt-8 md:mt-10">
+            <h2 className="text-sm font-bold tracking-[0.08em] text-subtle">TECH STACK</h2>
+            <p className="mt-1 text-[13px] text-subtle">직무와 관계없이 공통으로 사용하는 기술이에요.</p>
+            <div className="mt-3">
+              <TechList items={hero.commonStack} withIcon />
+            </div>
+          </div>
+        ) : null}
       </Container>
     </section>
   );

@@ -7,12 +7,11 @@ type ButtonLinkProps = {
 };
 
 const base =
-  "inline-flex h-11 items-center justify-center gap-2 rounded-lg px-5 text-[15px] font-medium transition-colors duration-150 ease-out";
+  "pressable inline-flex h-13 items-center justify-center gap-2 rounded-2xl px-6 text-base font-semibold ease-out";
 
 const variants = {
   primary: "bg-accent text-white hover:bg-accent-hover",
-  secondary:
-    "border border-border bg-surface text-foreground hover:border-border-strong hover:bg-surface-weak",
+  secondary: "bg-surface-weak text-muted hover:bg-border",
 };
 
 export function ButtonLink({ href, variant = "primary", children }: ButtonLinkProps) {

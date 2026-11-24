@@ -2,46 +2,31 @@ import { Container } from "./Container";
 
 type SectionProps = {
   id: string;
-  index: string;
   label: string;
+  /** tinted = 회색 띠 배경, plain = 흰 배경. 안의 카드 색은 반대로 맞춘다 */
+  tone?: "plain" | "tinted";
   title?: string;
-  /** 제목 아래 한두 줄 설명 (본문 폭 720px 이내) */
-  description?: string;
-  /** 보조 섹션은 제목을 한 단계 작게 */
-  size?: "default" | "small";
   children: React.ReactNode;
 };
 
-/**
- * 섹션 머리: 왼쪽 번호 · 라벨, 오른쪽 제목 · 설명 (데스크톱). 모바일은 위아래로.
- * 섹션 간격: 모바일 56px · 태블릿 80px · 데스크톱 96px
- */
-export function Section({ id, index, label, title, description, size = "default", children }: SectionProps) {
+export function Section({ id, label, tone = "plain", title, children }: SectionProps) {
   return (
-    <section id={id} className="border-t border-border py-14 md:py-20 lg:py-24">
+    <section id={id} className={`py-20 md:py-28 ${tone === "tinted" ? "bg-surface-weak" : "bg-background"}`}>
       <Container>
-        <header className="grid gap-3 lg:grid-cols-[220px_1fr] lg:gap-10">
-          <p className="flex items-baseline gap-2 font-mono text-xs uppercase tracking-[0.14em] text-subtle lg:pt-2">
-            <span className="text-accent">{index}</span>
-            <span>{label}</span>
-          </p>
-          <div className="min-w-0">
-            {title && (
-              <h2
-                className={`text-balance font-bold leading-[1.2] tracking-[-0.02em] ${
-                  size === "small" ? "text-2xl md:text-[1.75rem]" : "text-[1.75rem] md:text-[2.375rem]"
-                }`}
-              >
-                {title}
-              </h2>
-            )}
-            {description && (
-              <p className="mt-3 max-w-[720px] text-base leading-relaxed text-muted md:text-[17px]">{description}</p>
-            )}
-          </div>
-        </header>
-        <div className="mt-8 md:mt-12">{children}</div>
+        <p className="text-[15px] font-bold text-accent">{label}</p>
+        {title && (
+          <h2 className="mt-2 text-[clamp(1.75rem,1.35rem+1.5vw,2.25rem)] font-bold leading-snug tracking-tight">
+            {title}
+          </h2>
+        )}
+        <div className="mt-10 md:mt-12">{children}</div>
       </Container>
     </section>
   );
 }
+
+/** 섹션 톤에 맞춘 카드 면 색: 회색 띠 위에는 흰 카드, 흰 배경 위에는 회색 카드 */
+export const cardTone = {
+  tinted: "bg-surface",
+  plain: "bg-surface-weak",
+} as const;

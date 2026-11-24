@@ -4,7 +4,7 @@
 
 - **Name:** design-theme
 - **Purpose:** 개인 개발자 포트폴리오의 전체 UI/UX 및 시각 디자인 기준을 정의한다.
-- **Target:** Backend Developer 포트폴리오 (보조: Data / AI · Frontend · Growth / Analytics)
+- **Target:** AI / Software / Product Developer 포트폴리오
 - **Primary Goal:** 기술을 나열하는 포트폴리오가 아니라, 실제 문제를 발견하고 AI와 소프트웨어를 활용해 제품을 만드는 개발자라는 인상을 전달한다.
 
 ---
@@ -41,11 +41,11 @@
 ## 기본 방향
 
 - Light Mode 우선
-- 깨끗한 흰색/밝은 회색 기반
+- 흰 페이지 + 밝은 회색 띠 섹션 (테두리보다 면으로 구분)
 - 제한적인 Blue Accent
-- 얇은 Border
+- 테두리 없는 둥근 카드 (회색 띠 위 흰 카드, 흰 배경 위 회색 카드)
 - 넉넉한 Whitespace
-- 강한 Typography
+- 강한 Typography, 친근한 "~해요" 말투 (숫자 · 사실은 그대로)
 - 정돈된 Grid
 - 과도한 장식 최소화
 
@@ -73,23 +73,27 @@
 ## Base
 
 ```text
-Background      #FAFAFA
+Background      #FFFFFF
 Surface         #FFFFFF
-Foreground      #18181B
-Text Secondary  #52525B
-Text Weak       #71717A
-Placeholder     #A1A1AA
-Border          #E4E4E7
-Background Weak #F4F4F5
+Foreground      #191F28
+Text Secondary  #4E5968
+Text Weak       #5F6B7A
+Placeholder     #B0B8C1
+Border          #E5E8EB
+Background Weak #F2F4F6   (섹션 띠, 흰 배경 위 카드)
 ```
+
+텍스트 색은 흰 배경과 Background Weak 위에서 모두 4.5:1 이상이어야 한다.
 
 ## Accent
 
 ```text
-Accent          #2563EB
-Accent Hover    #1D4ED8
-Accent Soft     #EFF6FF
+Accent          #1B64DA   (흰 글자 5.4:1, 흰 배경 위 글자 5.4:1)
+Accent Hover    #1957C2
+Accent Soft     #E8F3FF
 ```
+
+더 밝은 파랑(예: #3182F6)은 흰 글자 대비가 4.5:1에 못 미쳐 쓰지 않는다.
 
 Accent는 전체 화면에서 제한적으로 사용한다.
 
@@ -107,10 +111,13 @@ Accent를 화면 전체의 배경이나 장식으로 과도하게 사용하지 �
 ## Status
 
 ```text
-Success #16A34A
-Warning #D97706
-Error   #DC2626
+Success      #0B7A3E
+Success Soft #E5F6EC
+Warning      #B45309
+Error        #DC2626
 ```
+
+상태는 알약 모양 배지(Soft 배경 + 진한 글자)로 표시한다.
 
 Status Color는 실제 상태를 표현할 때만 사용한다.
 
@@ -130,7 +137,9 @@ system-ui
 sans-serif
 ```
 
-코드, 기술명, 숫자, 메타 정보에는 다음을 사용할 수 있다.
+섹션 라벨은 영문 대문자 고정폭 대신 짧은 한글 라벨(Accent, 굵게)로 쓴다.
+
+코드, 기술명 같은 기술 정보에는 다음을 사용할 수 있다.
 
 ```text
 Geist Mono
@@ -357,11 +366,11 @@ Period
 기본 스타일:
 
 ```text
-Background: #FFFFFF
-Border: 1px solid #E4E4E7
-Border Radius: 12px ~ 16px
+Background: 회색 띠 위에서는 #FFFFFF, 흰 배경 위에서는 #F2F4F6
+Border: 없음 (면 대비로 구분)
+Border Radius: 20px ~ 24px (카드 안 작은 박스 14px ~ 16px)
 Padding: 24px ~ 32px
-Shadow: none 또는 매우 약하게
+Shadow: 없음
 ```
 
 Hover 효과는 최소화한다.
@@ -369,10 +378,11 @@ Hover 효과는 최소화한다.
 권장:
 
 ```text
-border-color 변화
 background 변화
-transform: 매우 작은 수준
+누를 때 scale 0.98 (150ms, prefers-reduced-motion이면 없음)
 ```
+
+버튼은 높이 48px 이상, 모서리 14px 이상. 모바일에서는 가로 전체를 채운다.
 
 과도한 확대 효과나 Glow는 사용하지 않는다.
 

@@ -1,4 +1,5 @@
-export type ProjectStatus = "live" | "in-progress" | "archived";
+/** operating = 공개 배포는 아니지만 실제 업무에 매일 쓰는 상태 */
+export type ProjectStatus = "live" | "in-progress" | "operating" | "archived";
 
 export type ProjectKind = "web" | "ai";
 
@@ -20,46 +21,17 @@ export type MarketAnalysis = {
   insight: string;
 };
 
-/** 코드 근거 위치. 저장소 루트 기준 경로. Project.codeBase가 있으면 링크, 없으면(비공개 저장소) 경로만 표시 */
-export type CodePath = string;
-
-/**
- * 백엔드 증거. 모든 숫자는 asOf에 적힌 커밋에서 다시 센 값이며, basis에 어떻게 셌는지 적는다.
- * 실행해서 확인한 값과 코드에서 정적으로 센 값을 basis로 구분한다.
- */
-export type BackendEvidence = {
-  /** 예: "origin/main 12d517f · 2026-10-29" */
-  asOf: string;
-  proof: { value: string; label: string; basis: string; path?: CodePath }[];
-  capabilities: { label: string; detail: string; paths: CodePath[] }[];
-  /** 요청에서 응답까지 실제 계층. 가상의 계층을 만들지 않는다. */
-  layers: { name: string; role: string; paths: CodePath[] }[];
-  /** 데이터 흐름 단계 (화살표로 이어서 표시) */
-  dataFlow: string[];
-  api: { method: string; path: string; purpose: string }[];
-  actions: { path: CodePath; purpose: string }[];
-  /** 테이블 이름 접두어로 묶은 데이터 영역 */
-  tables: { domain: string; prefix: string; count: number; examples: string[] }[];
-};
-
-/** 상세 페이지 상단의 엔지니어링 요약: 문제 → 원인 → 해결 → 검증 → 결과 */
-export type EngineeringStory = {
-  problem: string[];
-  cause: string[];
-  solution: string[];
-  verification: string[];
-  result: string[];
-};
-
 /**
  * 상세 페이지 섹션. 문자열 배열은 짧은 항목 목록으로 표시되며, 비어 있으면 화면에서 숨겨진다.
  * 한 항목은 한두 줄 이내로 쓴다.
  */
 export type ProjectDetail = {
-  story?: EngineeringStory;
-  backend?: BackendEvidence;
   /** 헤더 아래 숫자 띠. 예: { value: "105", label: "자동 테스트" } */
   metrics?: { value: string; label: string }[];
+  /** AI 활용 방식 (3~4개). 헤더·metrics 바로 다음, 첫 화면 안에 표시된다. decisions와 겹치면 요약만 쓴다. */
+  aiUsage?: { title: string; desc: string }[];
+  /** 모델 선정 실험 결과 표. 근거 문서가 있는 실험만 쓴다. */
+  modelEval?: { rows: { model: string; result: string; adopted?: boolean; reason: string }[]; note?: string };
   /** 타깃·목표. 예: { label: "타깃", value: "..." } */
   target?: { label: string; value: string }[];
   market?: MarketAnalysis;
@@ -72,8 +44,8 @@ export type ProjectDetail = {
   architecture?: string[];
   /** 기술 결정과 이유 */
   decisions?: { decision: string; why: string }[];
-  /** 테스트·품질: 숫자 + 짧은 설명 */
-  testing?: { metrics: { value: string; label: string }[]; items: string[] };
+  /** 테스트·품질: 숫자 + 짧은 설명. 확인되지 않은 숫자는 metrics에서 뺀다. */
+  testing?: { metrics?: { value: string; label: string }[]; items: string[] };
   /** 한계와 다음 단계 */
   limits?: string[];
   /** 추후 계획. 한 단계는 짧은 제목 + 한 줄 설명 */
@@ -112,20 +84,10 @@ export type Project = {
   hidden?: boolean;
   /** 홈 타일 이름 아래 작은 글씨로 표시되는 분류. 6~8자 이내. 예: "관광 코스 AI" */
   category?: string;
-  /** 쇼케이스에서 이 프로젝트가 보여 주는 역량. 예: "Backend · Database" */
-  track?: string;
-  /** 쇼케이스의 엔지니어링 한 줄: 무엇이 문제였고 서버·로직에서 어떻게 풀었는가 */
-  focus?: string;
-  /** 쇼케이스 카드의 대표 화면. 기존 screens/aiOutput 이미지를 가리킨다. */
-  cover?: OutputImage;
-  /** 홈 카드: 무엇을 만들었고, 어떤 문제를 어떻게 풀었고, 무엇으로 확인했는가. 한두 줄씩. */
-  brief?: { built: string; problem: string; solution: string; result: string };
-  /** 홈 카드 하단 증거. 문제와 연결되는 숫자만 고른다. */
-  evidence?: { value: string; label: string }[];
-  /** 공개 저장소 주소(예: https://github.com/u/r/blob/main). 있으면 코드 근거 경로가 링크가 된다. */
-  codeBase?: string;
   /** 카드와 상세 헤더에 표시되는 한 줄 소개. 카드 한두 줄에 들어가도록 짧게 쓴다. */
   summary?: string;
+  /** 이 프로젝트에서 AI가 맡은 역할 한 줄. 카드와 상세 헤더에 표시된다. */
+  aiRole?: string;
   /** 한 줄 요약. 긴 설명은 detail.problem / detail.solution에 작성한다. */
   problem?: string;
   solution?: string;
@@ -151,73 +113,40 @@ export type Project = {
 export type JourneyStep = {
   label: string;
   description?: string;
-  /** 이 단계의 실제 프로젝트 사례 */
-  example?: string;
-};
-
-/** Home의 엔지니어링 사례. 실제 코드·데이터로 확인되는 내용만 쓴다. */
-export type EngineeringCase = {
-  /** Project.slug */
-  project: string;
-  title: string;
-  problem: string;
-  cause: string;
-  /** 선택한 방법. 대안과 버린 이유는 근거가 있을 때만 쓴다. */
-  decision: { chosen: string; alternative?: string; whyNot?: string };
-  implementation: string[];
-  verification: string[];
-  result: string;
-  evidence: CodePath[];
-};
-
-/**
- * 기술 상태. 사용 = 실제 프로젝트 코드에서 확인됨 / 학습 = 공부했지만 프로젝트에는 쓰지 않음 /
- * 예정 = 다음 프로젝트에서 쓸 계획 (아직 구현 안 함)
- */
-export type SkillStatus = "used" | "learning" | "planned";
-
-export type SkillItem = {
-  name: string;
-  status: SkillStatus;
-  /** 사용한 프로젝트 slug (status가 used일 때) */
-  usedIn?: string[];
-  /** 짧은 맥락. 예: "Route Handler · Server Actions" */
-  note?: string;
-};
-
-export type SkillGroup = {
-  name: string;
-  /** 포트폴리오 안에서의 비중 */
-  weight: "primary" | "secondary" | "supporting";
-  /** 이 역량이 하는 역할 한 줄 */
-  role: string;
-  /** 묶음 전체에 붙는 짧은 단서. 예: "학습 · 가설 단계 적용" */
-  note?: string;
-  items: SkillItem[];
-};
-
-/** 자격. 공식 명칭·취득일은 자료로 확인될 때만 채운다. */
-export type Credential = {
-  name: string;
-  /** 예: "자격 취득" */
-  state: string;
-  officialName?: string;
-  issuedOn?: string;
-};
-
-/** 현재 기술과 다음 확장 기술. next는 Skills처럼 보이지 않게 별도 영역에만 표시한다. */
-export type NextStack = {
-  /** 지금 실제 프로젝트에서 쓰는 기술 */
-  current: string[];
-  /** 다음에 확장할 기술 (아직 사용하지 않음) */
-  next: string[];
-  goal: string;
 };
 
 export type ContactLinks = {
   github?: string;
   email?: string;
   linkedin?: string;
+};
+
+/**
+ * Hero 직무 선택의 한 직무. 데이터만 담고, 화면은 RoleExplorer가 그린다.
+ * 비어 있는 배열은 화면에서 숨겨진다. projects가 비면 "준비 중" 안내가 나온다.
+ */
+export type HeroRole = {
+  id: string;
+  label: string;
+  intro: string;
+  /** 핵심 역량. learned = 학습한 개념(실제 적용 경험과 구분해 표시) */
+  competencies?: { name: string; learned?: boolean }[];
+  /** 이 직무와 관련된 기술 */
+  tech?: string[];
+  /** 배열 순서가 화면 순서. slug는 content/projects.ts의 slug와 같아야 상세 페이지로 연결된다. */
+  projects: { slug: string; contributions: string[] }[];
+};
+
+/** About 타임라인 한 단계. icon은 AboutTimeline의 아이콘 이름 */
+export type AboutStep = {
+  id: string;
+  label: string;
+  /** 노드 아래 짧은 한국어 설명 */
+  caption: string;
+  icon: "healthcare" | "problem" | "development" | "growth";
+  points: string[];
+  /** content/projects.ts의 slug. 없는 slug는 화면에 나오지 않는다. */
+  projects?: string[];
 };
 
 export type Profile = {
@@ -229,43 +158,33 @@ export type Profile = {
     title: string;
     /** 줄바꿈 문자는 태블릿 이상에서만 반영된다. */
     description: string;
-    /** 일하는 순서. 예: ["문제", "원인", "해결", "검증"] */
-    flow?: string[];
-    /** 주력 기술 한 줄. 실제 프로젝트에서 사용한 기술만 */
-    stack?: string[];
-    /** 오른쪽에 크게 보여 줄 대표 프로젝트 slug (그 프로젝트의 cover 사용) */
-    showcase?: string;
-  };
-  growth?: {
-    title: string;
-    description: string;
-    /** 사용자 행동 → … → 성과 측정 */
-    flow: string[];
-    /** 실제 프로젝트에 적용한 것 (코드로 확인된 것만) */
-    applied: { project: string; detail: string; /** 예: "연결됨" · "가설" */ state: string }[];
-    concepts: string[];
-    credentials: Credential[];
-  };
-  aiUsage?: {
-    title: string;
-    description: string;
-    ai: string[];
-    me: string[];
-    /** 사람이 최종 결정한다는 실제 사례 */
-    proof?: { value: string; label: string; detail: string };
+    /** Hero 아래 근거 숫자 띠. 검증된 숫자만 쓴다. */
+    proof?: { value: string; label: string }[];
+    /** 직무 선택 영역. 첫 번째 직무가 기본 선택값이다. */
+    roles?: {
+      title: string;
+      description: string;
+      items: HeroRole[];
+    };
+    /** 직무 선택과 무관하게 항상 보이는 공통 기술. 실제 사용이 확인된 것만 쓴다. */
+    commonStack?: string[];
   };
   approach: {
     title: string;
     paragraphs: string[];
+    /** 번호 목록으로 표시되는 원칙 */
+    principles?: { title: string; desc: string }[];
     journey: JourneyStep[];
   };
   about: {
     title: string;
     paragraphs: string[];
-    /** 이 경험이 지금 개발 방식에 어떻게 이어지는가 */
-    links?: { from: string; to: string }[];
     /** 경로 표시. 예: ["물리치료학", "AI / Software"] */
     path?: string[];
+    /** 제목 아래 핵심 메시지 한 문장 */
+    lead?: string;
+    /** 가로 타임라인 단계. 배열 순서가 화면 순서다. */
+    timeline?: AboutStep[];
   };
   contact: {
     title: string;
