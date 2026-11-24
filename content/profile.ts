@@ -89,10 +89,29 @@ export const profile: Profile = {
           ],
         },
         {
-          // TODO: 사용자가 나머지 자동화 프로젝트와 핵심 역량 · 기술을 직접 추가할 예정
           id: "ax",
           label: "AX",
           intro: "반복 업무와 비효율적인 프로세스를 분석하고 기술을 활용해 개선하는 업무 자동화를 지향합니다.",
+          // 근거(projects.ts): GAS = 수집 → AI 분석 → 슬라이드 · PDF · PPTX → 메일, AI 답 형식 검사 후에만 문서화 /
+          // Genloom = 키워드 → 발행 9단계, 글 · 이미지 · 검토 모델 분리, GREEN · YELLOW · RED 판정, 발행은 사람
+          competencies: [
+            { name: "Workflow Automation" },
+            { name: "LLM Integration" },
+            { name: "AI Output Validation" },
+            { name: "Report Generation" },
+            { name: "Human-in-the-loop Design" },
+          ],
+          // projects.ts의 GAS · Genloom tech에 있는 것만
+          tech: [
+            "Google Apps Script",
+            "Python",
+            "NVIDIA API (LLM)",
+            "Claude API",
+            "YouTube Data API",
+            "네이버 검색 · 데이터랩 API",
+            "Google Sheets",
+            "Google Slides",
+          ],
           projects: [
             {
               slug: "gas-automation",

@@ -1,5 +1,6 @@
 import { profile } from "@/content/profile";
 import { sections } from "@/content/site";
+import { JourneyFlow } from "@/components/home/JourneyFlow";
 import { Reveal } from "@/components/ui/Reveal";
 import { cardTone, Section } from "@/components/ui/Section";
 
@@ -34,19 +35,7 @@ export function Approach() {
       ) : null}
 
       <h3 className="mb-4 mt-14 text-[15px] font-bold text-subtle md:mt-20">개발 흐름</h3>
-      <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-        {journey.map((step, i) => (
-          <li key={step.label}>
-            <Reveal index={i} className={`h-full rounded-card p-5 ${card}`}>
-            <span className="text-[13px] font-bold text-accent">{i + 1}단계</span>
-            <p className="mt-1.5 text-lg font-bold tracking-tight">{step.label}</p>
-            {step.description && (
-              <p className="mt-0.5 text-[15px] leading-relaxed text-muted">{step.description}</p>
-            )}
-            </Reveal>
-          </li>
-        ))}
-      </ol>
+      <JourneyFlow steps={journey} cardClassName={card} />
     </Section>
   );
 }
