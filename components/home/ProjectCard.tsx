@@ -4,13 +4,15 @@ import type { Project } from "@/content/types";
 import { BrandMark, titleTransitionName } from "@/components/project/BrandMark";
 import { AiRole } from "@/components/ui/AiRole";
 import { StatusBadge } from "@/components/ui/StatusBadge";
+import { TiltSurface } from "@/components/ui/TiltSurface";
+import { ProjectPreview } from "./ProjectPreview";
 
 type ProjectCardProps = {
   project: Project;
 };
 
 /**
- * 프로젝트 카드 (회색 띠 위 흰 카드): 로고 · 이름 · 상태 + 한 줄 소개 + AI가 맡은 일.
+ * 프로젝트 카드 (회색 띠 위 흰 카드): 실제 화면 미리보기 + 로고 · 이름 · 상태 + 한 줄 소개 + AI가 맡은 일.
  * 카드 전체가 상세 페이지 링크이고(제목 링크를 카드 크기로 늘림), links.demo가 있으면 공개 서비스로 바로 가는 버튼을 함께 둔다.
  * 링크 안에 링크를 넣을 수 없어 카드 자체는 div다.
  */
@@ -18,7 +20,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const demo = project.links?.demo;
 
   return (
-    <div className="pressable card-interactive relative flex h-full flex-col rounded-card bg-surface p-6 md:p-7">
+    <TiltSurface className="pressable card-interactive group relative flex h-full flex-col rounded-card bg-surface p-6 md:p-7">
+      <ProjectPreview project={project} />
       <div className="flex items-center gap-4">
         <BrandMark project={project} size="card" />
         <div className="min-w-0 flex-1">
@@ -63,11 +66,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
         )}
         <span
           aria-hidden
-          className="inline-flex h-12 flex-1 items-center justify-center rounded-2xl bg-surface-weak px-4 text-[15px] font-semibold text-muted"
+          className="inline-flex h-12 flex-1 items-center justify-center gap-1.5 rounded-2xl bg-surface-weak px-4 text-[15px] font-semibold text-muted transition-colors duration-200 group-hover:bg-accent-soft group-hover:text-accent"
         >
           자세히 보기
+          <span className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
         </span>
       </div>
-    </div>
+    </TiltSurface>
   );
 }

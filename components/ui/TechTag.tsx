@@ -1,6 +1,12 @@
 import {
   siGit,
   siGoogleanalytics,
+  siGoogleappsscript,
+  siGooglesheets,
+  siGoogleslides,
+  siYoutube,
+  siClaude,
+  siNvidia,
   siJavascript,
   siKakao,
   siMysql,
@@ -47,6 +53,13 @@ const brandIcons: Record<string, SimpleIcon> = {
   "Naver Search API": siNaver,
   "Kakao API": siKakao,
   "Kakao Maps API": siKakao,
+  "Google Apps Script": siGoogleappsscript,
+  "Google Sheets": siGooglesheets,
+  "Google Slides": siGoogleslides,
+  "YouTube Data API": siYoutube,
+  "Claude API": siClaude,
+  "NVIDIA API (LLM)": siNvidia,
+  "네이버 검색 · 데이터랩 API": siNaver,
 };
 
 /** 밝은 브랜드 색(노랑 · 하늘색 등)은 밝은 칩 위에서 잘 안 보여 어둡게 낮춘다. */

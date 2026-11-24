@@ -725,6 +725,8 @@ export const projects: Project[] = [
     title: "GAS Automation System",
     category: "AI 리포트 자동화",
     featured: true,
+    // Google Apps Script 공식 마크(simple-icons, 브랜드 색 #4285F4)로 만든 아이콘
+    logo: { src: "/projects/gas-automation-logo.svg", alt: "Google Apps Script 로고" },
     summary: "API로 모은 데이터를 AI가 분석해 슬라이드 · PDF 리포트로 만들고 메일로 보내는 Google Apps Script 자동화",
     aiRole: "AI는 분석만 — 형식 검사를 통과한 결과만 문서로 만든다",
     tech: [

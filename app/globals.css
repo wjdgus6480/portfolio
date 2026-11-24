@@ -143,6 +143,134 @@ dd {
   }
 }
 
+/*
+ * Hero 배경 레이어: 브랜드 블루를 아주 옅게 깐 빛 + 가장자리로 사라지는 점 격자.
+ * 3D 장면과 별개로 CSS만으로 그려져, 3D가 로드되기 전에도 깊이가 느껴진다.
+ */
+.hero-backdrop {
+  background:
+    radial-gradient(48% 55% at 78% 42%, color-mix(in srgb, var(--accent-vivid) 10%, transparent), transparent 70%),
+    radial-gradient(40% 40% at 8% 90%, color-mix(in srgb, var(--accent-soft) 80%, transparent), transparent 70%);
+}
+
+.hero-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(color-mix(in srgb, var(--border-strong) 70%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(60% 60% at 70% 45%, #000 0%, transparent 75%);
+}
+
+.hero-glow {
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent-vivid) 9%, transparent), transparent);
+  filter: blur(24px);
+}
+
+/* Hero 텍스트가 위에서부터 차례로 떠오른다. 내용은 처음부터 DOM에 있어 읽는 데 지장이 없다. */
+.hero-rise > * {
+  animation: hero-rise 700ms var(--ease-standard) both;
+}
+
+.hero-rise > :nth-child(1) { animation-delay: 40ms; }
+.hero-rise > :nth-child(2) { animation-delay: 110ms; }
+.hero-rise > :nth-child(3) { animation-delay: 200ms; }
+.hero-rise > :nth-child(4) { animation-delay: 280ms; }
+.hero-rise > :nth-child(n + 5) { animation-delay: 360ms; }
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    translate: 0 18px;
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    filter: blur(0);
+  }
+}
+
+.scroll-cue-dot {
+  animation: scroll-cue 1.8s var(--ease-standard) infinite;
+}
+
+@keyframes scroll-cue {
+  0% { translate: 0 0; opacity: 0; }
+  25% { opacity: 1; }
+  70% { translate: 0 12px; opacity: 0; }
+  100% { translate: 0 12px; opacity: 0; }
+}
+
+/*
+ * 3D 기울기 카드 (components/ui/TiltSurface.tsx).
+ * 포인터 위치를 --tilt-x / --tilt-y(-1 ~ 1)로 받아 카드가 기울고, 안의 미리보기는 반대로 움직여 깊이가 생긴다.
+ * 변수가 없으면(터치 · 동작 줄이기) 모든 값이 0이라 평평한 카드로 남는다.
+ */
+.tilt-surface {
+  --tilt-x: 0;
+  --tilt-y: 0;
+  transform: perspective(1000px) rotateX(calc(var(--tilt-y) * -4deg)) rotateY(calc(var(--tilt-x) * 5deg));
+  transform-style: preserve-3d;
+}
+
+/* .card-interactive · .pressable과 함께 쓰므로 그 전환 목록에 transform을 더한다(선택자를 겹쳐 우선순위를 높임) */
+.tilt-surface.tilt-surface {
+  transition-property: transform, translate, scale, box-shadow, border-color, background-color;
+  transition-duration: 450ms, var(--duration-fast), 150ms, var(--duration-fast), var(--duration-fast), var(--duration-fast);
+  transition-timing-function: var(--ease-standard);
+}
+
+.tilt-surface.tilt-surface[data-tilting] {
+  transition-duration: 120ms, var(--duration-fast), 150ms, var(--duration-fast), var(--duration-fast), var(--duration-fast);
+}
+
+.tilt-glare {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  background: radial-gradient(
+    420px circle at calc(50% + var(--tilt-x) * 50%) calc(50% + var(--tilt-y) * 50%),
+    color-mix(in srgb, var(--accent-vivid) 9%, transparent),
+    transparent 60%
+  );
+  transition: opacity var(--duration-base) var(--ease-standard);
+}
+
+.tilt-surface[data-tilting] .tilt-glare {
+  opacity: 1;
+}
+
+.tilt-media {
+  transform: translate3d(calc(var(--tilt-x) * -6px), calc(var(--tilt-y) * -6px), 0);
+  transition: transform 450ms var(--ease-standard);
+}
+
+.tilt-surface[data-tilting] .tilt-media {
+  transition-duration: 120ms;
+}
+
+/* 미리보기 이미지: hover 시 살짝 확대되며 앞으로 나온다 */
+.preview-shot {
+  transition: scale 500ms var(--ease-standard), translate 500ms var(--ease-standard), rotate 500ms var(--ease-standard);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .preview-shot {
+    scale: 1.04;
+  }
+
+  .group:hover .preview-shot[data-depth="back"] {
+    translate: -6px 4px;
+  }
+
+  .group:hover .preview-shot[data-depth="front"] {
+    translate: 4px -6px;
+  }
+}
+
 /* 누를 때 살짝 들어가는 피드백. 버튼 · 카드에만 쓴다 */
 .pressable {
   transition: scale 150ms ease-out, background-color 150ms ease-out;
@@ -315,7 +443,14 @@ dd {
   }
 
   .reveal,
-  .reveal-group > * {
+  .reveal-group > *,
+  .hero-rise > *,
+  .scroll-cue-dot {
     animation: none;
+  }
+
+  .tilt-surface,
+  .tilt-media {
+    transform: none;
   }
 }
