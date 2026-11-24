@@ -72,7 +72,7 @@ export function RoleExplorer({ title, description, roles }: RoleExplorerProps) {
         aria-labelledby={headingId}
         aria-controls={panelId}
         onKeyDown={onKeyDown}
-        className="mt-6 grid grid-cols-1 gap-2 min-[360px]:grid-cols-2 md:grid-cols-3 md:gap-2.5"
+        className="mt-6 grid grid-cols-1 gap-2 min-[360px]:grid-cols-2 md:grid-cols-4 md:gap-2.5"
       >
         {roles.map((item, index) => {
           const checked = index === selectedIndex;

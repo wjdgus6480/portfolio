@@ -109,56 +109,6 @@ export const profile: Profile = {
             },
           ],
         },
-        {
-          id: "product",
-          label: "Product / PM",
-          intro: "사용자 문제를 정의하고 요구사항과 서비스 흐름을 구체화해 실제 제품으로 구현합니다.",
-          competencies: [
-            { name: "Problem Definition" },
-            { name: "Requirements Analysis" },
-            { name: "User Flow" },
-            { name: "Service Planning" },
-            { name: "Product Development" },
-            { name: "Market Analysis (3C)" },
-            { name: "Metric Design" },
-          ],
-          projects: [
-            { slug: "danubi-ai", contributions: ["서비스 기획", "구조 설계", "AI 활용 기반 1인 개발", "구현 및 배포"] },
-            { slug: "jipplan", contributions: ["서비스 기획", "구조 설계", "AI 활용 기반 1인 개발", "구현 및 배포"] },
-          ],
-        },
-        {
-          id: "growth",
-          label: "Growth",
-          intro: "사용자 행동과 검색 데이터를 분석해 개선 기회를 발견하고 서비스 성장으로 연결합니다.",
-          // AARRR은 다누비 AI · 집플랜에 퍼널 가설로만 설계, NSM은 적용 기록 없음 → 학습한 개념으로 구분
-          competencies: [
-            { name: "Data Analysis" },
-            { name: "Search Trend Tracking" },
-            { name: "User Behavior Tracking" },
-            { name: "Google Analytics" },
-            { name: "API Integration" },
-            { name: "SEO / AEO" },
-            { name: "AARRR", learned: true },
-            { name: "North Star Metric", learned: true },
-          ],
-          // 근거: GA4(집플랜) · 네이버 검색·데이터랩 API · matplotlib · SEO/AEO 규칙 검수(Genloom)
-          tech: ["Google Analytics 4", "Naver Search API", "Python", "matplotlib"],
-          projects: [
-            {
-              slug: "genloom",
-              contributions: ["네이버 API를 활용한 검색량 추적", "검색량 및 키워드 데이터 분석"],
-            },
-            {
-              slug: "jipplan",
-              contributions: ["Google Analytics 연동", "서비스 접속 관련 데이터 추적", "사용자 유입 및 이용 현황 분석 기반"],
-            },
-            {
-              slug: "gas-automation",
-              contributions: ["유튜브 인기 급상승 데이터 수집 · 분석 자동화", "네이버 데이터랩 12주 검색 추이 판정", "분석 결과를 리포트로 받아 바로 확인"],
-            },
-          ],
-        },
       ],
     },
     // 근거: TypeScript·MySQL·Next.js·React = 집플랜 / JavaScript·Node.js = 다누비 AI /
